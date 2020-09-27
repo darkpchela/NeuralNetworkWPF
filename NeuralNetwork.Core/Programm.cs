@@ -16,6 +16,10 @@ namespace NeuralNetwork.Core
             {
                 Console.WriteLine(a);
             }
+            foreach (var item in nrlNet._QueryHiddenOutputs)
+            {
+                WriteMatrix(item);
+            }
             //for (int i = 0; i < nrlNet.Layers.Length - 1; i++)
             //{
             //    Console.WriteLine($"Layer {i + 1} --> {i + 2}: ");

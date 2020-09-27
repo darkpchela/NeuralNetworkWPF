@@ -12,6 +12,9 @@ namespace NeuralNetwork.Core
         public float[][,] Weigths { get; set; }
         public float LearningRate { get; set; }
 
+        
+        public float[][,] _QueryHiddenOutputs;
+
         public NrlNet(string Name, int[] Layers, IActivationFunc ActivationFunc, float LearningRate = 0.05f)
         {
             this.Name = Name;
@@ -19,6 +22,7 @@ namespace NeuralNetwork.Core
             this.Weigths = new float[Layers.Length][,];
             this.ActivationFunc = ActivationFunc;
             this.LearningRate = LearningRate;
+            this._QueryHiddenOutputs = new float[Layers.Length][,];
             InitStartWeiths();
         }
 
@@ -41,8 +45,7 @@ namespace NeuralNetwork.Core
 
             for (int i = Layers.Length - 1; i > 0 ; i--)
             {
-                var previousOuptutMatrix = MathExtensions.MatrixMultiply(MathExtensions.MatrixTranspose(Weigths[i]), errorMatrix);
-                var deltaWeigthsMatrix = 
+                var previousErrorMatrix = MathExtensions.MatrixMultiply(MathExtensions.MatrixTranspose(Weigths[i]), errorMatrix);
             }
         }
         
@@ -71,12 +74,15 @@ namespace NeuralNetwork.Core
 
             float[,] inputs_outputs = MathExtensions.MatrixTranspose(inputValues);
 
+            _QueryHiddenOutputs[0] = (float[,])inputs_outputs.Clone();
+
             for (int i = 0; i < Layers.Length - 1; i++)
             {
                 //Upper string make new temp inputs for next layer by multiplying current layer weiths to outputs from previous layer
                 //Down string applyes activation func to this inputs, makin from it outputs for next layer
                 inputs_outputs = MathExtensions.MatrixMultiply(Weigths[i], inputs_outputs);
                 MathExtensions.MatrixForEach(ref inputs_outputs, ActivationFunc.ActivationFunc);
+                _QueryHiddenOutputs[i+1] = (float[,])inputs_outputs.Clone();
             }
 
             float[] outputs = inputs_outputs.ConvertToSingleArray();

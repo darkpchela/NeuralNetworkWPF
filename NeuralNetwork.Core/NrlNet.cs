@@ -45,8 +45,9 @@ namespace NeuralNetwork.Core
 
             for (int i = Layers.Length - 1; i >= 0 ; i--)
             {
-                errorMatrix = MathExtensions.MatrixMultiply(MathExtensions.MatrixTranspose(Weigths[i]), errorMatrix);
+
                 var previousOutputMatrix = _QueryHiddenOutputs[i];
+                errorMatrix = MathExtensions.MatrixMultiply(MathExtensions.MatrixTranspose(Weigths[i]), errorMatrix);
             }
         }
         

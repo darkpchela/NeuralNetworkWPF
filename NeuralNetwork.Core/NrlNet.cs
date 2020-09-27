@@ -9,7 +9,7 @@ namespace NeuralNetwork.Core
         public string Name { get; }
         public IActivationFunc ActivationFunc { get; set; }
         public int[] Layers { get; set; }
-        public float[][,] Weigths { get; set; }
+        public Matrix2D[] Weigths { get; set; }
         public float LearningRate { get; set; }
 
         
@@ -19,7 +19,7 @@ namespace NeuralNetwork.Core
         {
             this.Name = Name;
             this.Layers = Layers;
-            this.Weigths = new float[Layers.Length][,];
+            this.Weigths = new Matrix2D[Layers.Length];
             this.ActivationFunc = ActivationFunc;
             this.LearningRate = LearningRate;
             this._QueryHiddenOutputs = new float[Layers.Length][,];
@@ -30,7 +30,7 @@ namespace NeuralNetwork.Core
         {
             this.Name = nrlNetData.Name;
             this.Layers = nrlNetData.Layers;
-            this.Weigths = nrlNetData.Weights;
+            //this.Weigths = nrlNetData.Weights;
             if (FuncDictionary.FuncName.TryGetValue(nrlNetData.ActivationFuncName, out IActivationFunc activationFunc))
                 this.ActivationFunc = activationFunc;
             else

@@ -1,6 +1,5 @@
 ﻿using NeuralNetwork.Core.ActivationFuncs;
 using NeuralNetwork.Core.Extensions;
-using System.Linq;
 using System;
 
 namespace NeuralNetwork.Core
@@ -39,33 +38,22 @@ namespace NeuralNetwork.Core
             if (inputs.Length != Layers[0])
                 throw new ArithmeticException("Invalid inputs count");
 
-            float[] outputs = new float[Layers[Layers.Length - 1]];
-
             float[,] inputs_outputs = MathExtensions.MatrixTranspose(inputs);
 
             for (int i = 0; i < Layers.Length - 1; i++)
             {
+                //Upper string make new temp inputs for next layer by multiplying current layer weiths to outputs from previous layer
+                //Down string applyes activation func to this inputs, makin from it outputs for next layer
                 inputs_outputs = MathExtensions.MatrixMultiply(Weights[i], inputs_outputs);
                 MathExtensions.MatrixForEach(ref inputs_outputs, ActivationFunc.ActivationFunc);
-                //temp_outputs = Array.ForEach<float[]>(temp_inputs, a => Array.ForEach<float>(a, x => x = MathExtensions.Sigmoid(x)));
             }
+
+            float[] outputs = inputs_outputs.ConvertToSingleArray();
 
             return outputs;
         }
 
-        //inputs = np.array(inputs_list, ndmin=2).T
-        //outputs = []
-
-        //for l in range(len(self.layers) - 1) :
-        //    current_inputs = np.dot(self.weigths[l], inputs)
-        //    current_outputs = self.activation_func(current_inputs)
-        //    inputs = current_outputs
-        //    outputs.append(current_outputs)
-        //    pass
-
-        //return outputs
-
-        private protected void InitStartWeiths()
+        protected void InitStartWeiths()
         {
             Random rnd = new Random();
             rnd.Next();

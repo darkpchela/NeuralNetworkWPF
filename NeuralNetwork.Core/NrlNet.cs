@@ -33,20 +33,20 @@ namespace NeuralNetwork.Core
                 this.ActivationFunc = new SigmoidFunc();
         }
 
-        public float[] Query(float[] inputs)
-        {
-            if (inputs.Length != Layers[0])
-                throw new ArithmeticException("Invalid inputs count");
+        //public float[] Query(float[] inputs)
+        //{
+        //    if (inputs.Length != Layers[0])
+        //        throw new ArithmeticException("Invalid inputs count");
 
-            float[] outputs = new float[Layers[Layers.Length - 1]];
+        //    float[] outputs = new float[Layers[Layers.Length - 1]];
 
-            for (int i = 0; i < Layers.Length - 1; i++)
-            {
+        //    for (int i = 0; i < Layers.Length - 1; i++)
+        //    {
+        //        outputs.SwitchArrayDimension
+        //    }
 
-            }
-
-            return outputs;
-        }
+        //    return outputs;
+        //}
 
         //inputs = np.array(inputs_list, ndmin=2).T
         //outputs = []

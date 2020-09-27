@@ -11,7 +11,7 @@ namespace NeuralNetwork.Core.Extensions
 
         public static float[,] MatrixMultiply(float[,] matrix1, float[,] matrix2)
         {
-            if (matrix1.GetLength(1)!= matrix2.GetLength(0))
+            if (matrix1.GetLength(1) != matrix2.GetLength(0))
                 throw new ArithmeticException("Invalid matrixes");
 
             int rows = matrix1.GetLength(0);
@@ -27,7 +27,7 @@ namespace NeuralNetwork.Core.Extensions
                 {
                     for (int k = 0; k < iterations; k++)
                     {
-                        resultMatrix[i, j] += matrix1[i, k] * matrix2[k, j]; 
+                        resultMatrix[i, j] += matrix1[i, k] * matrix2[k, j];
                     }
                 }
             }
@@ -35,7 +35,7 @@ namespace NeuralNetwork.Core.Extensions
             return resultMatrix;
         }
 
-        public static float[,] MatrixTranspose(float[,] matrix)
+        public static T[,] MatrixTranspose<T>(T[,] matrix)
         {
             int inputRows = matrix.GetLength(0);
             int inputColumns = matrix.GetLength(1);
@@ -48,6 +48,19 @@ namespace NeuralNetwork.Core.Extensions
                 {
                     resultMatrix[j, i] = matrix[i, j];
                 }
+            }
+
+            return resultMatrix;
+        }
+        public static T[,] MatrixTranspose<T>(T[] inputArray)
+        {
+            int inputRows = inputArray.Length;
+
+            T[,] resultMatrix = new T[1, inputRows];
+
+            for (int i = 0; i < inputRows; i++)
+            {
+                resultMatrix[i, 1] = inputArray[i];
             }
 
             return resultMatrix;

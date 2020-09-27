@@ -6,17 +6,13 @@ namespace NeuralNetwork.Core
 {
     public static class Programm
     {
-        static float[,] TM1 = { { 1, 2, 3 }, { 4, 5, 6 } };
+        static float[,] TM1 = { { 1, 2, 3 } };
         static float[,] TM2 = { { 7, 8, 9, 10, 11 }, { 12, 13, 14, 15, 16 }, { 17, 18, 19, 20, 21 } };
         private static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
             NrlNet nrlNet = new NrlNet("FirstTest", new int[] { 3, 5, 4 }, new SigmoidFunc());
-
-            WriteMatrix<float>(TM2);
-            Console.WriteLine("Transpose:");
-            WriteMatrix<float>(MathExtensions.MatrixTranspose(TM2));
-
+            var ar = TM1.SwitchArrayDimension(3, 1);
             //for (int i = 0; i < nrlNet.Layers.Length - 1; i++)
             //{
             //    Console.WriteLine($"Layer {i + 1} --> {i + 2}: ");

@@ -14,7 +14,7 @@ namespace NeuralNetwork.Core.Extensions
             {
                 return Matrix[row, column];
             }
-            set
+            private set
             {
                 Matrix[row, column] = value;
             }
@@ -100,13 +100,6 @@ namespace NeuralNetwork.Core.Extensions
             return resultMatrix;
 
         }
-        public Matrix2D(int rows, int columns)
-        {
-            Matrix = new float[rows, columns];
-            Rows = rows;
-            Columns = columns;
-        }
-
         public static Matrix2D ForEach(Matrix2D matrix, Func<float, float> func) //???
         {
             for (int i = 0; i < matrix.Rows; i++)
@@ -140,29 +133,28 @@ namespace NeuralNetwork.Core.Extensions
             return resultMatrix;
             
         }
-        public Matrix2D Transpose(Matrix2D matrix)
+        public Matrix2D(int rows, int columns)
         {
-            Matrix2D resultMatrix = new Matrix2D(matrix.Columns, matrix.Rows);
+            Matrix = new float[rows, columns];
+            Rows = rows;
+            Columns = columns;
+        }
+        public Matrix2D(float[,] array)
+        {
+            Matrix = (float[,])array.Clone();
+            Rows = Matrix.GetLength(0);
+            Columns = Matrix.GetLength(1);
+        }
+        public Matrix2D Transpose()
+        {
+            Matrix2D resultMatrix = new Matrix2D(Columns, Rows);
 
             for (int i = 0; i < resultMatrix.Rows; i++)
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[j, i] = matrix[i, j];
+                    resultMatrix[j, i] = Matrix[i, j];
                 }
-            }
-
-            return resultMatrix;
-        }
-        public static T[,] MatrixTranspose<T>(T[] inputArray) // need to be as extension of array
-        {
-            int inputRows = inputArray.Length;
-
-            T[,] resultMatrix = new T[inputRows, 1];
-
-            for (int i = 0; i < inputRows; i++)
-            {
-                resultMatrix[i, 0] = inputArray[i];
             }
 
             return resultMatrix;

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "NeuralNetwork.Core": {
+      "commandName": "Project",
+      "sqlDebugging": false,
+      "nativeDebugging": true
+    }
+  }
+}

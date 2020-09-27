@@ -34,6 +34,12 @@ namespace NeuralNetwork.Core.Extensions
 
             return resultMatrix;
         }
+        public static float[,] MatrixMultiply(float[,] matrix1, float number)
+        {
+            float[,] resultMatrix = matrix1;
+            MatrixForEach(ref resultMatrix, x => x * number);
+            return resultMatrix;
+        }
 
         public static T[,] MatrixTranspose<T>(T[,] matrix)
         {
@@ -65,7 +71,7 @@ namespace NeuralNetwork.Core.Extensions
 
             return resultMatrix;
         }
-        public static void MatrixForEach<T>(ref T[,] matrix, Func<T,T> func)
+        public static void MatrixForEach<T>(ref T[,] matrix, Func<T, T> func)
         {
             int rows = matrix.GetLength(0);
             int columns = matrix.GetLength(1);
@@ -77,6 +83,26 @@ namespace NeuralNetwork.Core.Extensions
                     matrix[i, j] = func(matrix[i, j]);
                 }
             }
+        }
+        public static float[,] MatrixSubtract(float[,] matrix1, float[,] matrix2)
+        {
+            if (matrix1.GetLength(0) != matrix2.GetLength(0) || matrix1.GetLength(1) != matrix2.GetLength(1))
+                throw new ArgumentException();
+
+            int rows = matrix1.GetLength(0);
+            int columns = matrix1.GetLength(1);
+
+            float[,] resultMatrix = new float[rows, columns];
+
+            for (int i = 0; i < rows ; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    resultMatrix[i, j] = matrix1[i, j] - matrix2[i, j];
+                }
+            }
+
+            return resultMatrix;
         }
     }
 }

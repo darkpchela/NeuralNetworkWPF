@@ -1,5 +1,6 @@
 ﻿using NeuralNetwork.Core.ActivationFuncs;
 using NeuralNetwork.Core.Extensions;
+using System.Linq;
 using System;
 
 namespace NeuralNetwork.Core
@@ -33,20 +34,24 @@ namespace NeuralNetwork.Core
                 this.ActivationFunc = new SigmoidFunc();
         }
 
-        //public float[] Query(float[] inputs)
-        //{
-        //    if (inputs.Length != Layers[0])
-        //        throw new ArithmeticException("Invalid inputs count");
+        public float[] Query(float[] inputs)
+        {
+            if (inputs.Length != Layers[0])
+                throw new ArithmeticException("Invalid inputs count");
 
-        //    float[] outputs = new float[Layers[Layers.Length - 1]];
+            float[] outputs = new float[Layers[Layers.Length - 1]];
 
-        //    for (int i = 0; i < Layers.Length - 1; i++)
-        //    {
-        //        outputs.SwitchArrayDimension
-        //    }
+            float[,] inputs_outputs = MathExtensions.MatrixTranspose(inputs);
 
-        //    return outputs;
-        //}
+            for (int i = 0; i < Layers.Length - 1; i++)
+            {
+                inputs_outputs = MathExtensions.MatrixMultiply(Weights[i], inputs_outputs);
+                MathExtensions.MatrixForEach(ref inputs_outputs, ActivationFunc.ActivationFunc);
+                //temp_outputs = Array.ForEach<float[]>(temp_inputs, a => Array.ForEach<float>(a, x => x = MathExtensions.Sigmoid(x)));
+            }
+
+            return outputs;
+        }
 
         //inputs = np.array(inputs_list, ndmin=2).T
         //outputs = []

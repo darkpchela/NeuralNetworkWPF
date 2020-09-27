@@ -40,7 +40,7 @@ namespace NeuralNetwork.Core.Extensions
             int inputRows = matrix.GetLength(0);
             int inputColumns = matrix.GetLength(1);
 
-            float[,] resultMatrix = new float[inputColumns, inputRows];
+            T[,] resultMatrix = new T[inputColumns, inputRows];
 
             for (int i = 0; i < inputRows; i++)
             {
@@ -64,6 +64,19 @@ namespace NeuralNetwork.Core.Extensions
             }
 
             return resultMatrix;
+        }
+        public static void MatrixForEach<T>(ref T[,] matrix, Func<T,T> func)
+        {
+            int rows = matrix.GetLength(0);
+            int columns = matrix.GetLength(1);
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    matrix[i, j] = func(matrix[i, j]);
+                }
+            }
         }
     }
 }

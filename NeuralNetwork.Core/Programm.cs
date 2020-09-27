@@ -12,7 +12,11 @@ namespace NeuralNetwork.Core
         {
             Console.WriteLine("Hello World!");
             NrlNet nrlNet = new NrlNet("FirstTest", new int[] { 3, 5, 4 }, new SigmoidFunc());
-            var ar = TM1.SwitchArrayDimension(3, 1);
+            var ar = TM2.ConvertToSingleArray();
+            foreach (var a in ar)
+            {
+                Console.Write(a);
+            }
             //for (int i = 0; i < nrlNet.Layers.Length - 1; i++)
             //{
             //    Console.WriteLine($"Layer {i + 1} --> {i + 2}: ");

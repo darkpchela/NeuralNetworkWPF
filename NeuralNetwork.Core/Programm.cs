@@ -13,12 +13,9 @@ namespace NeuralNetwork.Core
             Console.WriteLine("Hello World!");
             NrlNet nrlNet = new NrlNet("FirstTest", new int[] { 3, 5, 4 }, new SigmoidFunc());
 
-            Console.WriteLine("First");
-            WriteMatrix<float>(TM1);
-            Console.WriteLine("Second");
             WriteMatrix<float>(TM2);
-            Console.WriteLine("Result");
-            WriteMatrix<float>(MathExtensions.MatrixMultiply(TM1, TM2));
+            Console.WriteLine("Transpose:");
+            WriteMatrix<float>(MathExtensions.MatrixTranspose(TM2));
 
             //for (int i = 0; i < nrlNet.Layers.Length - 1; i++)
             //{

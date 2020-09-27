@@ -34,5 +34,23 @@ namespace NeuralNetwork.Core.Extensions
 
             return resultMatrix;
         }
+
+        public static float[,] MatrixTranspose(float[,] matrix)
+        {
+            int inputRows = matrix.GetLength(0);
+            int inputColumns = matrix.GetLength(1);
+
+            float[,] resultMatrix = new float[inputColumns, inputRows];
+
+            for (int i = 0; i < inputRows; i++)
+            {
+                for (int j = 0; j < inputColumns; j++)
+                {
+                    resultMatrix[j, i] = matrix[i, j];
+                }
+            }
+
+            return resultMatrix;
+        }
     }
 }

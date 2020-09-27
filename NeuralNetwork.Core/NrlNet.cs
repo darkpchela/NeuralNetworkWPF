@@ -10,6 +10,7 @@ namespace NeuralNetwork.Core
         public IActivationFunc ActivationFunc { get; set; }
         public int[] Layers { get; set; }
         public float[][,] Weights { get; set; }
+        public float LearningRate { get; set; }
 
         public NrlNet(string Name, int[] Layers, IActivationFunc ActivationFunc)
         {
@@ -17,6 +18,7 @@ namespace NeuralNetwork.Core
             this.Layers = Layers;
             this.Weights = new float[Layers.Length][,];
             this.ActivationFunc = ActivationFunc;
+            this.LearningRate = 0.25f;
             InitStartWeiths();
         }
 
@@ -31,27 +33,31 @@ namespace NeuralNetwork.Core
                 this.ActivationFunc = new SigmoidFunc();
         }
 
-        //public float[] Query(float[] inputs)
-        //{
+        public float[] Query(float[] inputs)
+        {
+            if (inputs.Length != Layers[0])
+                throw new ArithmeticException("Invalid inputs count");
 
-        //}
+            float[] outputs = new float[Layers[Layers.Length - 1]];
 
-        //def query(self, inputs_list):
-        
-        //if len(inputs_list) != self.layers[0]:
-        //    print("Incorrect data!")
-        //    return
-        
+            for (int i = 0; i < Layers.Length - 1; i++)
+            {
+
+            }
+
+            return outputs;
+        }
+
         //inputs = np.array(inputs_list, ndmin=2).T
         //outputs = []
-        
+
         //for l in range(len(self.layers) - 1) :
         //    current_inputs = np.dot(self.weigths[l], inputs)
         //    current_outputs = self.activation_func(current_inputs)
         //    inputs = current_outputs
         //    outputs.append(current_outputs)
         //    pass
-        
+
         //return outputs
 
         private protected void InitStartWeiths()

@@ -11,19 +11,18 @@ namespace NeuralNetwork.Core
         private static void Main(string[] args)
         {
             NrlNet nrlNet = new NrlNet("FirstTest", new int[] { 3, 5, 3 }, new SigmoidFunc());
-            var array = TM1.ConvertToSingleArray();
-            var resarray = new float[3];
-            for (int i = 0; i < 3; i++)
+            var outputs = nrlNet.Query(TM1.ConvertToSingleArray());
+            foreach (var o in nrlNet._QueryHiddenOutputs)
             {
-
-                Console.Write(MathExtensions.Sigmoid(array[i]) + "  ");
-                resarray[i] = MathExtensions.Sigmoid(array[i]);
+                Console.WriteLine("_________________________________");
+                WriteMatrix(o);
             }
-            Console.WriteLine();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < nrlNet.Layers.Length; i++)
             {
-
-                Console.Write(MathExtensions.SigmoidReverse(resarray[i]) + "  ");
+                var previousoutputs = MathExtensions.MatrixTranspose(outputs);
+                MathExtensions.MatrixForEach<float>(ref previousoutputs, MathExtensions.SigmoidReverse);
+                Console.WriteLine("_________________________________");
+                WriteMatrix(previousoutputs);
             }
         }
 

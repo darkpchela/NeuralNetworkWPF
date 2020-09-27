@@ -13,7 +13,7 @@ namespace NeuralNetwork.Core
         public float LearningRate { get; set; }
 
         
-        private float[][,] _QueryHiddenOutputs;
+        public float[][,] _QueryHiddenOutputs;
 
         public NrlNet(string Name, int[] Layers, IActivationFunc ActivationFunc, float LearningRate = 0.05f)
         {

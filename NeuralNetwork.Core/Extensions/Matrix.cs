@@ -100,18 +100,6 @@ namespace NeuralNetwork.Core.Extensions
             return resultMatrix;
 
         }
-        public static Matrix2D ForEach(Matrix2D matrix, Func<float, float> func) //???
-        {
-            for (int i = 0; i < matrix.Rows; i++)
-            {
-                for (int j = 0; j < matrix.Columns; j++)
-                {
-                    matrix[i, j] = func(matrix[i, j]);
-                }
-            }
-
-            return matrix;
-        }
         public static Matrix2D ScalerProduct(Matrix2D matrix1, Matrix2D matrix2)
         {
             if (matrix1.Rows != matrix2.Columns && matrix1.Columns != matrix2.Rows)
@@ -144,6 +132,20 @@ namespace NeuralNetwork.Core.Extensions
             Matrix = (float[,])array.Clone();
             Rows = Matrix.GetLength(0);
             Columns = Matrix.GetLength(1);
+        }
+        public Matrix2D ForEach(Func<float, float> func)
+        {
+            Matrix2D resultMatrix = new Matrix2D(Rows, Columns);
+
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    resultMatrix[i, j] = func(Matrix[i, j]);
+                }
+            }
+
+            return resultMatrix;
         }
         public Matrix2D Transpose()
         {

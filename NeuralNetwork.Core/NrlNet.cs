@@ -13,7 +13,7 @@ namespace NeuralNetwork.Core
         public float LearningRate { get; set; }
 
         
-        public float[][,] _QueryHiddenOutputs;
+        public Matrix2D[] _QueryHiddenOutputs;
 
         public NrlNet(string Name, int[] Layers, IActivationFunc ActivationFunc, float LearningRate = 0.05f)
         {
@@ -22,7 +22,7 @@ namespace NeuralNetwork.Core
             this.Weigths = new Matrix2D[Layers.Length];
             this.ActivationFunc = ActivationFunc;
             this.LearningRate = LearningRate;
-            this._QueryHiddenOutputs = new float[Layers.Length][,];
+            this._QueryHiddenOutputs = new Matrix2D[Layers.Length];
             InitStartWeiths();
         }
 
@@ -39,7 +39,7 @@ namespace NeuralNetwork.Core
 
         public void Train(float[] inputValues, float[] targetValues)
         {
-            var targetMatrix = MathExtensions.MatrixTranspose(targetValues);
+            var targetMatrix = inputValues.ToMatrix2D().Transpose();
             var outputMatrix = MathExtensions.MatrixTranspose(Query(inputValues));
             var errorMatrix = MathExtensions.MatrixSubtract(targetMatrix, outputMatrix);
 
@@ -74,17 +74,17 @@ namespace NeuralNetwork.Core
             if (inputValues.Length != Layers[0])
                 throw new ArithmeticException("Invalid inputs count");
 
-            float[,] inputs_outputs = MathExtensions.MatrixTranspose(inputValues);
+            Matrix2D inputs_outputs = inputValues.ToMatrix2D().Transpose();
 
-            _QueryHiddenOutputs[0] = (float[,])inputs_outputs.Clone();
+            _QueryHiddenOutputs[0] = inputs_outputs;
 
             for (int i = 0; i < Layers.Length - 1; i++)
             {
                 //Upper string make new temp inputs for next layer by multiplying current layer weiths to outputs from previous layer
                 //Down string applyes activation func to this inputs, makin from it outputs for next layer
-                inputs_outputs = MathExtensions.MatrixMultiply(Weigths[i], inputs_outputs);
-                MathExtensions.MatrixForEach(ref inputs_outputs, ActivationFunc.ActivationFunc);
-                _QueryHiddenOutputs[i+1] = (float[,])inputs_outputs.Clone();
+                inputs_outputs = Matrix2D.ScalerProduct(Weigths[i], inputs_outputs);
+                inputs_outputs = inputs_outputs.ForEach(ActivationFunc.ActivationFunc);
+                _QueryHiddenOutputs[i + 1] = inputs_outputs;
             }
 
             float[] outputs = inputs_outputs.ConvertToSingleArray();

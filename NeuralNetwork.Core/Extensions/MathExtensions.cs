@@ -110,5 +110,31 @@ namespace NeuralNetwork.Core.Extensions
             MatrixForEach(ref resultMatrix, x => number - x);
             return resultMatrix;
         }
+        public static float[,] MatrixAdd(float[,] matrix1, float[,] matrix2)
+        {
+            if (matrix1.GetLength(0) != matrix2.GetLength(0) || matrix1.GetLength(1) != matrix2.GetLength(1))
+                throw new ArgumentException();
+
+            int rows = matrix1.GetLength(0);
+            int columns = matrix1.GetLength(1);
+
+            float[,] resultMatrix = new float[rows, columns];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    resultMatrix[i, j] = matrix1[i, j] + matrix2[i, j];
+                }
+            }
+
+            return resultMatrix;
+        }
+        public static float[,] MatrixAdd(float number, float[,] matrix)
+        {
+            float[,] resultMatrix = matrix;
+            MatrixForEach(ref resultMatrix, x => number + x);
+            return resultMatrix;
+        }
     }
 }

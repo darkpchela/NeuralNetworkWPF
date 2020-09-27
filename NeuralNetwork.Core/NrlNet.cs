@@ -13,7 +13,7 @@ namespace NeuralNetwork.Core
         public float LearningRate { get; set; }
 
         
-        public float[][,] _QueryHiddenOutputs;
+        private float[][,] _QueryHiddenOutputs;
 
         public NrlNet(string Name, int[] Layers, IActivationFunc ActivationFunc, float LearningRate = 0.05f)
         {
@@ -43,9 +43,10 @@ namespace NeuralNetwork.Core
             var outputMatrix = MathExtensions.MatrixTranspose(Query(inputValues));
             var errorMatrix = MathExtensions.MatrixSubtract(targetMatrix, outputMatrix);
 
-            for (int i = Layers.Length - 1; i > 0 ; i--)
+            for (int i = Layers.Length - 1; i >= 0 ; i--)
             {
                 var previousErrorMatrix = MathExtensions.MatrixMultiply(MathExtensions.MatrixTranspose(Weigths[i]), errorMatrix);
+                var previousOutputMatrix = _QueryHiddenOutputs[i];
             }
         }
         

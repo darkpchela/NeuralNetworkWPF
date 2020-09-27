@@ -11,21 +11,6 @@ namespace NeuralNetwork.Core
         private static void Main(string[] args)
         {
             NrlNet nrlNet = new NrlNet("FirstTest", new int[] { 3, 5, 3 }, new SigmoidFunc());
-            var answer = nrlNet.Query(new float[] { 1.0f, 0.5f, 0.3f });
-            foreach (var a in answer)
-            {
-                Console.WriteLine(a);
-            }
-            foreach (var item in nrlNet._QueryHiddenOutputs)
-            {
-                WriteMatrix(item);
-            }
-            //for (int i = 0; i < nrlNet.Layers.Length - 1; i++)
-            //{
-            //    Console.WriteLine($"Layer {i + 1} --> {i + 2}: ");
-            //    WriteMatrix<float>(nrlNet.Weights[i]);
-            //    Console.WriteLine("-----------------------------------------------------------------------------");
-            //}
         }
 
         private static void WriteMatrix<T>(T[,] matrix)

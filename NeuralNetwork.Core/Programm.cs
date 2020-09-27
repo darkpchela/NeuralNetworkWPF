@@ -10,12 +10,11 @@ namespace NeuralNetwork.Core
         static float[,] TM2 = { { 7, 8, 9, 10, 11 }, { 12, 13, 14, 15, 16 }, { 17, 18, 19, 20, 21 } };
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            NrlNet nrlNet = new NrlNet("FirstTest", new int[] { 3, 5, 4 }, new SigmoidFunc());
-            var ar = TM2.ConvertToSingleArray();
-            foreach (var a in ar)
+            NrlNet nrlNet = new NrlNet("FirstTest", new int[] { 3, 5, 3 }, new SigmoidFunc());
+            var answer = nrlNet.Query(new float[] { 1.0f, 0.5f, 0.3f });
+            foreach (var a in answer)
             {
-                Console.Write(a);
+                Console.WriteLine(a);
             }
             //for (int i = 0; i < nrlNet.Layers.Length - 1; i++)
             //{

@@ -56,7 +56,7 @@ namespace NeuralNetwork.Core
         protected void InitStartWeiths()
         {
             Random rnd = new Random();
-            rnd.Next();
+
             for (int i = 0; i < Layers.Length - 1; i++)
             {
                 int columns = Layers[i];

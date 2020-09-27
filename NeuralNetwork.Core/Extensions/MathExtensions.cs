@@ -56,11 +56,11 @@ namespace NeuralNetwork.Core.Extensions
         {
             int inputRows = inputArray.Length;
 
-            T[,] resultMatrix = new T[1, inputRows];
+            T[,] resultMatrix = new T[inputRows, 1];
 
             for (int i = 0; i < inputRows; i++)
             {
-                resultMatrix[i, 1] = inputArray[i];
+                resultMatrix[i, 0] = inputArray[i];
             }
 
             return resultMatrix;

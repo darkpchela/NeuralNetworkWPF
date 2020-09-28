@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NeuralNetwork.Core.Extensions
+namespace NeuralNetwork.Core
 {
     public struct Matrix2D
     {

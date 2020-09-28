@@ -1,4 +1,4 @@
-﻿using NeuralNetwork.Core.ActivationFuncs;
+﻿using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Core.Extensions;
 using System;
 
@@ -7,7 +7,7 @@ namespace NeuralNetwork.Core
     public class NrlNet
     {
         public string Name { get; }
-        public IActivationFunc ActivationFunc { get; set; }
+        public Func<float, float> ActivationFunc { get; set; }
         public int[] Layers { get; set; }
         public Matrix2D[] Weigths { get; set; }
         public float LearningRate { get; set; }
@@ -15,7 +15,7 @@ namespace NeuralNetwork.Core
         
         public Matrix2D[] _QueryHiddenOutputs;
 
-        public NrlNet(string Name, int[] Layers, IActivationFunc ActivationFunc, float LearningRate = 0.05f)
+        public NrlNet(string Name, int[] Layers, Func<float, float> ActivationFunc, float LearningRate = 0.05f)
         {
             this.Name = Name;
             this.Layers = Layers;
@@ -31,10 +31,10 @@ namespace NeuralNetwork.Core
             this.Name = nrlNetData.Name;
             this.Layers = nrlNetData.Layers;
             this.Weigths = nrlNetData.Weights;
-            if (FuncDictionary.FuncName.TryGetValue(nrlNetData.ActivationFuncName, out IActivationFunc activationFunc))
+            if (FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))
                 this.ActivationFunc = activationFunc;
             else
-                this.ActivationFunc = new SigmoidFunc();
+                this.ActivationFunc = MathFuncs.Sigmoid;
         }
 
         public void Train(float[] inputValues, float[] targetValues)
@@ -65,7 +65,7 @@ namespace NeuralNetwork.Core
             for (int i = 0; i < Layers.Length - 1; i++)
             {
                 inputs_outputs = Matrix2D.ScalerProduct(Weigths[i], inputs_outputs);
-                inputs_outputs = inputs_outputs.ForEach(ActivationFunc.ActivationFunc);
+                inputs_outputs = inputs_outputs.ForEach(ActivationFunc);
                 _QueryHiddenOutputs[i + 1] = inputs_outputs;
             }
 

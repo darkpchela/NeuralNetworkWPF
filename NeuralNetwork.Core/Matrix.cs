@@ -5,7 +5,7 @@ namespace NeuralNetwork.Core
 {
     public struct Matrix2D
     {
-        public float[,] Array { get; private set; }
+        public float[,] Matrix { get; private set; }
         public int Rows { get; private set; }
         public int Columns { get; private set; }
 
@@ -13,11 +13,11 @@ namespace NeuralNetwork.Core
         {
             get
             {
-                return Array[row, column];
+                return Matrix[row, column];
             }
             set
             {
-                Array[row, column] = value;
+                Matrix[row, column] = value;
             }
         }
 
@@ -173,16 +173,31 @@ namespace NeuralNetwork.Core
 
         public Matrix2D(int rows, int columns)
         {
-            Array = new float[rows, columns];
+            Matrix = new float[rows, columns];
             Rows = rows;
             Columns = columns;
         }
 
+        public Matrix2D(int rows, int columns, float number)
+        {
+            Matrix = new float[rows, columns];
+            Rows = rows;
+            Columns = columns;
+
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    Matrix[i, j] = number;
+                }
+            }
+        }
+
         public Matrix2D(float[,] array)
         {
-            Array = (float[,])array.Clone();
-            Rows = Array.GetLength(0);
-            Columns = Array.GetLength(1);
+            Matrix = (float[,])array.Clone();
+            Rows = Matrix.GetLength(0);
+            Columns = Matrix.GetLength(1);
         }
 
         public Matrix2D ForEach(Func<float, float> func)
@@ -193,7 +208,7 @@ namespace NeuralNetwork.Core
             {
                 for (int j = 0; j < Columns; j++)
                 {
-                    resultMatrix[i, j] = func(Array[i, j]);
+                    resultMatrix[i, j] = func(Matrix[i, j]);
                 }
             }
 
@@ -208,7 +223,7 @@ namespace NeuralNetwork.Core
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[i, j] = Array[j, i];
+                    resultMatrix[i, j] = Matrix[j, i];
                 }
             }
 
@@ -217,7 +232,7 @@ namespace NeuralNetwork.Core
 
         public float[] ToSingleArray()
         {
-            float[] resultArray = new float[Array.Length];
+            float[] resultArray = new float[Matrix.Length];
 
             int n = 0;
 
@@ -225,7 +240,7 @@ namespace NeuralNetwork.Core
             {
                 for (int j = 0; j < Columns; j++)
                 {
-                    resultArray[n] = Array[i, j];
+                    resultArray[n] = Matrix[i, j];
                     n++;
                 }
             }
@@ -240,7 +255,7 @@ namespace NeuralNetwork.Core
             {
                 for (int j = 0; j < Columns; j++)
                 {
-                    stringBuilder.AppendFormat("{0,13}", Array[i, j]);
+                    stringBuilder.AppendFormat("{0,13}", Matrix[i, j]);
                 }
 
                 stringBuilder.AppendLine();

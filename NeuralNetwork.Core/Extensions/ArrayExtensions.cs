@@ -1,6 +1,6 @@
 ﻿namespace NeuralNetwork.Core.Extensions
 {
-    internal static class ArrayExtensions
+    public static class ArrayExtensions
     {
         public static Matrix2D ToMatrix2D(this float[,] array)
         {

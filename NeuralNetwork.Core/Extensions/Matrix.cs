@@ -14,7 +14,7 @@ namespace NeuralNetwork.Core.Extensions
             {
                 return Array[row, column];
             }
-            private set
+            set
             {
                 Array[row, column] = value;
             }
@@ -38,15 +38,15 @@ namespace NeuralNetwork.Core.Extensions
             return resultMatrix;
         }
 
-        public static Matrix2D operator +(Matrix2D matrix1, float number)
+        public static Matrix2D operator +(Matrix2D matrix, float number)
         {
-            Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
+            Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
 
             for (int i = 0; i < resultMatrix.Rows; i++)
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[i, j] = matrix1[i, j] + number;
+                    resultMatrix[i, j] = matrix[i, j] + number;
                 }
             }
 
@@ -71,7 +71,22 @@ namespace NeuralNetwork.Core.Extensions
             return resultMatrix;
         }
 
-        public static Matrix2D operator -(Matrix2D matrix1, float number)
+        public static Matrix2D operator -(Matrix2D matrix, float number)
+        {
+            Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
+
+            for (int i = 0; i < resultMatrix.Rows; i++)
+            {
+                for (int j = 0; j < resultMatrix.Columns; j++)
+                {
+                    resultMatrix[i, j] = matrix[i, j] - number;
+                }
+            }
+
+            return resultMatrix;
+        }
+
+        public static Matrix2D operator -(float number, Matrix2D matrix1)
         {
             Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
 
@@ -79,7 +94,7 @@ namespace NeuralNetwork.Core.Extensions
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[i, j] = matrix1[i, j] - number;
+                    resultMatrix[i, j] = number - matrix1[i, j];
                 }
             }
 
@@ -98,6 +113,36 @@ namespace NeuralNetwork.Core.Extensions
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
                     resultMatrix[i, j] = matrix1[i, j] * matrix2[i, j];
+                }
+            }
+
+            return resultMatrix;
+        }
+
+        public static Matrix2D operator *(float number, Matrix2D matrix)
+        {
+            Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
+
+            for (int i = 0; i < resultMatrix.Rows; i++)
+            {
+                for (int j = 0; j < resultMatrix.Columns; j++)
+                {
+                    resultMatrix[i, j] = matrix[i, j] * number;
+                }
+            }
+
+            return resultMatrix;
+        }
+
+        public static Matrix2D operator *(Matrix2D matrix, float number)
+        {
+            Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
+
+            for (int i = 0; i < resultMatrix.Rows; i++)
+            {
+                for (int j = 0; j < resultMatrix.Columns; j++)
+                {
+                    resultMatrix[i, j] = matrix[i, j] * number;
                 }
             }
 

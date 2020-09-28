@@ -30,7 +30,7 @@ namespace NeuralNetwork.Core
         {
             this.Name = nrlNetData.Name;
             this.Layers = nrlNetData.Layers;
-            //this.Weigths = nrlNetData.Weights;
+            this.Weigths = nrlNetData.Weights;
             if (FuncDictionary.FuncName.TryGetValue(nrlNetData.ActivationFuncName, out IActivationFunc activationFunc))
                 this.ActivationFunc = activationFunc;
             else
@@ -40,34 +40,18 @@ namespace NeuralNetwork.Core
         public void Train(float[] inputValues, float[] targetValues)
         {
             var targetMatrix = inputValues.ToMatrix2D().Transpose();
-            var outputMatrix = MathFuncs.MatrixTranspose(Query(inputValues));
-            var errorMatrix = MathFuncs.MatrixSubtract(targetMatrix, outputMatrix);
+            var outputMatrix = Query(inputValues).ToMatrix2D().Transpose();
+            var errorMatrix = targetMatrix - outputMatrix;
 
-            for (int i = Layers.Length - 1; i >= 0 ; i--)
+            for (int i = Layers.Length - 1; i > 0 ; i--)
             {
-
-                var previousOutputMatrix = _QueryHiddenOutputs[i];
-                errorMatrix = MathFuncs.MatrixMultiply(MathFuncs.MatrixTranspose(Weigths[i]), errorMatrix);
+                var currentOutputMatrix = _QueryHiddenOutputs[i];
+                var previousOutputMatrix = _QueryHiddenOutputs[i - 1];
+                var deltaWeigthMatrix = LearningRate * Matrix2D.ScalerProduct(errorMatrix * currentOutputMatrix*(1.0f - currentOutputMatrix), previousOutputMatrix.Transpose());
+                Weigths[i] += deltaWeigthMatrix;
+                errorMatrix = Matrix2D.ScalerProduct(Weigths[i].Transpose(), errorMatrix);
             }
         }
-        
-        //for i in reversed(range(len(self.layers) - 1)):
-        //    current_output_signals = outputs[i]
-        //    if i == 0:
-        //        previous_signals = inputs
-        //        pass
-        //    else:
-        //        previous_signals = outputs[i - 1]
-        //        pass
-
-
-        //    self.weigths[i] += self.learning_rate* np.dot(errors* current_output_signals * (1.0 - current_output_signals), 
-        //                                                    np.transpose(previous_signals))
-            
-        //    errors = np.dot(np.transpose(self.weigths[i]), errors) 
-        //    pass
-
-        //pass
 
         public float[] Query(float[] inputValues)
         {
@@ -80,14 +64,12 @@ namespace NeuralNetwork.Core
 
             for (int i = 0; i < Layers.Length - 1; i++)
             {
-                //Upper string make new temp inputs for next layer by multiplying current layer weiths to outputs from previous layer
-                //Down string applyes activation func to this inputs, makin from it outputs for next layer
                 inputs_outputs = Matrix2D.ScalerProduct(Weigths[i], inputs_outputs);
                 inputs_outputs = inputs_outputs.ForEach(ActivationFunc.ActivationFunc);
                 _QueryHiddenOutputs[i + 1] = inputs_outputs;
             }
 
-            float[] outputs = inputs_outputs.ConvertToSingleArray();
+            float[] outputs = inputs_outputs.ToSingleArray();
 
             return outputs;
         }
@@ -101,7 +83,7 @@ namespace NeuralNetwork.Core
                 int columns = Layers[i];
                 int rows = Layers[i + 1];
                 float diff = (float)(Math.Pow(Layers[i], -0.5));
-                float[,] CurrentLayerWeiths = new float[rows, columns];
+                Matrix2D CurrentLayerWeiths = new Matrix2D(rows, columns);
                 for (int j = 0; j < columns; j++)
                 {
                     for (int k = 0; k < rows; k++)

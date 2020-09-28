@@ -19,8 +19,8 @@ namespace NeuralNetwork.Core
             }
             for (int i = 0; i < nrlNet.Layers.Length; i++)
             {
-                var previousoutputs = MathExtensions.MatrixTranspose(outputs);
-                MathExtensions.MatrixForEach<float>(ref previousoutputs, MathExtensions.SigmoidReverse);
+                var previousoutputs = MathFuncs.MatrixTranspose(outputs);
+                MathFuncs.MatrixForEach<float>(ref previousoutputs, MathFuncs.SigmoidReverse);
                 Console.WriteLine("_________________________________");
                 WriteMatrix(previousoutputs);
             }

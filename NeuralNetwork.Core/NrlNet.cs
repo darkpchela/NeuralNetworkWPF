@@ -40,14 +40,14 @@ namespace NeuralNetwork.Core
         public void Train(float[] inputValues, float[] targetValues)
         {
             var targetMatrix = inputValues.ToMatrix2D().Transpose();
-            var outputMatrix = MathExtensions.MatrixTranspose(Query(inputValues));
-            var errorMatrix = MathExtensions.MatrixSubtract(targetMatrix, outputMatrix);
+            var outputMatrix = MathFuncs.MatrixTranspose(Query(inputValues));
+            var errorMatrix = MathFuncs.MatrixSubtract(targetMatrix, outputMatrix);
 
             for (int i = Layers.Length - 1; i >= 0 ; i--)
             {
 
                 var previousOutputMatrix = _QueryHiddenOutputs[i];
-                errorMatrix = MathExtensions.MatrixMultiply(MathExtensions.MatrixTranspose(Weigths[i]), errorMatrix);
+                errorMatrix = MathFuncs.MatrixMultiply(MathFuncs.MatrixTranspose(Weigths[i]), errorMatrix);
             }
         }
         

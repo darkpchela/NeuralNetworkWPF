@@ -4,19 +4,19 @@ namespace NeuralNetwork.Core.Extensions
 {
     public struct Matrix2D
     {
-        private float[,] Matrix;
-        private int Rows;
-        private int Columns;
+        public float[,] Array { get; private set; }
+        public int Rows { get; private set; }
+        public int Columns { get; private set; }
 
         public float this[int row, int column]
         {
             get
             {
-                return Matrix[row, column];
+                return Array[row, column];
             }
             private set
             {
-                Matrix[row, column] = value;
+                Array[row, column] = value;
             }
         }
 
@@ -37,6 +37,7 @@ namespace NeuralNetwork.Core.Extensions
 
             return resultMatrix;
         }
+
         public static Matrix2D operator +(Matrix2D matrix1, float number)
         {
             Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
@@ -51,6 +52,7 @@ namespace NeuralNetwork.Core.Extensions
 
             return resultMatrix;
         }
+
         public static Matrix2D operator -(Matrix2D matrix1, Matrix2D matrix2)
         {
             if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
@@ -68,6 +70,7 @@ namespace NeuralNetwork.Core.Extensions
 
             return resultMatrix;
         }
+
         public static Matrix2D operator -(Matrix2D matrix1, float number)
         {
             Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
@@ -82,6 +85,7 @@ namespace NeuralNetwork.Core.Extensions
 
             return resultMatrix;
         }
+
         public static Matrix2D operator *(Matrix2D matrix1, Matrix2D matrix2)
         {
             if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
@@ -98,8 +102,8 @@ namespace NeuralNetwork.Core.Extensions
             }
 
             return resultMatrix;
-
         }
+
         public static Matrix2D ScalerProduct(Matrix2D matrix1, Matrix2D matrix2)
         {
             if (matrix1.Rows != matrix2.Columns && matrix1.Columns != matrix2.Rows)
@@ -119,20 +123,22 @@ namespace NeuralNetwork.Core.Extensions
             }
 
             return resultMatrix;
-            
         }
+
         public Matrix2D(int rows, int columns)
         {
-            Matrix = new float[rows, columns];
+            Array = new float[rows, columns];
             Rows = rows;
             Columns = columns;
         }
+
         public Matrix2D(float[,] array)
         {
-            Matrix = (float[,])array.Clone();
-            Rows = Matrix.GetLength(0);
-            Columns = Matrix.GetLength(1);
+            Array = (float[,])array.Clone();
+            Rows = Array.GetLength(0);
+            Columns = Array.GetLength(1);
         }
+
         public Matrix2D ForEach(Func<float, float> func)
         {
             Matrix2D resultMatrix = new Matrix2D(Rows, Columns);
@@ -141,12 +147,13 @@ namespace NeuralNetwork.Core.Extensions
             {
                 for (int j = 0; j < Columns; j++)
                 {
-                    resultMatrix[i, j] = func(Matrix[i, j]);
+                    resultMatrix[i, j] = func(Array[i, j]);
                 }
             }
 
             return resultMatrix;
         }
+
         public Matrix2D Transpose()
         {
             Matrix2D resultMatrix = new Matrix2D(Columns, Rows);
@@ -155,11 +162,29 @@ namespace NeuralNetwork.Core.Extensions
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[j, i] = Matrix[i, j];
+                    resultMatrix[j, i] = Array[i, j];
                 }
             }
 
             return resultMatrix;
+        }
+
+        public float[] ToSingleArray()
+        {
+            float[] resultArray = new float[Array.Length];
+
+            int n = 0;
+
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    resultArray[n] = Array[i, j];
+                    n++;
+                }
+            }
+
+            return resultArray;
         }
     }
 }

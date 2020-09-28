@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace NeuralNetwork.Core.Extensions
 {
@@ -207,7 +208,7 @@ namespace NeuralNetwork.Core.Extensions
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[j, i] = Array[i, j];
+                    resultMatrix[i, j] = Array[j, i];
                 }
             }
 
@@ -230,6 +231,22 @@ namespace NeuralNetwork.Core.Extensions
             }
 
             return resultArray;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    stringBuilder.AppendFormat("{0,13}", Array[i, j]);
+                }
+
+                stringBuilder.AppendLine();
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

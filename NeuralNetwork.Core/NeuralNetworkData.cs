@@ -1,5 +1,6 @@
 ﻿using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Core.Interfaces;
+using NeuralNetwork.Core.Structs;
 
 namespace NeuralNetwork.Core
 {

@@ -26,35 +26,5 @@ namespace NeuralNetwork.BLL.NeuralNetwork
             this.Name = namedNeuralNetworkData.Name;
             this.Id = namedNeuralNetworkData.Id;
         }
-
-        #region Disposable
-
-        private bool disposed = false;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    NeuralNetwork.Dispose();
-                }
-
-                disposed = true;
-            }
-        }
-
-        ~NamedNeuralNetwork()
-        {
-            Dispose(false);
-        }
-
-        #endregion Disposable
     }
 }

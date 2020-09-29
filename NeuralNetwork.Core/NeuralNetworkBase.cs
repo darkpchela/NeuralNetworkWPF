@@ -5,17 +5,16 @@ using System;
 
 namespace NeuralNetwork.Core
 {
-    public class NrlNet : INeuralNetwork
+    public class NeuralNetworkBase : INeuralNetwork
     {
         public Func<float, float> ActivationFunc { get; set; }
         public int[] Layers { get; set; }
         public Matrix2D[] Weigths { get; set; }
         public float LearningRate { get; set; }
 
-        
         public Matrix2D[] _QueryHiddenOutputs;
 
-        public NrlNet(int[] Layers, Func<float, float> ActivationFunc, float LearningRate = 0.05f)
+        public NeuralNetworkBase(int[] Layers, Func<float, float> ActivationFunc, float LearningRate = 0.05f)
         {
             this.Layers = Layers;
             this.Weigths = new Matrix2D[Layers.Length];
@@ -25,7 +24,7 @@ namespace NeuralNetwork.Core
             InitStartWeiths();
         }
 
-        public NrlNet(NrlNetData nrlNetData)
+        public NeuralNetworkBase(NeuralNetworkData nrlNetData)
         {
             this.Layers = nrlNetData.Layers;
             this.Weigths = nrlNetData.Weights;
@@ -41,11 +40,11 @@ namespace NeuralNetwork.Core
             var outputMatrix = Query(inputValues).ToMatrix2D().Transpose();
             var errorMatrix = targetMatrix - outputMatrix;
 
-            for (int i = Layers.Length - 1; i > 0 ; i--)
+            for (int i = Layers.Length - 1; i > 0; i--)
             {
                 var currentOutputMatrix = _QueryHiddenOutputs[i];
                 var previousOutputMatrix = _QueryHiddenOutputs[i - 1];
-                var deltaWeigthMatrix = LearningRate * Matrix2D.ScalerProduct(errorMatrix * currentOutputMatrix*(1.0f - currentOutputMatrix), previousOutputMatrix.Transpose());
+                var deltaWeigthMatrix = LearningRate * Matrix2D.ScalerProduct(errorMatrix * currentOutputMatrix * (1.0f - currentOutputMatrix), previousOutputMatrix.Transpose());
                 Weigths[i] += deltaWeigthMatrix;
                 errorMatrix = Matrix2D.ScalerProduct(Weigths[i].Transpose(), errorMatrix);
             }
@@ -72,7 +71,7 @@ namespace NeuralNetwork.Core
             return outputs;
         }
 
-        protected void InitStartWeiths()
+        protected virtual void InitStartWeiths()
         {
             Random rnd = new Random();
 
@@ -92,5 +91,30 @@ namespace NeuralNetwork.Core
                 this.Weigths[i] = CurrentLayerWeiths;
             }
         }
+
+        #region Disposable
+
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+            }
+        }
+
+        ~NeuralNetworkBase()
+        {
+            Dispose(false);
+        }
+
+        #endregion Disposable
     }
 }

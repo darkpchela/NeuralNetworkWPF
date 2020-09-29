@@ -2,11 +2,14 @@
 
 namespace NeuralNetwork.Core.Interfaces
 {
-    public interface INeuralNetwork
+    public interface INeuralNetwork : IDisposable
     {
         Func<float, float> ActivationFunc { get; set; }
+
         int[] Layers { get; set; }
+
         Matrix2D[] Weigths { get; set; }
+
         float LearningRate { get; set; }
 
         void Train(float[] inputValues, float[] targetValues);

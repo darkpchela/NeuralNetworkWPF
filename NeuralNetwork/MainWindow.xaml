@@ -42,7 +42,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <Button>Open</Button>
+                <Button Command="{Binding OpenFile}">Open</Button>
             </StackPanel>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>

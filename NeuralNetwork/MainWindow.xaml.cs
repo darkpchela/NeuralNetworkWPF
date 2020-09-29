@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NeuralNetwork.Infrastructure.Services;
+using NeuralNetwork.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,7 @@ namespace NeuralNetwork
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowVM(new DefaultFileDialogService());
         }
     }
 }

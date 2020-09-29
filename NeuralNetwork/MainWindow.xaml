@@ -5,8 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="NeuralNetwork" Height="450" Width="800" Foreground="{x:Null}" Background="{x:Null}">
+    <Window.Resources>
+        <Style TargetType="Menu">
+            <Setter Property="ItemsControl.Foreground" Value="AliceBlue"></Setter>
+            <Setter Property="ItemsControl.Background" Value="DarkSlateGray"></Setter>
+        </Style>
+        <Style TargetType="MenuItem">
+            <Setter Property="ItemsControl.FontSize" Value="15"></Setter>
+            <Setter Property="ItemsControl.Background" Value="DarkSlateGray"></Setter>
+            <Setter Property="ItemsControl.Foreground" Value="BurlyWood"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" VerticalAlignment="Center">
+            <MenuItem Header="File">
+                <MenuItem Header="Open"></MenuItem>
+                <MenuItem Header="Save"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Close"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Options">
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1" Background="#FF3A3A3A">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                <ColumnDefinition Width="1.2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Button>Open</Button>
+            </StackPanel>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

@@ -1,5 +1,4 @@
-﻿using NeuralNetwork.Core.Interfaces;
-using System;
+﻿using System;
 
 namespace NeuralNetwork.Core.Interfaces
 {

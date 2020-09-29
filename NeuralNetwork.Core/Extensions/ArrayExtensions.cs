@@ -1,4 +1,6 @@
-﻿namespace NeuralNetwork.Core.Extensions
+﻿using NeuralNetwork.Core.Structs;
+
+namespace NeuralNetwork.Core.Extensions
 {
     public static class ArrayExtensions
     {

@@ -1,7 +1,7 @@
-﻿using NeuralNetwork.BLL.NeuralNetwork.Interfaces;
+﻿using NeuralNetwork.Core.Interfaces;
 using System;
 
-namespace NeuralNetwork.BLL.NeuralNetwork
+namespace NeuralNetwork.Core
 {
     public class NeuralNetworkFactory : INeuralNetworkFactory
     {

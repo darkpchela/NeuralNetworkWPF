@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NeuralNetwork.BLL.NeuralNetwork.Interfaces
+namespace NeuralNetwork.Core.Interfaces
 {
     public interface INeuralNetworkStorage : IDisposable
     {

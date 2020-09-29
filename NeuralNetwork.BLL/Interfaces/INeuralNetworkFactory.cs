@@ -9,6 +9,5 @@ namespace NeuralNetwork.BLL.Interfaces
     {
         NrlNet GetNewInstance();
         NrlNet LoadInstance(NrlNetData nrlNetData);
-
     }
 }

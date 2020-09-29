@@ -1,4 +1,7 @@
-﻿namespace NeuralNetwork.Core
+﻿using NeuralNetwork.Core.Etc;
+using NeuralNetwork.Core.Interfaces;
+
+namespace NeuralNetwork.Core
 {
     public class NrlNetData
     {
@@ -6,11 +9,11 @@
         public int[] Layers { get; }
         public Matrix2D[] Weights { get; }
 
-        public NrlNetData(int[] Layers, Matrix2D[] Weiths, string activationFuncName)
+        public NrlNetData(INeuralNetwork nrlNet)
         {
-            this.Layers = Layers;
-            this.Weights = Weiths;
-            this.ActivationFuncName = activationFuncName;
+            this.ActivationFuncName = FuncDictionary.GetFuncName(nrlNet.ActivationFunc) ?? "Unknown func";
+            this.Layers = nrlNet.Layers;
+            this.Weights = nrlNet.Weigths;
         }
     }
 }

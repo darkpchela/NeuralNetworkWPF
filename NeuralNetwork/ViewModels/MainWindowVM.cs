@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Infrastructure;
+﻿using NeuralNetwork.BLL.Interfaces;
+using NeuralNetwork.Infrastructure;
 using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
 using System;
@@ -13,6 +14,7 @@ namespace NeuralNetwork.ViewModels
 {
     internal class MainWindowVM : INotifyPropertyChanged
     {
+        private INeuralNetworkMaster _networkMaster;
         private IFileDialogService _dialogService;
         private RelayCommand _openFile;
         public RelayCommand OpenFile
@@ -36,9 +38,10 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        public MainWindowVM(IFileDialogService dialogService)
+        public MainWindowVM(IFileDialogService dialogService, INeuralNetworkMaster networkMaster)
         {
             _dialogService = dialogService;
+            _networkMaster = networkMaster;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

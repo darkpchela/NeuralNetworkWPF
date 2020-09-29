@@ -101,5 +101,11 @@
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NeuralNetwork.BLL\NeuralNetwork.BLL.csproj">
+      <Project>{D48667F0-B604-4942-A8DB-046B158CD0DE}</Project>
+      <Name>NeuralNetwork.BLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

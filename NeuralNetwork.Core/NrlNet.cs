@@ -1,12 +1,12 @@
 ﻿using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Core.Extensions;
+using NeuralNetwork.Core.Interfaces;
 using System;
 
 namespace NeuralNetwork.Core
 {
-    public class NrlNet
+    public class NrlNet : INeuralNetwork
     {
-        public string Name { get; }
         public Func<float, float> ActivationFunc { get; set; }
         public int[] Layers { get; set; }
         public Matrix2D[] Weigths { get; set; }
@@ -15,9 +15,8 @@ namespace NeuralNetwork.Core
         
         public Matrix2D[] _QueryHiddenOutputs;
 
-        public NrlNet(string Name, int[] Layers, Func<float, float> ActivationFunc, float LearningRate = 0.05f)
+        public NrlNet(int[] Layers, Func<float, float> ActivationFunc, float LearningRate = 0.05f)
         {
-            this.Name = Name;
             this.Layers = Layers;
             this.Weigths = new Matrix2D[Layers.Length];
             this.ActivationFunc = ActivationFunc;
@@ -28,7 +27,6 @@ namespace NeuralNetwork.Core
 
         public NrlNet(NrlNetData nrlNetData)
         {
-            this.Name = nrlNetData.Name;
             this.Layers = nrlNetData.Layers;
             this.Weigths = nrlNetData.Weights;
             if (FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))

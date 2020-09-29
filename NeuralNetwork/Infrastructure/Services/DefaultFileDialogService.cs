@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NeuralNetwork.Infrastructure.Interfaces;
 using System.Windows;
 
 namespace NeuralNetwork.Infrastructure.Services
@@ -6,8 +7,6 @@ namespace NeuralNetwork.Infrastructure.Services
     public class DefaultFileDialogService : IFileDialogService
     {
         private string _filter = "Json files(*.json)|*.json|NeuralNetwork data(*.nnd)|*.nnd";
-
-        public string FileName { get; set; }
 
         public bool OpenFileDialog(out string fileName)
         {
@@ -18,7 +17,6 @@ namespace NeuralNetwork.Infrastructure.Services
 
             if (openFileDialog.ShowDialog() == true)
             {
-                FileName = openFileDialog.FileName;
                 fileName = openFileDialog.FileName;
                 return true;
             }

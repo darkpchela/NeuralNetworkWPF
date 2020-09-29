@@ -65,8 +65,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Services\IFileDialogService.cs" />
-    <Compile Include="Infrastructure\Services\IFileService.cs" />
+    <Compile Include="Infrastructure\Interfaces\IFileDialogService.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -1,9 +1,7 @@
-﻿namespace NeuralNetwork.Infrastructure.Services
+﻿namespace NeuralNetwork.Infrastructure.Interfaces
 {
     public interface IFileDialogService
     {
-        string FileName { get; set; }
-
         void ShowMessage(string message);
 
         bool OpenFileDialog(out string fileName);

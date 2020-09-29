@@ -1,4 +1,5 @@
 ﻿using NeuralNetwork.Infrastructure;
+using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
 using System;
 using System.Collections.Generic;

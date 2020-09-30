@@ -13,6 +13,6 @@ namespace NeuralNetwork.BLL.Interfaces
 
         void TrainAll(float[] inputs, float[] targets);
 
-        T GetNeuralNetworkInstance(Guid id);
+        T GetNNetworkInstance(Guid id);
     }
 }

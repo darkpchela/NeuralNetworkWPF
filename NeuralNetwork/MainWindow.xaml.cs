@@ -26,7 +26,7 @@ namespace NeuralNetwork
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowVM(new DefaultFileDialogService(), new NeuralNetworkService());
+            DataContext = new MainWindowVM(new DefaultFileDialogService());
         }
     }
 }

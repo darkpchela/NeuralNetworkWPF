@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="NeuralNetwork" Height="450" Width="800" Foreground="{x:Null}" Background="{x:Null}">
+        Title="NeuralNetwork" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="Menu">
             <Setter Property="ItemsControl.Foreground" Value="AliceBlue"></Setter>
@@ -15,6 +16,9 @@
             <Setter Property="ItemsControl.FontSize" Value="15"></Setter>
             <Setter Property="ItemsControl.Background" Value="DarkSlateGray"></Setter>
             <Setter Property="ItemsControl.Foreground" Value="BurlyWood"></Setter>
+        </Style>
+        <Style x:Key="TextBoxNumber">
+            <Setter Property="ItemsControl.Background" Value="Beige"></Setter>
         </Style>
     </Window.Resources>
     <Grid>
@@ -43,12 +47,29 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <Button Command="{Binding OpenFile}">Open</Button>
+                <Button Command="{Binding Query}">Query</Button>
             </StackPanel>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
+                <Grid Grid.Row="0" DataContext="{Binding Path=NetworkVM}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Grid.Column="0" DataContext="{Binding Path=CurrentInputs}">
+                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[0], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
+                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[1], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
+                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[2], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="0.264" Background="Beige" Foreground="Black" ></TextBlock>
+                        <TextBlock Text="0.32" Background="Beige" Foreground="Black" ></TextBlock>
+                        <TextBlock Text="0.68" Background="Beige" Foreground="Black" ></TextBlock>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

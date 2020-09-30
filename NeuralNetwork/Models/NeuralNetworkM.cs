@@ -12,7 +12,7 @@ namespace NeuralNetwork.Models
     {
         private INeuralNetworkDefaultService _neuralNetworkService;
         private IFileService _fileService;
-        
+
         public string CurrentFolder { get; private set; }
 
         public NeuralNetworkM(INeuralNetworkDefaultService neuralNetworkDefaultService, IFileService fileService)
@@ -20,5 +20,10 @@ namespace NeuralNetwork.Models
             _neuralNetworkService = neuralNetworkDefaultService;
             _fileService = fileService;
         }
+
+        //public bool CreateNewNNetworkInstance()
+        //{
+        //    _neuralNetworkService.
+        //}
     }
 }

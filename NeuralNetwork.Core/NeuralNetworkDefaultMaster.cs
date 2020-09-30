@@ -19,10 +19,7 @@ namespace NeuralNetwork.Core
 
         public float[] QueryNetwork(float[] inputs, Guid networkId)
         {
-            if (!NetworksStorage.NeuralNetworkInstanses.ContainsKey(networkId))
-                throw new ArgumentException("Invalid ID");
-
-            var network = NetworksStorage.NeuralNetworkInstanses[networkId];
+            var network = NetworksStorage.GetInstance(networkId);
             var outputs = network.Query(inputs);
 
             return outputs;

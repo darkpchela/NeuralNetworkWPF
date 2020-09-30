@@ -9,22 +9,27 @@ namespace NeuralNetwork.Core
     public class NeuralNetworkBase : INeuralNetwork
     {
         public Func<float, float> ActivationFunc { get; set; }
+
         public int[] Layers { get; set; }
+
         public Matrix2D[] Weigths { get; set; }
+
         public float LearningRate { get; set; }
 
-        public Matrix2D[] _QueryHiddenOutputs;
 
-        public NeuralNetworkBase(int[] Layers, Func<float, float> ActivationFunc, float LearningRate = 0.05f)
+        private Matrix2D[] _QueryHiddenOutputs;
+
+        public NeuralNetworkBase(int[] layers, Func<float, float> activationFunc, float learningRate = 0.05f)
+
         {
-            this.Layers = Layers;
+            this.Layers = layers;
             this.Weigths = new Matrix2D[Layers.Length];
-            this.ActivationFunc = ActivationFunc;
-            this.LearningRate = LearningRate;
+            this.ActivationFunc = activationFunc;
+            this.LearningRate = learningRate;
             this._QueryHiddenOutputs = new Matrix2D[Layers.Length];
+
             InitStartWeiths();
         }
-
         public NeuralNetworkBase(NeuralNetworkData nrlNetData)
         {
             this.Layers = nrlNetData.Layers;
@@ -34,6 +39,29 @@ namespace NeuralNetwork.Core
             else
                 this.ActivationFunc = MathFuncs.Sigmoid;
         }
+
+        public NeuralNetworkBase(Matrix2D[] weigths, float learningRate = 0.05f) : this(weigths, MathFuncs.Sigmoid, learningRate) { }
+    
+        public NeuralNetworkBase(Matrix2D[] weights, Func<float, float> activationFunc, float learningRate = 0.05f)
+        {
+            this.ActivationFunc = activationFunc;
+            this.Weigths = weights;
+            this.LearningRate = learningRate;
+            this.Layers = new int[Weigths.Length + 1];
+
+            for (int i = 0; i < Weigths.Length;)
+            {
+                Layers[i] = Weigths[i].Columns;
+                Layers[i + 1] = Weigths[i].Rows;
+
+                if ((i + 2) > weights.Length - 1)
+                    i++;
+                else
+                    i += 2;
+            }
+
+        }
+
 
         public void Train(float[] inputValues, float[] targetValues)
         {

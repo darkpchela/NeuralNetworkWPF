@@ -1,7 +1,6 @@
-﻿using NeuralNetwork.Core.Interfaces;
-using System;
+﻿using System;
 
-namespace NeuralNetwork.BLL.Interfaces
+namespace NeuralNetwork.Core.Interfaces
 {
     public interface INeuralNetworkMaster
     {

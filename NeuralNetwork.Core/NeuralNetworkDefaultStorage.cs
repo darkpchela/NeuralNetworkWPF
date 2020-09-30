@@ -54,7 +54,7 @@ namespace NeuralNetwork.Core
             {
                 if (disposing)
                 {
-                    foreach (var item in NeuralNetworkInstanses)
+                    foreach (var item in _instances)
                     {
                         item.Value.Dispose();
                     }

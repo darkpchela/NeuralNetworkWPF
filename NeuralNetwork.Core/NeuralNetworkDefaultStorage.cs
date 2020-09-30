@@ -6,7 +6,9 @@ namespace NeuralNetwork.Core
 {
     public class NeuralNetworksDefaultStorage : INeuralNetworksStorage<NeuralNetworkDefault>
     {
-        private Dictionary<Guid, NeuralNetworkDefault> _instances { get; set; }
+        private Dictionary<Guid, NeuralNetworkDefault> _instances;
+
+        public NeuralNetworkStorageConstraints NeuralNetworkStorageConstraints { get; }
 
         public NeuralNetworksDefaultStorage()
         {

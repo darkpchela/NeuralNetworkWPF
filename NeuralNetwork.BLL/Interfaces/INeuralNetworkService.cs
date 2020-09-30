@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NeuralNetwork.Core;
+using System;
 
 namespace NeuralNetwork.BLL.Interfaces
 {
-    public interface INeuralNetworkService
+    public interface INeuralNetworkService<out T> where T : NeuralNetworkAbstract
     {
         float[] QueryNetwork(float[] inputs, Guid networkId);
 
@@ -11,5 +12,7 @@ namespace NeuralNetwork.BLL.Interfaces
         void TrainNetwork(float[] inputs, float[] targets, Guid networkId);
 
         void TrainAll(float[] inputs, float[] targets);
+
+        T GetNeuralNetworkInstance(Guid id);
     }
 }

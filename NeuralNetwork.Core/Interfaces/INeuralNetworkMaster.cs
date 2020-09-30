@@ -2,9 +2,9 @@
 
 namespace NeuralNetwork.Core.Interfaces
 {
-    public interface INeuralNetworkMaster : IDisposable
+    public interface INeuralNetworkMaster<T> : IDisposable where T : NeuralNetworkAbstract
     {
-        INeuralNetworksStorage NetworksStorage { get; set; }
+        INeuralNetworksStorage<T> NetworksStorage { get; set; }
 
         float[] QueryNetwork(float[] inputs, Guid networkId);
 

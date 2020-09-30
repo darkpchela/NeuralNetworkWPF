@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork.Core
 {
-    public class NeuralNetworksStorage : INeuralNetworksStorage
+    public class NamedNeuralNetworksStorage : INeuralNetworksStorage<NamedNeuralNetwork>
     {
-        public Dictionary<Guid, INamedNeuralNetwork> NeuralNetworkInstanses { get; }
+        public Dictionary<Guid, NamedNeuralNetwork> NeuralNetworkInstanses { get; }
 
-        public NeuralNetworksStorage()
+        public NamedNeuralNetworksStorage()
         {
-            NeuralNetworkInstanses = new Dictionary<Guid, INamedNeuralNetwork>();
+            NeuralNetworkInstanses = new Dictionary<Guid, NamedNeuralNetwork>();
         }
 
         #region Disposable
@@ -38,7 +38,7 @@ namespace NeuralNetwork.Core
             }
         }
 
-        ~NeuralNetworksStorage()
+        ~NamedNeuralNetworksStorage()
         {
             Dispose(false);
         }

@@ -1,25 +1,14 @@
 ﻿using NeuralNetwork.Core.Etc;
-using NeuralNetwork.Core.Etc;
-using NeuralNetwork.Core.Interfaces;
 using NeuralNetwork.Core.Structs;
 using System;
 
 namespace NeuralNetwork.Core
 {
-    public class NeuralNetworkBase : INeuralNetwork
+    public class NeuralNetworkDefault : NeuralNetworkAbstract
     {
-        public Func<float, float> ActivationFunc { get; set; }
-
-        public int[] Layers { get; set; }
-
-        public Matrix2D[] Weigths { get; set; }
-
-        public float LearningRate { get; set; }
-
-
         private Matrix2D[] _QueryHiddenOutputs;
 
-        public NeuralNetworkBase(int[] layers, Func<float, float> activationFunc, float learningRate = 0.05f)
+        public NeuralNetworkDefault(int[] layers, Func<float, float> activationFunc, float learningRate = 0.05f)
 
         {
             this.Layers = layers;
@@ -28,22 +17,10 @@ namespace NeuralNetwork.Core
             this.LearningRate = learningRate;
             this._QueryHiddenOutputs = new Matrix2D[Layers.Length];
 
-            InitStartWeiths();
-        }
-       
-        public NeuralNetworkBase(NeuralNetworkData nrlNetData)
-        {
-            this.Layers = nrlNetData.Layers;
-            this.Weigths = nrlNetData.Weights;
-            if (FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))
-                this.ActivationFunc = activationFunc;
-            else
-                this.ActivationFunc = MathFuncs.Sigmoid;
+            InitStartWeigths();
         }
 
-        public NeuralNetworkBase(Matrix2D[] weigths, float learningRate = 0.05f) : this(weigths, MathFuncs.Sigmoid, learningRate) { }
-    
-        public NeuralNetworkBase(Matrix2D[] weights, Func<float, float> activationFunc, float learningRate = 0.05f)
+        public NeuralNetworkDefault(Matrix2D[] weights, Func<float, float> activationFunc, float learningRate = 0.05f)
         {
             this.ActivationFunc = activationFunc;
             this.Weigths = weights;
@@ -60,11 +37,23 @@ namespace NeuralNetwork.Core
                 else
                     i += 2;
             }
-
         }
 
+        public NeuralNetworkDefault(Matrix2D[] weigths, float learningRate = 0.05f) : this(weigths, MathFuncs.Sigmoid, learningRate)
+        {
+        }
 
-        public void Train(float[] inputValues, float[] targetValues)
+        public NeuralNetworkDefault(NeuralNetworkData nrlNetData)
+        {
+            Layers = nrlNetData.Layers;
+            Weigths = nrlNetData.Weights;
+            if (FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))
+                this.ActivationFunc = activationFunc;
+            else
+                this.ActivationFunc = MathFuncs.Sigmoid;
+        }
+
+        public override void Train(float[] inputValues, float[] targetValues)
         {
             var targetMatrix = inputValues.ToMatrix2D().Transpose();
             var outputMatrix = Query(inputValues).ToMatrix2D().Transpose();
@@ -80,7 +69,7 @@ namespace NeuralNetwork.Core
             }
         }
 
-        public float[] Query(float[] inputValues)
+        public override float[] Query(float[] inputValues)
         {
             if (inputValues.Length != Layers[0])
                 throw new ArithmeticException("Invalid inputs count");
@@ -101,7 +90,7 @@ namespace NeuralNetwork.Core
             return outputs;
         }
 
-        protected virtual void InitStartWeiths()
+        protected override void InitStartWeigths()
         {
             Random rnd = new Random();
 
@@ -121,30 +110,5 @@ namespace NeuralNetwork.Core
                 this.Weigths[i] = CurrentLayerWeiths;
             }
         }
-
-        #region Disposable
-
-        private bool disposed = false;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                disposed = true;
-            }
-        }
-
-        ~NeuralNetworkBase()
-        {
-            Dispose(false);
-        }
-
-        #endregion Disposable
     }
 }

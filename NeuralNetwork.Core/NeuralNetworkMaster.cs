@@ -3,16 +3,16 @@ using System;
 
 namespace NeuralNetwork.Core
 {
-    public class NeuralNetworkMaster : INeuralNetworkMaster
+    public class NeuralNetworkMaster : INeuralNetworkMaster<NamedNeuralNetwork>
     {
-        public INeuralNetworksStorage NetworksStorage { get; set; }
+        public INeuralNetworksStorage<NamedNeuralNetwork> NetworksStorage { get; set; }
 
         public NeuralNetworkMaster()
         {
-            NetworksStorage = new NeuralNetworksStorage();
+            NetworksStorage = new NamedNeuralNetworksStorage();
         }
 
-        public NeuralNetworkMaster(INeuralNetworksStorage neuralNetworksStorage)
+        public NeuralNetworkMaster(INeuralNetworksStorage<NamedNeuralNetwork> neuralNetworksStorage)
         {
             this.NetworksStorage = neuralNetworksStorage;
         }

@@ -3,7 +3,7 @@ using System;
 
 namespace NeuralNetwork.Core
 {
-    public class NamedNeuralNetwork : NeuralNetworkBase, INamedNeuralNetwork
+    public class NamedNeuralNetwork : NeuralNetworkDefault, INamedNeuralNetwork
     {
         public string Name { get; set; }
 

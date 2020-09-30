@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork.Core.Interfaces
 {
-    public interface INeuralNetworksStorage : IDisposable
+    public interface INeuralNetworksStorage<T> : IDisposable where T : NeuralNetworkAbstract 
     {
-        Dictionary<Guid, INamedNeuralNetwork> NeuralNetworkInstanses { get; }
+        Dictionary<Guid, T> NeuralNetworkInstanses { get; }
     }
 }

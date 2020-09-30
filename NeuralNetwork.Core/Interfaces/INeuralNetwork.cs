@@ -17,4 +17,4 @@ namespace NeuralNetwork.Core.Interfaces
 
         float[] Query(float[] inputValues);
     }
-}
+} 

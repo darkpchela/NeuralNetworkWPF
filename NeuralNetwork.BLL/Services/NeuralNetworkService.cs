@@ -1,14 +1,20 @@
 ﻿using NeuralNetwork.BLL.Interfaces;
+using NeuralNetwork.Core;
 using NeuralNetwork.Core.Interfaces;
 using System;
 
 namespace NeuralNetwork.BLL.Services
 {
-    public class NeuralNetworkService : INeuralNetworkService
+    public class NeuralNetworkService : INamedNeuralNetworkService
     {
-        private INeuralNetworkMaster NeuralNetworkMaster { get; set; }
+        private INeuralNetworkMaster<NamedNeuralNetwork> NeuralNetworkMaster { get; set; }
 
-        public NeuralNetworkService(INeuralNetworkMaster neuralNetworkMaster)
+        public NeuralNetworkService()
+        {
+            NeuralNetworkMaster = new NeuralNetworkMaster();
+        }
+
+        public NeuralNetworkService(INeuralNetworkMaster<NamedNeuralNetwork> neuralNetworkMaster)
         {
             this.NeuralNetworkMaster = neuralNetworkMaster;
         }
@@ -31,6 +37,11 @@ namespace NeuralNetwork.BLL.Services
         public void TrainAll(float[] inputs, float[] targets)
         {
             NeuralNetworkMaster.TrainAll(inputs, targets);
+        }
+
+        public NamedNeuralNetwork GetNeuralNetworkInstance(Guid id)
+        {
+            return NeuralNetworkMaster.NetworksStorage.NeuralNetworkInstanses[id];
         }
     }
 }

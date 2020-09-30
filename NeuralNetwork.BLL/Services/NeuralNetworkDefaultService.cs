@@ -41,7 +41,7 @@ namespace NeuralNetwork.BLL.Services
 
         public NeuralNetworkDefault GetNNetworkInstance(Guid id)
         {
-            return NeuralNetworkMaster.NetworksStorage.NeuralNetworkInstanses[id];
+            return NeuralNetworkMaster.NetworksStorage.GetInstance(id);
         }
     }
 }

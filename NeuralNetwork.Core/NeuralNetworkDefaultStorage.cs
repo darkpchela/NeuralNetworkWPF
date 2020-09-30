@@ -6,11 +6,36 @@ namespace NeuralNetwork.Core
 {
     public class NeuralNetworksDefaultStorage : INeuralNetworksStorage<NeuralNetworkDefault>
     {
-        public Dictionary<Guid, NeuralNetworkDefault> NeuralNetworkInstanses { get; set; }
+        private Dictionary<Guid, NeuralNetworkDefault> _instances { get; set; }
 
         public NeuralNetworksDefaultStorage()
         {
-            NeuralNetworkInstanses = new Dictionary<Guid, NeuralNetworkDefault>();
+            _instances = new Dictionary<Guid, NeuralNetworkDefault>();
+        }
+
+        public IEnumerable<Guid> GetIds()
+        {
+            return _instances.Keys;
+        }
+
+        public NeuralNetworkDefault GetInstance(Guid id)
+        {
+            return _instances[id];
+        }
+
+        public IEnumerable<NeuralNetworkDefault> GetAllInstances()
+        {
+            return _instances.Values;
+        }
+
+        public void RemoveInstance(Guid id)
+        {
+            _instances.Remove(id);
+        }
+
+        public void AddInstance(NeuralNetworkDefault neuralNetworkInstance)
+        {
+            _instances.Add(neuralNetworkInstance.Id, neuralNetworkInstance);
         }
 
         #region Disposable

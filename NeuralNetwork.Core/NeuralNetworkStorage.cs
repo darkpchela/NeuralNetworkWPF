@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork.Core
 {
-    public class NeuralNetworksStorageTemp : INeuralNetworksStorage
+    public class NeuralNetworksStorage : INeuralNetworksStorage
     {
         public Dictionary<Guid, INamedNeuralNetwork> NeuralNetworkInstanses { get; }
 
-        public NeuralNetworksStorageTemp()
+        public NeuralNetworksStorage()
         {
             NeuralNetworkInstanses = new Dictionary<Guid, INamedNeuralNetwork>();
         }
@@ -38,7 +38,7 @@ namespace NeuralNetwork.Core
             }
         }
 
-        ~NeuralNetworksStorageTemp()
+        ~NeuralNetworksStorage()
         {
             Dispose(false);
         }

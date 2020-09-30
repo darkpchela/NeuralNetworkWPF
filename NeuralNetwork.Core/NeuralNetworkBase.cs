@@ -1,5 +1,5 @@
 ﻿using NeuralNetwork.Core.Etc;
-using NeuralNetwork.Core.Extensions;
+using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Core.Interfaces;
 using NeuralNetwork.Core.Structs;
 using System;
@@ -30,6 +30,7 @@ namespace NeuralNetwork.Core
 
             InitStartWeiths();
         }
+       
         public NeuralNetworkBase(NeuralNetworkData nrlNetData)
         {
             this.Layers = nrlNetData.Layers;

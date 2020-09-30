@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.Core.Extensions
+namespace NeuralNetwork.Core.Etc
 {
     public static class MathFuncs
     {

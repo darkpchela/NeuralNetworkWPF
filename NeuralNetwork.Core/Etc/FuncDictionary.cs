@@ -1,4 +1,4 @@
-﻿using NeuralNetwork.Core.Extensions;
+﻿using NeuralNetwork.Core.Etc;
 using System;
 using System.Collections.Generic;
 using System.Linq;

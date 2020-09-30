@@ -7,14 +7,14 @@ namespace NeuralNetwork.Core
     {
         public INeuralNetworksStorage NetworksStorage { get; set; }
 
+        public NeuralNetworkMaster()
+        {
+            NetworksStorage = new NeuralNetworksStorage();
+        }
+
         public NeuralNetworkMaster(INeuralNetworksStorage neuralNetworksStorage)
         {
             this.NetworksStorage = neuralNetworksStorage;
-        }
-
-        public float[] QueryNetwork(float[] inputs, string networkName)
-        {
-            throw new NotImplementedException();
         }
 
         public float[] QueryNetwork(float[] inputs, Guid networkId)
@@ -33,19 +33,43 @@ namespace NeuralNetwork.Core
             throw new NotImplementedException();
         }
 
-        public void TrainNetwork(float[] inputs, float[] targets, string networkName)
-        {
-            throw new NotImplementedException();
-        }
-
         public void TrainNetwork(float[] inputs, float[] targets, Guid networkId)
         {
             throw new NotImplementedException();
         }
 
-        public void TrainAll(float[] inputs, float[] targets, Guid networkId)
+        public void TrainAll(float[] inputs, float[] targets)
         {
             throw new NotImplementedException();
         }
+
+        #region Disposable
+
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    NetworksStorage.Dispose();
+                }
+                disposed = true;
+            }
+        }
+
+        ~NeuralNetworkMaster()
+        {
+            Dispose(false);
+        }
+
+        #endregion Disposable
     }
 }

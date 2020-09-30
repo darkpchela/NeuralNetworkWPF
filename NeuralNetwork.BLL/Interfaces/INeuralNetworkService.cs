@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace NeuralNetwork.Core.Interfaces
+namespace NeuralNetwork.BLL.Interfaces
 {
-    public interface INeuralNetworkMaster : IDisposable
+    public interface INeuralNetworkService
     {
-        INeuralNetworksStorage NetworksStorage { get; set; }
-
         float[] QueryNetwork(float[] inputs, Guid networkId);
 
         float[][] QueryAll(float[] inputs);

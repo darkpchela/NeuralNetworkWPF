@@ -12,11 +12,20 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.ViewModels
 {
-    internal class MainWindowVM : INotifyPropertyChanged
+    public class MainWindowVM : INotifyPropertyChanged
     {
-        private INeuralNetworkDefaultService _networkMaster;
         private IFileDialogService _dialogService;
+        private NeuralNetworkVM _networkVM;
         private RelayCommand _openFile;
+
+        public NeuralNetworkVM networkVM
+        {
+            get
+            {
+                return _networkVM ?? (_networkVM = new NeuralNetworkVM());
+            }
+        }
+
         public RelayCommand OpenFile
         {
             get
@@ -38,16 +47,17 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        public MainWindowVM(IFileDialogService dialogService, INeuralNetworkDefaultService neuralNetworkService)
-        {
-            _dialogService = dialogService;
-            _networkMaster = neuralNetworkService;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+        public MainWindowVM(IFileDialogService dialogService)
+        {
+            _dialogService = dialogService;
+        }
+
     }
 }

@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.ViewModels
 {
-    class NeuralNetworkVM
+    public class NeuralNetworkVM
     {
-        internal string CurrentFolder { get; set; }
+        public string CurrentFolder { get; set; }
+        public Guid CurrentNrlNetId { get; set; }
+        public float[] CurrentInputs { get; set; }
+        public float[] CurrentOutputs { get; set; }
+        public string CurrentTrainFile { get; set; }
+
     }
 }

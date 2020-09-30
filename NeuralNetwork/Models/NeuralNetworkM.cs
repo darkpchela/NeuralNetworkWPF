@@ -8,10 +8,17 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.Models
 {
-    internal class NeuralNetworkM
+    public class NeuralNetworkM
     {
         private INeuralNetworkDefaultService _neuralNetworkService;
         private IFileService _fileService;
+        
+        public string CurrentFolder { get; private set; }
 
+        public NeuralNetworkM(INeuralNetworkDefaultService neuralNetworkDefaultService, IFileService fileService)
+        {
+            _neuralNetworkService = neuralNetworkDefaultService;
+            _fileService = fileService;
+        }
     }
 }

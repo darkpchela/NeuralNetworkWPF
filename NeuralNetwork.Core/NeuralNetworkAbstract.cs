@@ -6,6 +6,8 @@ namespace NeuralNetwork.Core
 {
     public abstract class NeuralNetworkAbstract : INeuralNetwork, IDisposable
     {
+        public Guid Id { get; protected set; }
+
         public Func<float, float> ActivationFunc { get; set; }
 
         public int[] Layers { get; set; }

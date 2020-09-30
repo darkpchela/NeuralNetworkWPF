@@ -11,6 +11,7 @@ namespace NeuralNetwork.Core
         public NeuralNetworkDefault(int[] layers, Func<float, float> activationFunc, float learningRate = 0.05f)
 
         {
+            this.Id = new Guid();
             this.Layers = layers;
             this.Weigths = new Matrix2D[Layers.Length];
             this.ActivationFunc = activationFunc;

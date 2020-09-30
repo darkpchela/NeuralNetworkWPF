@@ -10,7 +10,7 @@ namespace NeuralNetwork.Models
 {
     internal class NeuralNetworkM
     {
-        private INamedNeuralNetworkService _neuralNetworkService;
+        private INeuralNetworkDefaultService _neuralNetworkService;
         private IFileService _fileService;
 
     }

@@ -2,11 +2,10 @@
 
 namespace NeuralNetwork.Core.Interfaces
 {
-    public interface INeuralNetworkFactory
+    public interface INeuralNetworkFactory<out T1, T2> where T1 : NeuralNetworkAbstract
     {
-        INamedNeuralNetwork GetNewInstance(int[] layers, Func<float, float> activationFunc, float learningRate = 0.5f,
-            string name = null);
+        T1 GetNewInstance(int[] layers, Func<float, float> activationFunc, float learningRate = 0.5f);
 
-        INamedNeuralNetwork LoadInstance(NamedNeuralNetworkData nrlNetData);
+        T1 LoadInstance(T2 nrlNetData);
     }
 }

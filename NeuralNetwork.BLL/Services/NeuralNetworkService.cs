@@ -5,16 +5,16 @@ using System;
 
 namespace NeuralNetwork.BLL.Services
 {
-    public class NeuralNetworkService : INamedNeuralNetworkService
+    public class NeuralNetworkService : INeuralNetworkDefaultService
     {
-        private INeuralNetworkMaster<NamedNeuralNetwork> NeuralNetworkMaster { get; set; }
+        private INeuralNetworkMaster<NeuralNetworkDefault> NeuralNetworkMaster { get; set; }
 
         public NeuralNetworkService()
         {
-            NeuralNetworkMaster = new NeuralNetworkMaster();
+            NeuralNetworkMaster = new NeuralNetworkDefaultMaster();
         }
 
-        public NeuralNetworkService(INeuralNetworkMaster<NamedNeuralNetwork> neuralNetworkMaster)
+        public NeuralNetworkService(INeuralNetworkMaster<NeuralNetworkDefault> neuralNetworkMaster)
         {
             this.NeuralNetworkMaster = neuralNetworkMaster;
         }
@@ -39,7 +39,7 @@ namespace NeuralNetwork.BLL.Services
             NeuralNetworkMaster.TrainAll(inputs, targets);
         }
 
-        public NamedNeuralNetwork GetNeuralNetworkInstance(Guid id)
+        public NeuralNetworkDefault GetNeuralNetworkInstance(Guid id)
         {
             return NeuralNetworkMaster.NetworksStorage.NeuralNetworkInstanses[id];
         }

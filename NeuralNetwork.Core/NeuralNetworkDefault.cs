@@ -44,7 +44,7 @@ namespace NeuralNetwork.Core
         {
         }
 
-        public NeuralNetworkDefault(NeuralNetworkData nrlNetData)
+        public NeuralNetworkDefault(NeuralNetworkDefaultData nrlNetData)
         {
             Layers = nrlNetData.Layers;
             Weigths = nrlNetData.Weights;

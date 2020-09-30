@@ -1,10 +1,9 @@
-﻿using NeuralNetwork.Core.Interfaces;
-using NeuralNetwork.Core.Structs;
+﻿using NeuralNetwork.Core.Structs;
 using System;
 
 namespace NeuralNetwork.Core
 {
-    public abstract class NeuralNetworkAbstract : INeuralNetwork, IDisposable
+    public abstract class NeuralNetworkAbstract : IDisposable
     {
         public Guid Id { get; protected set; }
 

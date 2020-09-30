@@ -5,6 +5,6 @@ namespace NeuralNetwork.Core.Interfaces
 {
     public interface INeuralNetworksStorage<T> : IDisposable where T : NeuralNetworkAbstract 
     {
-        Dictionary<Guid, T> NeuralNetworkInstanses { get; }
+        Dictionary<Guid, T> NeuralNetworkInstanses { get; set; }
     }
 }

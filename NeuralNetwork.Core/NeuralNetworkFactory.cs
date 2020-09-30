@@ -3,17 +3,16 @@ using System;
 
 namespace NeuralNetwork.Core
 {
-    public class NeuralNetworkFactory : INeuralNetworkFactory
+    public class NeuralNetworkDefaultFactory : INeuralNetworkFactory<NeuralNetworkDefault, NeuralNetworkDefaultData>
     {
-        public INamedNeuralNetwork GetNewInstance(int[] layers, Func<float, float> activationFunc, float learningRate = 0.5f,
-            string name = null)
+        public NeuralNetworkDefault GetNewInstance(int[] layers, Func<float, float> activationFunc, float learningRate = 0.5f)
         {
-            return new NamedNeuralNetwork(layers, activationFunc, learningRate, name);
+            return new NeuralNetworkDefault(layers, activationFunc, learningRate);
         }
 
-        public INamedNeuralNetwork LoadInstance(NamedNeuralNetworkData nrlNetData)
+        public NeuralNetworkDefault LoadInstance(NeuralNetworkDefaultData nrlNetData)
         {
-            return new NamedNeuralNetwork(nrlNetData);
+            return new NeuralNetworkDefault(nrlNetData);
         }
     }
 }

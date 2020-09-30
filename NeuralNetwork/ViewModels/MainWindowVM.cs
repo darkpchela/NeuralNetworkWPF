@@ -14,7 +14,7 @@ namespace NeuralNetwork.ViewModels
 {
     internal class MainWindowVM : INotifyPropertyChanged
     {
-        private INamedNeuralNetworkService _networkMaster;
+        private INeuralNetworkDefaultService _networkMaster;
         private IFileDialogService _dialogService;
         private RelayCommand _openFile;
         public RelayCommand OpenFile
@@ -38,7 +38,7 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        public MainWindowVM(IFileDialogService dialogService, INamedNeuralNetworkService neuralNetworkService)
+        public MainWindowVM(IFileDialogService dialogService, INeuralNetworkDefaultService neuralNetworkService)
         {
             _dialogService = dialogService;
             _networkMaster = neuralNetworkService;

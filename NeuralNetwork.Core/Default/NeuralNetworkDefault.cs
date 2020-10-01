@@ -3,7 +3,7 @@ using NeuralNetwork.Core.Extensions;
 using NeuralNetwork.Core.Structs;
 using System;
 
-namespace NeuralNetwork.Core
+namespace NeuralNetwork.Core.Default
 {
     public class NeuralNetworkDefault : NeuralNetworkAbstract
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NeuralNetwork.Core
+namespace NeuralNetwork.Core.Default
 {
     public class NeuralNetworksDefaultStorage : INeuralNetworksStorage<NeuralNetworkDefault>
     {

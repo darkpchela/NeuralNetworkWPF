@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.Model.FileManager.Interfaces
+﻿namespace NeuralNetwork.Services.FileManager.Interfaces
 {
     public interface IObjectSaver<T>
     {

@@ -1,7 +1,7 @@
 ﻿using NeuralNetwork.Core.Interfaces;
 using System;
 
-namespace NeuralNetwork.Core
+namespace NeuralNetwork.Core.Default
 {
     public class NeuralNetworkDefaultMaster : INeuralNetworkMaster<NeuralNetworkDefault>
     {

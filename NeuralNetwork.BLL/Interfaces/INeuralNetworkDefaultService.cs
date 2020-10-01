@@ -1,9 +1,8 @@
-﻿using NeuralNetwork.Core;
+﻿using NeuralNetwork.Core.Default;
 
-namespace NeuralNetwork.Model.Interfaces
+namespace NeuralNetwork.Services.Interfaces
 {
     public interface INeuralNetworkDefaultService : INeuralNetworkService<NeuralNetworkDefault>
     {
-
     }
 }

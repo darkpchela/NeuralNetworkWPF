@@ -1,9 +1,9 @@
-﻿using NeuralNetwork.Model.Interfaces;
-using NeuralNetwork.Model.Services;
+﻿using NeuralNetwork.Services.Interfaces;
+using NeuralNetwork.Services.Services;
 using NeuralNetwork.Infrastructure;
 using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
-using NeuralNetwork.Model.s;
+using NeuralNetwork.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +17,8 @@ namespace NeuralNetwork.ViewModels
     public class MainWindowVM : INotifyPropertyChanged
     {
         private IFileDialogService _dialogService;
-        private NeuralNetworkM _neuralNetworkM;
+        private INeuralNetworkDefaultService _nrlNetService;
+
         private NeuralNetworkVM _networkVM;
         private RelayCommand _openFileCmd;
         private RelayCommand _queryCmd;
@@ -70,7 +71,6 @@ namespace NeuralNetwork.ViewModels
         public MainWindowVM(IFileDialogService dialogService)
         {
             _dialogService = dialogService;
-            _neuralNetworkM = new NeuralNetworkM(new NeuralNetworkDefaultService(), new FileService());
         }
 
     }

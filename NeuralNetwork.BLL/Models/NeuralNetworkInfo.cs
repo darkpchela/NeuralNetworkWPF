@@ -3,7 +3,7 @@ using NeuralNetwork.Core.Extensions;
 using NeuralNetwork.Core.Structs;
 using System;
 
-namespace NeuralNetwork.Model.Models
+namespace NeuralNetwork.Services.Models
 {
     public class NeuralNetworkDataDTO
     {

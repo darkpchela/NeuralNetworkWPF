@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NeuralNetwork.Model.Services
+namespace NeuralNetwork.Services.Services
 {
     public class FileService : IFileService
     {

@@ -1,10 +1,10 @@
-﻿using NeuralNetwork.BLL.DTOModels;
-using NeuralNetwork.BLL.Interfaces;
+﻿using NeuralNetwork.Model.DTOModels;
+using NeuralNetwork.Model.Interfaces;
 using NeuralNetwork.Core;
 using NeuralNetwork.Core.Interfaces;
 using System;
 
-namespace NeuralNetwork.BLL.Services
+namespace NeuralNetwork.Model.Services
 {
     public class NeuralNetworkDefaultService : INeuralNetworkDefaultService
     {

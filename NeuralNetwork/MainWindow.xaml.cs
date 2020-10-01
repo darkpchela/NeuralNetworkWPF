@@ -1,4 +1,4 @@
-﻿using NeuralNetwork.BLL.Services;
+﻿using NeuralNetwork.Model.Services;
 using NeuralNetwork.Infrastructure.Services;
 using NeuralNetwork.ViewModels;
 using System;

@@ -1,8 +1,8 @@
-﻿using NeuralNetwork.BLL.DTOModels;
+﻿using NeuralNetwork.Model.DTOModels;
 using NeuralNetwork.Core;
 using System;
 
-namespace NeuralNetwork.BLL.Interfaces
+namespace NeuralNetwork.Model.Interfaces
 {
     public interface INeuralNetworkService<T> where T : NeuralNetworkAbstract
     {

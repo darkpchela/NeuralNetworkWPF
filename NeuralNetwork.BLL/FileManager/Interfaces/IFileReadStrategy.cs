@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace NeuralNetwork.BLL.FileManager.Interfaces
+namespace NeuralNetwork.Model.FileManager.Interfaces
 {
     public interface IFileReadStrategy<T>
     {

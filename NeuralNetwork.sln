@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuralNetwork.Core", "NeuralNetwork.Core\NeuralNetwork.Core.csproj", "{552B0AC6-CC52-474F-BC09-79B1FF9D1D26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.BLL", "NeuralNetwork.BLL\NeuralNetwork.BLL.csproj", "{D48667F0-B604-4942-A8DB-046B158CD0DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuralNetwork.Model", "NeuralNetwork.BLL\NeuralNetwork.Model.csproj", "{D48667F0-B604-4942-A8DB-046B158CD0DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

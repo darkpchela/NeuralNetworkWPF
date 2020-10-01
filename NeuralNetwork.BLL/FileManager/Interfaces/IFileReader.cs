@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.BLL.FileManager.Interfaces
+﻿namespace NeuralNetwork.Model.FileManager.Interfaces
 {
     public interface IFileReader<T>
     {

@@ -72,7 +72,6 @@
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
-    <Compile Include="Models\NeuralNetworkM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\NeuralNetworkVM.cs" />
     <Page Include="MainWindow.xaml">
@@ -119,9 +118,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\NeuralNetwork.BLL\NeuralNetwork.BLL.csproj">
+    <ProjectReference Include="..\NeuralNetwork.BLL\NeuralNetwork.Model.csproj">
       <Project>{D48667F0-B604-4942-A8DB-046B158CD0DE}</Project>
-      <Name>NeuralNetwork.BLL</Name>
+      <Name>NeuralNetwork.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuralNetwork.Core\NeuralNetwork.Core.csproj">
+      <Project>{552B0AC6-CC52-474F-BC09-79B1FF9D1D26}</Project>
+      <Name>NeuralNetwork.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

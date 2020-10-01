@@ -1,9 +1,9 @@
-﻿using NeuralNetwork.BLL.Interfaces;
-using NeuralNetwork.BLL.Services;
+﻿using NeuralNetwork.Model.Interfaces;
+using NeuralNetwork.Model.Services;
 using NeuralNetwork.Infrastructure;
 using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
-using NeuralNetwork.Models;
+using NeuralNetwork.Model.s;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

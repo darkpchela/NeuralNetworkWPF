@@ -1,6 +1,6 @@
 ﻿using NeuralNetwork.Core;
 
-namespace NeuralNetwork.BLL.Interfaces
+namespace NeuralNetwork.Model.Interfaces
 {
     public interface INeuralNetworkDefaultService : INeuralNetworkService<NeuralNetworkDefault>
     {

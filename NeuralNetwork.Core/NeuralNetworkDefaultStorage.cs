@@ -8,7 +8,15 @@ namespace NeuralNetwork.Core
     {
         private Dictionary<Guid, NeuralNetworkDefault> _instances;
 
-        public NeuralNetworkStorageConstraints NeuralNetworkStorageConstraints { get; }
+        public NeuralNetworkStorageConstraints StorageConstraints { get; private set; }
+
+        public int Count
+        {
+            get
+            {
+                return _instances.Count;
+            }
+        }
 
         public NeuralNetworksDefaultStorage()
         {
@@ -35,9 +43,17 @@ namespace NeuralNetwork.Core
             _instances.Remove(id);
         }
 
-        public void AddInstance(NeuralNetworkDefault neuralNetworkInstance)
+        public void AddInstance(NeuralNetworkDefault nNetworkInstance)
         {
-            _instances.Add(neuralNetworkInstance.Id, neuralNetworkInstance);
+            int currentInputsCounts = nNetworkInstance.Layers[0];
+            int currentOutputsCount = nNetworkInstance.Layers[nNetworkInstance.Layers.Length - 1];
+
+            if (_instances.Count == 0)
+                StorageConstraints = new NeuralNetworkStorageConstraints(currentInputsCounts, currentOutputsCount);
+            else if (currentInputsCounts != StorageConstraints.InputsCount || currentOutputsCount != StorageConstraints.OutputsCount)
+                throw new ArgumentException("Invalid network properties");
+
+            _instances.Add(nNetworkInstance.Id, nNetworkInstance);
         }
 
         #region Disposable

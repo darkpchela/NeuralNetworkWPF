@@ -5,14 +5,14 @@ namespace NeuralNetwork.Core
 {
     public class NeuralNetworkDefaultFactory : INeuralNetworkFactory<NeuralNetworkDefault, NeuralNetworkDefaultData>
     {
-        public NeuralNetworkDefault CreateNewInstance(int[] layers, Func<float, float> activationFunc, float learningRate = 0.5f)
+        public NeuralNetworkDefault CreateInstance(int[] layers, Func<float, float> activationFunc, float learningRate = 0.5f)
         {
             return new NeuralNetworkDefault(layers, activationFunc, learningRate);
         }
 
-        public NeuralNetworkDefault LoadInstance(NeuralNetworkDefaultData nrlNetData)
+        public NeuralNetworkDefault CreateInstance(NeuralNetworkDefaultData nNetData)
         {
-            return new NeuralNetworkDefault(nrlNetData);
+            return new NeuralNetworkDefault(nNetData);
         }
     }
 }

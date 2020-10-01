@@ -1,4 +1,5 @@
 ﻿using NeuralNetwork.Core.Etc;
+using NeuralNetwork.Core.Extensions;
 using NeuralNetwork.Core.Structs;
 using System;
 
@@ -9,20 +10,18 @@ namespace NeuralNetwork.Core
         private Matrix2D[] _QueryHiddenOutputs;
 
         public NeuralNetworkDefault(int[] layers, Func<float, float> activationFunc, float learningRate = 0.05f)
-
         {
             this.Id = new Guid();
             this.Layers = layers;
-            this.Weigths = new Matrix2D[Layers.Length];
             this.ActivationFunc = activationFunc;
             this.LearningRate = learningRate;
+            this.Weigths = GetDefaultWeigths();
             this._QueryHiddenOutputs = new Matrix2D[Layers.Length];
-
-            InitStartWeigths();
         }
 
         public NeuralNetworkDefault(Matrix2D[] weights, Func<float, float> activationFunc, float learningRate = 0.05f)
         {
+            this.Id = new Guid();
             this.ActivationFunc = activationFunc;
             this.Weigths = weights;
             this.LearningRate = learningRate;
@@ -46,9 +45,10 @@ namespace NeuralNetwork.Core
 
         public NeuralNetworkDefault(NeuralNetworkDefaultData nrlNetData)
         {
-            Layers = nrlNetData.Layers;
-            Weigths = nrlNetData.Weights;
-            if (FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))
+            this.Id = nrlNetData.Id ?? new Guid();
+            this.Layers = nrlNetData.Layers;
+            this.Weigths = nrlNetData.Weights ?? GetDefaultWeigths();
+            if (!string.IsNullOrEmpty(nrlNetData.ActivationFuncName) && FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))
                 this.ActivationFunc = activationFunc;
             else
                 this.ActivationFunc = MathFuncs.Sigmoid;
@@ -91,8 +91,10 @@ namespace NeuralNetwork.Core
             return outputs;
         }
 
-        protected override void InitStartWeigths()
+        protected override Matrix2D[] GetDefaultWeigths()
         {
+            Matrix2D[] weigths = new Matrix2D[Layers.Length - 1];
+
             Random rnd = new Random();
 
             for (int i = 0; i < Layers.Length - 1; i++)
@@ -108,8 +110,11 @@ namespace NeuralNetwork.Core
                         CurrentLayerWeiths[k, j] = (float)rnd.NextDouble(-diff, diff);
                     }
                 }
-                this.Weigths[i] = CurrentLayerWeiths;
+
+                weigths[i] = CurrentLayerWeiths;
             }
+
+            return weigths;
         }
     }
 }

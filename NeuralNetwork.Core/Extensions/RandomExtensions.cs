@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.Core.Etc
+namespace NeuralNetwork.Core.Extensions
 {
     public static class RandomExtensions
     {

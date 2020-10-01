@@ -5,7 +5,10 @@ namespace NeuralNetwork.Core.Interfaces
 {
     public interface INeuralNetworksStorage<T> : IDisposable where T : NeuralNetworkAbstract
     {
-        NeuralNetworkStorageConstraints NeuralNetworkStorageConstraints { get; }
+        NeuralNetworkStorageConstraints StorageConstraints { get; }
+
+        int Count { get; }
+
         IEnumerable<Guid> GetIds();
 
         T GetInstance(Guid id);

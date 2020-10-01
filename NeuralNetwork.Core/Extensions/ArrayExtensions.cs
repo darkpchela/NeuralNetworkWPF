@@ -1,6 +1,6 @@
 ﻿using NeuralNetwork.Core.Structs;
 
-namespace NeuralNetwork.Core.Etc
+namespace NeuralNetwork.Core.Extensions
 {
     public static class ArrayExtensions
     {

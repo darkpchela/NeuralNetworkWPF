@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.BLL.Interfaces;
+﻿using NeuralNetwork.BLL.DTOModels;
+using NeuralNetwork.BLL.Interfaces;
 using NeuralNetwork.Core;
 using NeuralNetwork.Core.Interfaces;
 using System;
@@ -23,7 +24,15 @@ namespace NeuralNetwork.BLL.Services
             this._nrlNetStorage = neuralNetworksStorage;
         }
 
-        public float[] QueryNetwork(float[] inputs, Guid networkId)
+        public void CreateInstance(NeuralNetworkDataDTO nNetworkData)
+        {
+            var data = nNetworkData.ToNeuralNetworkData<NeuralNetworkDefaultData>();
+            var instance = _nrlNetFactory.CreateInstance(data);
+
+            _nrlNetStorage.AddInstance(instance);
+        }
+
+        public float[] Query(float[] inputs, Guid networkId)
         {
             var network = _nrlNetStorage.GetInstance(networkId);
 
@@ -32,10 +41,20 @@ namespace NeuralNetwork.BLL.Services
 
         public float[][] QueryAll(float[] inputs)
         {
-            throw new NotImplementedException();
+            float[][] outputs = new float[_nrlNetStorage.StorageConstraints.OutputsCount][];
+            var allInstances = _nrlNetStorage.GetAllInstances();
+
+            int index = 0;
+            foreach (var nn in allInstances)
+            {
+                outputs[index] = nn.Query(inputs);
+                index++;
+            }
+
+            return outputs;
         }
 
-        public void TrainNetwork(float[] inputs, float[] targets, Guid networkId)
+        public void Train(float[] inputs, float[] targets, Guid networkId)
         {
             var network = _nrlNetStorage.GetInstance(networkId);
             network.Train(inputs, targets);
@@ -43,13 +62,12 @@ namespace NeuralNetwork.BLL.Services
 
         public void TrainAll(float[] inputs, float[] targets)
         {
-            throw new NotImplementedException();
-        }
+            var allInstances = _nrlNetStorage.GetAllInstances();
 
-        public NeuralNetworkDefault GetNNetworkInstance(Guid id)
-        {
-            return _nrlNetStorage.GetInstance(id);
+            foreach (var nn in allInstances)
+            {
+                nn.Train(inputs, targets);
+            }
         }
-
     }
 }

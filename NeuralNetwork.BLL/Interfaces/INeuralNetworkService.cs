@@ -1,18 +1,19 @@
-﻿using NeuralNetwork.Core;
+﻿using NeuralNetwork.BLL.DTOModels;
+using NeuralNetwork.Core;
 using System;
 
 namespace NeuralNetwork.BLL.Interfaces
 {
-    public interface INeuralNetworkService<out T> where T : NeuralNetworkAbstract
+    public interface INeuralNetworkService<T> where T : NeuralNetworkAbstract
     {
-        float[] QueryNetwork(float[] inputs, Guid networkId);
+        float[] Query(float[] inputs, Guid networkId);
 
         float[][] QueryAll(float[] inputs);
 
-        void TrainNetwork(float[] inputs, float[] targets, Guid networkId);
+        void Train(float[] inputs, float[] targets, Guid networkId);
 
         void TrainAll(float[] inputs, float[] targets);
 
-        T GetNNetworkInstance(Guid id);
+        void CreateInstance(NeuralNetworkDataDTO nNetworkData);
     }
 }

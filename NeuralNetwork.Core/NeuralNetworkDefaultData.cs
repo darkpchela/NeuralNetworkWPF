@@ -1,9 +1,12 @@
 ﻿using NeuralNetwork.Core.Etc;
+using NeuralNetwork.Core.Extensions;
 
 namespace NeuralNetwork.Core
 {
     public class NeuralNetworkDefaultData : NeuralNetworkAbstractData
     {
+        public NeuralNetworkDefaultData() { }
+
         public NeuralNetworkDefaultData(NeuralNetworkDefault nrlNet)
         {
             this.Id = nrlNet.Id;

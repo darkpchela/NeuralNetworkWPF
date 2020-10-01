@@ -19,7 +19,7 @@ namespace NeuralNetwork.Core
 
         abstract public float[] Query(float[] inputValues);
 
-        abstract protected void InitStartWeigths();
+        abstract protected Matrix2D[] GetDefaultWeigths();
 
         #region Disposable
 

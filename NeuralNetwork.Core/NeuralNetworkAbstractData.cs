@@ -9,5 +9,6 @@ namespace NeuralNetwork.Core
         public string ActivationFuncName { get; set; }
         public int[] Layers { get; set; }
         public Matrix2D[] Weights { get; set; }
+        public float LearningRate { get; set; }
     }
 }

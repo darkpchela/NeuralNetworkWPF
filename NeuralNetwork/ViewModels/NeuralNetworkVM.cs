@@ -1,5 +1,6 @@
 ﻿using NeuralNetwork.Infrastructure;
 using NeuralNetwork.Model;
+using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,41 @@ namespace NeuralNetwork.ViewModels
     public class NeuralNetworkVM
     {
         private NeuralNetworkWorkshopModel _nrlNetWorkshopModel;
-        private RelayCommand _query;
 
         public string CurrentFolder { get; set; }
 
-        public Guid CurrentNrlNetId { get; set; }
+        private string _currentNrlNetId;
+        public string CurrentNrlNetId 
+        {
+            get 
+            {
+                return string.IsNullOrEmpty(_currentNrlNetId) ? "No selected NeuralNetwork" : _currentNrlNetId;
+            }
+            set
+            {
+                _currentNrlNetId = value;
+            }
+        }
 
-        public List<float> CurrentInputs { get; set; } = new List<float> { 0.4f , 0.5f, 0.6f };
+        public List<float> CurrentInputs { get; set; } = new List<float> { 0.0f , 0.0f, 0.0f };
 
-        public List<float> CurrentOutputs { get; set; } = new List<float>();
+        public List<float> CurrentOutputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
 
         public string CurrentTrainFile { get; set; }
 
+        private RelayCommand _create;
+        public RelayCommand Create
+        {
+            get
+            {
+                return _create ?? new RelayCommand(obj=> 
+                { 
+
+                });
+            }
+        }
+
+        private RelayCommand _query;
         public RelayCommand Query
         {
             get

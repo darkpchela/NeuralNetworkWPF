@@ -1,5 +1,4 @@
-﻿using NeuralNetwork.Services.Services;
-using NeuralNetwork.Infrastructure.Services;
+﻿using NeuralNetwork.Infrastructure.Services;
 using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;

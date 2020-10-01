@@ -3,13 +3,16 @@ using System;
 
 namespace NeuralNetwork.Core.Default
 {
-    public class NeuralNetworkDefaultMaster : INeuralNetworkMaster<NeuralNetworkDefault>
+    public class NeuralNetworkDefaultMaster : INeuralNetworkMaster<NeuralNetworkDefault, NeuralNetworkDefaultData>
     {
         public INeuralNetworksStorage<NeuralNetworkDefault> NetworksStorage { get; set; }
+
+        public INeuralNetworkFactory<NeuralNetworkDefault, NeuralNetworkDefaultData> NeuralNetworkFactory { get; set; }
 
         public NeuralNetworkDefaultMaster()
         {
             NetworksStorage = new NeuralNetworksDefaultStorage();
+            NeuralNetworkFactory = new NeuralNetworkDefaultFactory();
         }
 
         public NeuralNetworkDefaultMaster(INeuralNetworksStorage<NeuralNetworkDefault> neuralNetworksStorage)
@@ -17,7 +20,7 @@ namespace NeuralNetwork.Core.Default
             this.NetworksStorage = neuralNetworksStorage;
         }
 
-        public float[] QueryNetwork(float[] inputs, Guid networkId)
+        public float[] Query(float[] inputs, Guid networkId)
         {
             var network = NetworksStorage.GetInstance(networkId);
             var outputs = network.Query(inputs);
@@ -25,19 +28,50 @@ namespace NeuralNetwork.Core.Default
             return outputs;
         }
 
-        public float[][] QueryAll(float[] inputs) //need to be rewrited
+        public float[][] QueryAll(float[] inputs)
         {
-            throw new NotImplementedException();
+            float[][] outputs = new float[NetworksStorage.StorageConstraints.OutputsCount][];
+            var allInstances = NetworksStorage.GetAllInstances();
+
+            int index = 0;
+            foreach (var nn in allInstances)
+            {
+                outputs[index] = nn.Query(inputs);
+                index++;
+            }
+
+            return outputs;
         }
 
-        public void TrainNetwork(float[] inputs, float[] targets, Guid networkId)
+        public void Train(float[] inputs, float[] targets, Guid networkId)
         {
-            throw new NotImplementedException();
+            var network = NetworksStorage.GetInstance(networkId);
+            network.Train(inputs, targets);
         }
 
         public void TrainAll(float[] inputs, float[] targets)
         {
-            throw new NotImplementedException();
+            var allInstances = NetworksStorage.GetAllInstances();
+
+            foreach (var nn in allInstances)
+            {
+                nn.Train(inputs, targets);
+            }
+        }
+
+        public void CreateInstance(NeuralNetworkDefaultData nrlNetworkData)
+        {
+            var instance = NeuralNetworkFactory.CreateInstance(nrlNetworkData);
+
+            NetworksStorage.AddInstance(instance);
+        }
+
+        public void CreateRangeOfInstances(NeuralNetworkDefaultData[] nrlNetworkDatas)
+        {
+            for (int i = 0; i < nrlNetworkDatas.Length; i++)
+            {
+                NetworksStorage.AddInstance(NeuralNetworkFactory.CreateInstance(nrlNetworkDatas[i]));
+            }
         }
 
         #region Disposable

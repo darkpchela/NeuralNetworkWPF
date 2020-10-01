@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Services.Interfaces;
+﻿using NeuralNetwork.Core.Default;
+using NeuralNetwork.Services.Interfaces;
 using NeuralNetwork.Services.Services;
 using System;
 
@@ -6,18 +7,18 @@ namespace NeuralNetwork.Model
 {
     public class NeuralNetworkWorkshopModel
     {
-        private INeuralNetworkDefaultService _nrlNetService;
+        private NeuralNetworkDefaultMaster _nrlMaster;
         private IFileService _fileService;
 
         public NeuralNetworkWorkshopModel()
         {
-            _nrlNetService = new NeuralNetworkDefaultService();
+            _nrlMaster = new NeuralNetworkDefaultMaster();
             _fileService = new FileService();
         }
 
         public float[] Query(float[] inputs, Guid networkId)
         {
-            return _nrlNetService.Query(inputs, networkId);
+            return _nrlMaster.Query(inputs, networkId);
         }
     }
 }

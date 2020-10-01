@@ -1,4 +1,5 @@
 ﻿using NeuralNetwork.Infrastructure;
+using NeuralNetwork.Model;
 using NeuralNetwork.Services.Interfaces;
 using NeuralNetwork.Services.Services;
 using System;
@@ -11,7 +12,7 @@ namespace NeuralNetwork.ViewModels
 {
     public class NeuralNetworkVM
     {
-        private INeuralNetworkDefaultService _nrlNetService;
+        private NeuralNetworkWorkshopModel _nrlNetWorkshopModel;
         private RelayCommand _query;
 
         public string CurrentFolder { get; set; }
@@ -30,14 +31,14 @@ namespace NeuralNetwork.ViewModels
             {
                 return _query ?? (_query = new RelayCommand(obj=> 
                 {
-                    var results = _nrlNetService.Query(CurrentInputs.ToArray(), CurrentNrlNetId);
+                    var results = _nrlNetWorkshopModel.Query(CurrentInputs.ToArray(), CurrentNrlNetId);
                 }));
             }
         }
         
         public NeuralNetworkVM()
         {
-            _nrlNetService = new NeuralNetworkDefaultService();
+            _nrlNetWorkshopModel = new NeuralNetworkWorkshopModel();
         }
 
     }

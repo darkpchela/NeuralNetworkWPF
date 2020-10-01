@@ -1,7 +1,5 @@
-﻿using NeuralNetwork.Infrastructure.Interfaces;
+﻿using NeuralNetwork.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NeuralNetwork.Services.Services
 {

@@ -116,11 +116,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\NeuralNetwork.BLL\NeuralNetwork.Services.csproj">
-      <Project>{D48667F0-B604-4942-A8DB-046B158CD0DE}</Project>
-      <Name>NeuralNetwork.Services</Name>
+    <ProjectReference Include="..\NeuralNetwork.Model\NeuralNetwork.Model.csproj">
+      <Project>{e47c8326-37ec-4a93-a07c-5500a929cc04}</Project>
+      <Name>NeuralNetwork.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

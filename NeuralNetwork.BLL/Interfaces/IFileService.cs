@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.Infrastructure.Interfaces
+﻿namespace NeuralNetwork.Services.Interfaces
 {
     public interface IFileService
     {

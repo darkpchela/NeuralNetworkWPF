@@ -20,8 +20,6 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             _fileService = new FileService();
         }
 
-
-
         public string[] GetAllFuncsNames()
         {
             return FuncDictionary.GetAllFuncsNames();

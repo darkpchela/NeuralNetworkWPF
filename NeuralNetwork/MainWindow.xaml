@@ -6,8 +6,14 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="NeuralNetwork" Height="450" Width="800" BorderBrush="Black">
+        Title="NeuralNetwork" Height="450" Width="800" Background="Black">
     <Window.Resources>
+        <Color x:Key="ColorMain">#FF3A3A3A</Color>
+        <Color x:Key="Color1">#FF003F5D</Color>
+        <Color x:Key="Color2">#88FDFDFD</Color>
+        <SolidColorBrush x:Key="InfoBack" Color="{StaticResource Color1}" ></SolidColorBrush>
+        <SolidColorBrush x:Key="DefaultBack" Color="{StaticResource ColorMain}"></SolidColorBrush>
+        <SolidColorBrush x:Key="TextBlockFore" Color="{StaticResource Color2}"></SolidColorBrush>
         <Style TargetType="Menu">
             <Setter Property="ItemsControl.Foreground" Value="AliceBlue"></Setter>
             <Setter Property="ItemsControl.Background" Value="DarkSlateGray"></Setter>
@@ -17,11 +23,6 @@
             <Setter Property="ItemsControl.Background" Value="DarkSlateGray"></Setter>
             <Setter Property="ItemsControl.Foreground" Value="BurlyWood"></Setter>
         </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Background" Value="Beige"></Setter>
-            <Setter Property="ItemsControl.FontSize" Value="15"></Setter>
-            <Setter Property="ItemsControl.HorizontalContentAlignment" Value="Center"></Setter>
-        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -30,84 +31,98 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" DockPanel.Dock="Left" VerticalAlignment="Center">
             <MenuItem Header="File">
-                <MenuItem Header="Open"></MenuItem>
+                <MenuItem Header="Open" Command="{Binding OpenFile}"></MenuItem>
                 <MenuItem Header="Save"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Close"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Options">
-            </MenuItem>
+            <MenuItem Header="Options"></MenuItem>
+            <MenuItem Header="Query" Command="{Binding Path=NetworkVM.Query}"></MenuItem>
+            <MenuItem Header="Create" Command="{Binding Path=NetworkVM.Create}" ></MenuItem>
+            <MenuItem Header="Add layer" Command="{Binding Path=NetworkVM.AddLayer}"></MenuItem>
+            <MenuItem Header="Remove layer" Command="{Binding Path=NetworkVM.RemoveLayer}"></MenuItem>
         </Menu>
-        <Grid Grid.Row="1" Background="#FF3A3A3A">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.25*"></ColumnDefinition>
-                <ColumnDefinition Width="1.2*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Button Command="{Binding OpenFile}">Open</Button>
-                <Button Command="{Binding Path=NetworkVM.Query}">Query</Button>
-                <Button Command="{Binding Path=NetworkVM.Create}" >Create</Button>
-                <Button Command="{Binding Path=NetworkVM.AddLayer}">Add layer</Button>
-                <Button Command="{Binding Path=NetworkVM.RemoveLayer}">Remove layer</Button>
-            </StackPanel>
-            <DockPanel Grid.Column="1">
-                <Grid Grid.Row="0" DataContext="{Binding Path=NetworkVM}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="16pt"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=CurrentNrlNetId}"></TextBlock>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <DockPanel Grid.Column="0">
-                            <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding Funcs}" SelectedItem="{Binding CurrentActivationFunc}"></ComboBox>
-                            <xctk:DoubleUpDown DockPanel.Dock="Top" Value="{Binding LearningRate, Mode=TwoWay}" Increment="0.005" ></xctk:DoubleUpDown>
-                            <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
-                                <ItemsControl Grid.Column="0" ItemsSource="{Binding Layers}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel></StackPanel>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <DataTemplate.Resources>
-                                                <Style TargetType="DockPanel">
-                                                    <Setter Property="Background" Value="Wheat"></Setter>
-                                                </Style>
-                                            </DataTemplate.Resources>
-                                            <DockPanel>
-                                                <TextBlock>Layer #</TextBlock>
-                                                <TextBlock Text="{Binding Path=LayerIndex}"></TextBlock>
-                                                <TextBlock>Neurons Count</TextBlock>
-                                                <xctk:IntegerUpDown Value="{Binding NeuronsCount, Mode=TwoWay}" Minimum="2"></xctk:IntegerUpDown>
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </DockPanel>
-                        <StackPanel Grid.Column="1" DataContext="{Binding Path=CurrentInputs}">
-                            <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[0], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
-                            <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[1], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
-                            <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[2], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="2" DataContext="{Binding Path=CurrentOutputs}">
-                            <TextBlock Text="{Binding Path=[0]}" />
-                            <TextBlock Text="{Binding Path=[1]}" />
-                            <TextBlock Text="{Binding Path=[2]}" />
-                        </StackPanel>
-                    </Grid>
+        <DockPanel Grid.Row="1" Background="{StaticResource DefaultBack}" DataContext="{Binding Path=NetworkVM}">
+            <Border BorderThickness="2" Background="AliceBlue">
+                <StackPanel DockPanel.Dock="Left" MinWidth="280pt" Background="{StaticResource InfoBack}">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{StaticResource InfoBack}"></Setter>
+                            <Setter Property="ItemsControl.FontSize" Value="16"></Setter>
+                            <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                            <Setter Property="Margin" Value="10 0 0 0"></Setter>
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Background" Value="{StaticResource InfoBack}"></Setter>
+                            <Setter Property="ItemsControl.FontSize" Value="14"></Setter>
+                            <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                            <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
+                            <Setter Property="Margin" Value="20 0 0 0"></Setter>
+                            <Setter Property="IsReadOnly" Value="True"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock Text="Current storage ID:"></TextBlock>
+                    <TextBox Text="{Binding Path=CurrentNetworkStorage.Id}" />
+                    <TextBlock Text="Current network ID:"></TextBlock>
+                    <TextBox Text="{Binding Path=CurrentNrlNetId}"></TextBox>
+                    <TextBlock Text="Current network info:" ></TextBlock>
+                    <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                        <TextBlock Text="Layers count:"></TextBlock>
+                        <TextBox Text="{Binding }"></TextBox>
+                        <TextBlock Text="Inputs count:"></TextBlock>
+                        <TextBlock Text="Outputs count:"></TextBlock>
+                        <TextBlock Text="Learning rate:"></TextBlock>
+                        <TextBlock Text="Activation func:"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <DockPanel DockPanel.Dock="Left" Grid.Column="1">
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0">
+                        <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding Funcs}" SelectedItem="{Binding CurrentActivationFunc}"></ComboBox>
+                        <xctk:DoubleUpDown DockPanel.Dock="Top" Value="{Binding LearningRate, Mode=TwoWay}" Increment="0.005" ></xctk:DoubleUpDown>
+                        <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl Grid.Column="0" ItemsSource="{Binding Layers}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DataTemplate.Resources>
+                                            <Style TargetType="DockPanel">
+                                                <Setter Property="Background" Value="Wheat"></Setter>
+                                            </Style>
+                                        </DataTemplate.Resources>
+                                        <DockPanel>
+                                            <TextBlock>Layer #</TextBlock>
+                                            <TextBlock Text="{Binding Path=LayerIndex}"></TextBlock>
+                                            <TextBlock>Neurons Count</TextBlock>
+                                            <xctk:IntegerUpDown Value="{Binding NeuronsCount, Mode=TwoWay}" Minimum="2"></xctk:IntegerUpDown>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+                    <StackPanel Grid.Column="1" DataContext="{Binding Path=CurrentInputs}">
+                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[0], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
+                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[1], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
+                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[2], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" DataContext="{Binding Path=CurrentOutputs}">
+                        <TextBlock Text="{Binding Path=[0]}" />
+                        <TextBlock Text="{Binding Path=[1]}" />
+                        <TextBlock Text="{Binding Path=[2]}" />
+                    </StackPanel>
                 </Grid>
             </DockPanel>
-        </Grid>
+        </DockPanel>
     </Grid>
 </Window>

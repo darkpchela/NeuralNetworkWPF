@@ -5,7 +5,7 @@ namespace NeuralNetwork.ViewModels
 {
     public class NetworkStorageVM
     {
-        public Guid StorageId { get; set; }
+        public Guid Id { get; set; }
 
         public int NetworksCount { get; set; }
 
@@ -13,6 +13,6 @@ namespace NeuralNetwork.ViewModels
 
         public int OutputsCount { get; set; }
 
-        public IEnumerable<NetworkInfoVM> Networks { get; set; }
+        public IEnumerable<NetworkVM> Networks { get; set; }
     }
 }

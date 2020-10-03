@@ -25,6 +25,20 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private NetworkVM _currentNetworkVM;
+        public NetworkVM CurrentNetworkVM
+        {
+            get 
+            {
+                return _currentNetworkVM ?? (_currentNetworkVM = new NetworkVM()); 
+            }
+            set
+            {
+                _currentNetworkVM = value;
+                OnPropertyChanged("CurrentNetworkVM");
+            }
+        }
+
         public NetworkWorkshopVM()
         {
             _nrlNetWorkshopModel = new NeuralNetworkWorkshopModel();
@@ -42,20 +56,6 @@ namespace NeuralNetwork.ViewModels
             {
                 _layers = value;
                 OnPropertyChanged("Items");
-            }
-        }
-
-        private bool _nrlNetSelected;
-        public bool NrlNetSelected
-        {
-            get
-            {
-                return _nrlNetSelected;
-            }
-            set
-            {
-                _nrlNetSelected = value;
-                OnPropertyChanged("NrlNetSelected");
             }
         }
 

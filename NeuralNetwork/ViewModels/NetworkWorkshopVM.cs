@@ -10,7 +10,12 @@ namespace NeuralNetwork.ViewModels
     public class NetworkWorkshopVM : INotifyPropertyChanged
     {
         private NeuralNetworkWorkshopModel _nrlNetWorkshopModel;
+        public NetworkWorkshopVM()
+        {
+            _nrlNetWorkshopModel = new NeuralNetworkWorkshopModel();
+        }
 
+       
         private NetworkStorageVM _currentNetworkStorage;
         public NetworkStorageVM CurrentNetworkStorage
         {
@@ -53,52 +58,6 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        public NetworkWorkshopVM()
-        {
-            _nrlNetWorkshopModel = new NeuralNetworkWorkshopModel();
-        }
-
-        private ObservableCollection<NetworkLayerVM> _layers;
-
-        public ObservableCollection<NetworkLayerVM> Layers
-        {
-            get
-            {
-                return _layers ?? (_layers = new ObservableCollection<NetworkLayerVM>() { });
-            }
-            set
-            {
-                _layers = value;
-                OnPropertyChanged("Items");
-            }
-        }
-
-        private string _activationFuncName;
-        public string ActivationFuncName
-        {
-            get
-            {
-                return _activationFuncName;
-            }
-            set
-            {
-                _activationFuncName = value;
-                OnPropertyChanged("CurrentActivationFunc");
-            }
-        }
-
-        private string _currentNrlNetId;
-        public string CurrentNrlNetId
-        {
-            get
-            {
-                return string.IsNullOrEmpty(_currentNrlNetId) ? "No selected NeuralNetwork" : _currentNrlNetId;
-            }
-            set
-            {
-                _currentNrlNetId = value;
-            }
-        }
 
         private ObservableCollection<string> _funcs;
         public ObservableCollection<string> Funcs

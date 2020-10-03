@@ -1,29 +1,33 @@
 ﻿using NeuralNetwork.Infrastructure;
+using NeuralNetwork.Infrastructure.Commands;
 using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace NeuralNetwork.ViewModels
 {
+
     public class MainWindowVM : INotifyPropertyChanged
     {
         private IFileDialogService _dialogService;
 
-        private NeuralNetworkVM _networkVM;
+        private NetworkWorkshopVM _networkVM;
         private RelayCommand _openFileCmd;
         private RelayCommand _queryCmd;
 
-        public NeuralNetworkVM NetworkVM
+        public NetworkWorkshopVM NetworkVM
         {
             get
             {
-                return _networkVM ?? (_networkVM = new NeuralNetworkVM());
+                return _networkVM ?? (_networkVM = new NetworkWorkshopVM());
             }
         }
 

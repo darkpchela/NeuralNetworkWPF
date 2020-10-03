@@ -72,8 +72,13 @@
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
+    <Compile Include="Model\NeuralNetworkWorkshopModel\NeuralNetworkPrototype.cs" />
+    <Compile Include="Model\NeuralNetworkWorkshopModel\NeuralNetworkWorkshopModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
-    <Compile Include="ViewModels\NeuralNetworkVM.cs" />
+    <Compile Include="ViewModels\NetworkInfoVM.cs" />
+    <Compile Include="ViewModels\NetworkLayerVM.cs" />
+    <Compile Include="ViewModels\NetworkWorkshopVM.cs" />
+    <Compile Include="ViewModels\NetworkStorageVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,7 +88,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\Interfaces\IFileDialogService.cs" />
-    <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Infrastructure\Commands\RelayCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -117,9 +122,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NeuralNetwork.Model\NeuralNetwork.Model.csproj">
-      <Project>{e47c8326-37ec-4a93-a07c-5500a929cc04}</Project>
-      <Name>NeuralNetwork.Model</Name>
+    <ProjectReference Include="..\NeuralNetwork.BLL\NeuralNetwork.Services.csproj">
+      <Project>{d48667f0-b604-4942-a8db-046b158cd0de}</Project>
+      <Name>NeuralNetwork.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuralNetwork.Core\NeuralNetwork.Core.csproj">
+      <Project>{552b0ac6-cc52-474f-bc09-79b1ff9d1d26}</Project>
+      <Name>NeuralNetwork.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,6 +12,11 @@ namespace NeuralNetwork.Core.Etc
             {"SigmoidRev", MathFuncs.SigmoidReverse }
         };
 
+        public static string[] GetAllFuncsNames()
+        {
+            return _FuncName.Keys.ToArray();
+        }
+
         public static bool TryGetFunc(string funcName, out Func<float, float> func)
         {
             return _FuncName.TryGetValue(funcName, out func);

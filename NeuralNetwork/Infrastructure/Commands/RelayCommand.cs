@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace NeuralNetwork.Infrastructure
+namespace NeuralNetwork.Infrastructure.Commands
 {
     public class RelayCommand : ICommand
     {

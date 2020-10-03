@@ -2,6 +2,7 @@
 using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Services.Interfaces;
 using NeuralNetwork.Services.Services;
+using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,25 +20,28 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             _fileService = new FileService();
         }
 
+
+
         public string[] GetAllFuncsNames()
         {
             return FuncDictionary.GetAllFuncsNames();
         }
 
-        public void Create(IEnumerable<int> layers, string activationFuncName, float learningRate)
+        public void Create(IEnumerable<NetworkLayerVM> layers, string activationFuncName, float learningRate)
         {
             var defData = new NeuralNetworkDefaultData();
             defData.ActivationFuncName = activationFuncName;
             defData.LearningRate = learningRate;
-            defData.Layers = layers.ToArray();
+            defData.Layers = layers.Select(l=>l.NeuronsCount).ToArray();
 
             _nrlMaster.CreateInstance(defData);
         }
 
         public float[] Query(float[] inputs, string networkId)
         {
-
             return _nrlMaster.Query(inputs, Guid.Parse(networkId));
         }
+
+
     }
 }

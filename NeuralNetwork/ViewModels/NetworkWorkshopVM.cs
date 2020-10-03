@@ -25,17 +25,31 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkVM _currentNetworkVM;
-        public NetworkVM CurrentNetworkVM
+        private NetworkVM _currentNetwork;
+        public NetworkVM CurrentNetwork
         {
             get 
             {
-                return _currentNetworkVM ?? (_currentNetworkVM = new NetworkVM()); 
+                return _currentNetwork ?? (_currentNetwork = new NetworkVM()); 
             }
             set
             {
-                _currentNetworkVM = value;
+                _currentNetwork = value;
                 OnPropertyChanged("CurrentNetworkVM");
+            }
+        }
+
+        private NetworkVM _networkPrototype;
+        public NetworkVM NetworkPrototye
+        {
+            get
+            {
+                return _networkPrototype ?? (_networkPrototype = new NetworkVM());
+            }
+            set
+            {
+                _networkPrototype = value;
+                OnPropertyChanged("NetworkPrototype");
             }
         }
 
@@ -86,21 +100,6 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private float _learningRate;
-        public float LearningRate
-        {
-            get
-            {
-                return _learningRate;
-            }
-            set
-            {
-                if (value > 0)
-                    _learningRate = value;
-                OnPropertyChanged("LearningRate");
-            }
-        }
-
         private ObservableCollection<string> _funcs;
         public ObservableCollection<string> Funcs
         {
@@ -117,7 +116,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return _create ?? (_create = new RelayCommand(obj =>
                 {
-                    _nrlNetWorkshopModel.Create(_layers, _activationFuncName, _learningRate);
+                    _nrlNetWorkshopModel.Create(NetworkPrototye);
                 }));
             }
         }

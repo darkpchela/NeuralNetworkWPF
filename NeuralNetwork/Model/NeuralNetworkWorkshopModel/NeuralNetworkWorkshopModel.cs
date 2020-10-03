@@ -25,12 +25,12 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             return FuncDictionary.GetAllFuncsNames();
         }
 
-        public void Create(IEnumerable<NetworkLayerVM> layers, string activationFuncName, float learningRate)
+        public void Create(NetworkVM networkPrototype)
         {
             var defData = new NeuralNetworkDefaultData();
-            defData.ActivationFuncName = activationFuncName;
-            defData.LearningRate = learningRate;
-            defData.Layers = layers.Select(l=>l.NeuronsCount).ToArray();
+            defData.ActivationFuncName = networkPrototype.ActivationFuncName;
+            defData.LearningRate = networkPrototype.LearningRate;
+            defData.Layers = networkPrototype.Layers.Select(l=>l.NeuronsCount).ToArray();
 
             _nrlMaster.CreateInstance(defData);
         }

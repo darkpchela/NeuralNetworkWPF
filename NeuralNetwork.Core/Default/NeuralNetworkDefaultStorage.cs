@@ -8,7 +8,15 @@ namespace NeuralNetwork.Core.Default
     {
         private Dictionary<Guid, NeuralNetworkDefault> _instances;
 
+        public Guid Id { get; }
+
         public NeuralNetworkStorageConstraints StorageConstraints { get; private set; }
+
+        public NeuralNetworksDefaultStorage()
+        {
+            _instances = new Dictionary<Guid, NeuralNetworkDefault>();
+            Id = new Guid();
+        }
 
         public int Count
         {
@@ -16,11 +24,6 @@ namespace NeuralNetwork.Core.Default
             {
                 return _instances.Count;
             }
-        }
-
-        public NeuralNetworksDefaultStorage()
-        {
-            _instances = new Dictionary<Guid, NeuralNetworkDefault>();
         }
 
         public IEnumerable<Guid> GetIds()

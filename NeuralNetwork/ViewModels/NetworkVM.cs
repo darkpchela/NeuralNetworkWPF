@@ -88,6 +88,20 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private float _learningRate;
+        public float LearningRate
+        {
+            get
+            {
+                return _learningRate;
+            }
+            set
+            {
+                _learningRate = value;
+                OnPropertyChanged("LearningRate");
+            }
+        }
+
         private List<NetworkLayerVM> _layers;
         public List<NetworkLayerVM> Layers 
         {

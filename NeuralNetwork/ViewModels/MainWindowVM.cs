@@ -19,15 +19,15 @@ namespace NeuralNetwork.ViewModels
     {
         private IFileDialogService _dialogService;
 
-        private NetworkWorkshopVM _networkVM;
+        private NetworkWorkshopVM _networkWorkshop;
         private RelayCommand _openFileCmd;
         private RelayCommand _queryCmd;
 
-        public NetworkWorkshopVM NetworkVM
+        public NetworkWorkshopVM NetworkWorkshop
         {
             get
             {
-                return _networkVM ?? (_networkVM = new NetworkWorkshopVM());
+                return _networkWorkshop ?? (_networkWorkshop = new NetworkWorkshopVM());
             }
         }
 

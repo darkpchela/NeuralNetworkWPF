@@ -9,12 +9,14 @@ using System.Linq;
 
 namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
 {
-    public class NeuralNetworkWorkshopModel
+    public class NetworkWorkshopModel
     {
+        public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
+
         private NeuralNetworkDefaultMaster _nrlMaster;
         private IFileService _fileService;
 
-        public NeuralNetworkWorkshopModel()
+        private NetworkWorkshopModel()
         {
             _nrlMaster = new NeuralNetworkDefaultMaster();
             _fileService = new FileService();

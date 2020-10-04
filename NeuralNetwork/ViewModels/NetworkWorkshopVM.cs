@@ -1,21 +1,92 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
 using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace NeuralNetwork.ViewModels
 {
     public class NetworkWorkshopVM : INotifyPropertyChanged
     {
-        private NeuralNetworkWorkshopModel _nrlNetWorkshopModel;
-        public NetworkWorkshopVM()
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName]string property = "")
         {
-            _nrlNetWorkshopModel = new NeuralNetworkWorkshopModel();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-       
+        private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
+
+        private NetworkRedactorVM _redactorVM;
+        public NetworkRedactorVM RedactorVM
+        {
+            get
+            {
+                return _redactorVM;
+            }
+            set
+            {
+                _redactorVM = value;
+                OnPropertyChanged("RedactorVM");
+            }
+        }
+
+        private bool _storageSelected;
+        public bool StorageSelcted
+        {
+            get
+            {
+                return _storageSelected;
+            }
+            set
+            {
+                _storageSelected = value;
+                OnPropertyChanged("StorageSelected");
+            }
+        }
+
+        private bool _networkSelected;
+        public bool NetworkSelected
+        {
+            get
+            {
+                return _networkSelected;
+            }
+            set
+            {
+                _networkSelected = value;
+                OnPropertyChanged("NetworkSelected");
+            }
+        }
+
+        private ObservableCollection<NetworkStorageVM> _networkStoragesList = new ObservableCollection<NetworkStorageVM>
+        {
+            new NetworkStorageVM{Id = Guid.NewGuid().ToString(), InputsCount = 3, OutputsCount = 4, Networks =
+            new ObservableCollection<NetworkVM>
+            {
+                new NetworkVM{ Id = Guid.NewGuid().ToString(), ActivationFuncName = "Sigmoid", InputsCount = 3, OutputsCount = 4, LayersCount = 4,
+                    LearningRate = 0.25f},
+                                new NetworkVM{ Id = Guid.NewGuid().ToString(), ActivationFuncName = "Sigmoid", InputsCount = 3, OutputsCount = 4, LayersCount = 4,
+                    LearningRate = 0.25f}
+            }
+            },
+            new NetworkStorageVM{Id = Guid.NewGuid().ToString(), InputsCount = 3, OutputsCount = 4, Networks =
+            new ObservableCollection<NetworkVM>
+            {
+                new NetworkVM{ Id = Guid.NewGuid().ToString(), ActivationFuncName = "Sigmoid", InputsCount = 3, OutputsCount = 4, LayersCount = 4,
+                    LearningRate = 0.25f}
+            },
+        }};
+        public ObservableCollection<NetworkStorageVM> NetworkStoragesList
+        {
+            get
+            {
+                return _networkStoragesList ?? (_networkStoragesList = new ObservableCollection<NetworkStorageVM>());
+            }
+        }
+
         private NetworkStorageVM _currentNetworkStorage;
         public NetworkStorageVM CurrentNetworkStorage
         {
@@ -44,90 +115,17 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkVM _networkPrototype;
-        public NetworkVM NetworkPrototye
+        private RelayCommand _selectStorage;
+        public RelayCommand SelectStorage
         {
             get
             {
-                return _networkPrototype ?? (_networkPrototype = new NetworkVM());
-            }
-            set
-            {
-                _networkPrototype = value;
-                OnPropertyChanged("NetworkPrototype");
-            }
-        }
-
-
-        private ObservableCollection<string> _funcs;
-        public ObservableCollection<string> Funcs
-        {
-            get
-            {
-                return _funcs ?? (_funcs = new ObservableCollection<string>(_nrlNetWorkshopModel.GetAllFuncsNames()));
-            }
-        }
-
-        private RelayCommand _create;
-        public RelayCommand Create
-        {
-            get
-            {
-                return _create ?? (_create = new RelayCommand(obj =>
+                return _selectStorage ?? (_selectStorage = new RelayCommand(obj=> 
                 {
-                    _nrlNetWorkshopModel.Create(NetworkPrototye);
+                    MessageBox.Show(obj.ToString());
                 }));
             }
         }
 
-        private RelayCommand _query;
-        public RelayCommand Query
-        {
-            get
-            {
-                return _query ?? (_query = new RelayCommand(obj =>
-                {
-                    var results = _nrlNetWorkshopModel.Query(CurrentInputs.ToArray(), CurrentNrlNetId);
-                }));
-            }
-        }
-
-        private RelayCommand _addLayer;
-        public RelayCommand AddLayer
-        {
-            get
-            {
-                return _addLayer ?? (_addLayer = new RelayCommand(obj =>
-                {
-                    _layers.Add(new NetworkLayerVM { LayerIndex = _layers.Count });
-                    OnPropertyChanged("Items");
-                }));
-            }
-        }
-
-        private RelayCommand _removeLayer;
-        public RelayCommand RemoveLayer
-        {
-            get
-            {
-                return _removeLayer ?? (_removeLayer = new RelayCommand(obj=>
-                {
-                    if (Layers.Count > 0)
-                        Layers.RemoveAt(Layers.Count - 1);
-                }));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName]string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        public List<float> CurrentInputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
-        public List<float> CurrentOutputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
-
-        public string CurrentTrainFile { get; set; }
-        public string CurrentFolder { get; set; }
     }
 }

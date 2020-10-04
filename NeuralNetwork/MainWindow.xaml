@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:NeuralNetwork"
+        xmlns:ui ="clr-namespace:NeuralNetwork.CustomUI"
         mc:Ignorable="d"
         Title="NeuralNetwork" Height="682" Width="1320" Background="Black">
     <Window.Resources>
@@ -44,7 +47,10 @@
             <MenuItem Header="Add layer" Command="{Binding Path=NetworkWorkshop.AddLayer}"></MenuItem>
             <MenuItem Header="Remove layer" Command="{Binding Path=NetworkWorkshop.RemoveLayer}"></MenuItem>
         </Menu>
-        <DockPanel Grid.Row="1" Background="{StaticResource DefaultBack}" DataContext="{Binding NetworkWorkshop}">
+        <DockPanel Grid.Row="1" DataContext="{Binding NetworkWorkshopVM}">
+            <DockPanel.Background>
+                <SolidColorBrush Color="{StaticResource Color1}" />
+            </DockPanel.Background>
             <Border BorderThickness="2" BorderBrush="{StaticResource Brush1}">
                 <StackPanel DockPanel.Dock="Left" MinWidth="280pt" Background="{StaticResource InfoBack}">
                     <StackPanel.Resources>
@@ -90,10 +96,37 @@
                             </StackPanel>
                         </StackPanel>
                     </Border>
+                    <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="{x:Null}"></Setter>
+                            </Style>
+                            <Style TargetType="TreeView">
+                                <Setter Property="Background" Value="{x:Null}"></Setter>
+                            </Style>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="Background" Value="{x:Null}"></Setter>
+                                <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <TextBlock>Storage list:</TextBlock>
+                        <TreeView ItemsSource="{Binding NetworkStoragesList, Mode=OneWay}">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Networks, Mode=OneWay}">
+                                    <TextBlock Text="{Binding Id}" ></TextBlock>
+                                    <HierarchicalDataTemplate.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Id}"></TextBlock>
+                                        </DataTemplate>
+                                    </HierarchicalDataTemplate.ItemTemplate>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </StackPanel>
                 </StackPanel>
             </Border>
-            <DockPanel DockPanel.Dock="Left" Grid.Column="1" DataContext="{Binding NetworkPrototype}">
-                <Grid Grid.Row="1">
+            <DockPanel DockPanel.Dock="Left">
+                <Grid Grid.Row="1" DataContext="{Binding RedactorVM}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -104,6 +137,9 @@
                         <xctk:DoubleUpDown DockPanel.Dock="Top" Value="{Binding LearningRate, Mode=TwoWay}" Increment="0.005" ></xctk:DoubleUpDown>
                         <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
                             <ItemsControl Grid.Column="0" ItemsSource="{Binding Layers}">
+                                <ItemsControl.Background>
+                                    <SolidColorBrush Color="{DynamicResource Color1}" />
+                                </ItemsControl.Background>
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel></StackPanel>

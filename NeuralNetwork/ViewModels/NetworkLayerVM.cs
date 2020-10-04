@@ -20,7 +20,7 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private int _neuronsCount;
+        private int _neuronsCount = 2;
 
         public int NeuronsCount
         {
@@ -37,15 +37,9 @@ namespace NeuralNetwork.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         private void OnPropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        public NetworkLayerVM()
-        {
-            _neuronsCount = 2;
         }
     }
 }

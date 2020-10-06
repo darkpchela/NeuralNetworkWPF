@@ -7,7 +7,6 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
         xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:NeuralNetwork"
-        xmlns:ui ="clr-namespace:NeuralNetwork.CustomUI"
         mc:Ignorable="d"
         Title="NeuralNetwork" Height="682" Width="1320" Background="Black">
     <Window.Resources>

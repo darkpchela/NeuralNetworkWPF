@@ -18,8 +18,6 @@ namespace NeuralNetwork.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        public object ParentViewModel { get; }
-
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
 
         private NetworkRedactorVM _redactorVM;
@@ -64,24 +62,7 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private ObservableCollection<NetworkStorageVM> _storages = new ObservableCollection<NetworkStorageVM>
-        {
-            new NetworkStorageVM{Id = Guid.NewGuid().ToString(), InputsCount = 3, OutputsCount = 4, Networks =
-            new ObservableCollection<NetworkVM>
-            {
-                new NetworkVM{ Id = Guid.NewGuid().ToString(), ActivationFuncName = "Sigmoid", InputsCount = 3, OutputsCount = 4, LayersCount = 4,
-                    LearningRate = 0.25f},
-                                new NetworkVM{ Id = Guid.NewGuid().ToString(), ActivationFuncName = "Sigmoid", InputsCount = 3, OutputsCount = 4, LayersCount = 4,
-                    LearningRate = 0.25f}
-            }
-            },
-            new NetworkStorageVM{Id = Guid.NewGuid().ToString(), InputsCount = 3, OutputsCount = 4, Networks =
-            new ObservableCollection<NetworkVM>
-            {
-                new NetworkVM{ Id = Guid.NewGuid().ToString(), ActivationFuncName = "Sigmoid", InputsCount = 3, OutputsCount = 4, LayersCount = 4,
-                    LearningRate = 0.25f}
-            },
-        }};
+        private ObservableCollection<NetworkStorageVM> _storages;
         public ObservableCollection<NetworkStorageVM> Storages
         {
             get
@@ -127,14 +108,6 @@ namespace NeuralNetwork.ViewModels
                 {
                     MessageBox.Show(obj.ToString());
                 }));
-            }
-        }
-
-        public NetworkWorkshopVM()
-        {
-            foreach (var s in _storages)
-            {
-                s.ParentViewModel = this;
             }
         }
     }

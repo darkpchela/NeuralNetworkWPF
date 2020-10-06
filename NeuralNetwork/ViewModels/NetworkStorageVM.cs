@@ -48,5 +48,7 @@ namespace NeuralNetwork.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+        public NetworkWorkshopVM ParentViewModel { get; set; }
     }
 }

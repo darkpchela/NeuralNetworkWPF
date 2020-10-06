@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
         xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:NeuralNetwork"
         xmlns:ui ="clr-namespace:NeuralNetwork.CustomUI"
@@ -36,6 +36,10 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" DockPanel.Dock="Left" VerticalAlignment="Center">
             <MenuItem Header="File">
+                <MenuItem Header="New..">
+                    <MenuItem Header="New single network"></MenuItem>
+                    <MenuItem Header="New storage"></MenuItem>
+                </MenuItem>
                 <MenuItem Header="Open" Command="{Binding OpenFile}"></MenuItem>
                 <MenuItem Header="Save"></MenuItem>
                 <Separator></Separator>
@@ -108,20 +112,36 @@
                                 <Setter Property="Background" Value="{x:Null}"></Setter>
                                 <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
                             </Style>
+                            <Style TargetType="ListBox">
+                                <Setter Property="Background" Value="{x:Null}"></Setter>
+                            </Style>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Background" Value="{x:Null}"></Setter>
+                                <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                            </Style>
                         </StackPanel.Resources>
                         <TextBlock>Storage list:</TextBlock>
-                        <TreeView ItemsSource="{Binding NetworkStoragesList, Mode=OneWay}">
-                            <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Networks, Mode=OneWay}">
-                                    <TextBlock Text="{Binding Id}" ></TextBlock>
-                                    <HierarchicalDataTemplate.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Id}"></TextBlock>
-                                        </DataTemplate>
-                                    </HierarchicalDataTemplate.ItemTemplate>
-                                </HierarchicalDataTemplate>
-                            </TreeView.ItemTemplate>
-                        </TreeView>
+                        <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ListBoxItem Content="{Binding Id}" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDoubleClick" >
+                                                <i:InvokeCommandAction Command="{Binding ParentViewModel.SelectStorage}" CommandParameter="{Binding Id}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ListBoxItem>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <TextBlock>Networks list:</TextBlock>
+                        <ListBox ItemsSource="{Binding SelectedStorage.Networks, Mode=OneWay}" SelectedItem="{Binding SelectedNetwork}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Id}"></TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </StackPanel>
             </Border>

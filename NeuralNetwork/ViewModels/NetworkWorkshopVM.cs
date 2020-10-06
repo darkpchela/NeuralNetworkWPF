@@ -1,5 +1,6 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
 using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,8 @@ namespace NeuralNetwork.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+        public object ParentViewModel { get; }
 
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
 
@@ -61,7 +64,7 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private ObservableCollection<NetworkStorageVM> _networkStoragesList = new ObservableCollection<NetworkStorageVM>
+        private ObservableCollection<NetworkStorageVM> _storages = new ObservableCollection<NetworkStorageVM>
         {
             new NetworkStorageVM{Id = Guid.NewGuid().ToString(), InputsCount = 3, OutputsCount = 4, Networks =
             new ObservableCollection<NetworkVM>
@@ -79,39 +82,39 @@ namespace NeuralNetwork.ViewModels
                     LearningRate = 0.25f}
             },
         }};
-        public ObservableCollection<NetworkStorageVM> NetworkStoragesList
+        public ObservableCollection<NetworkStorageVM> Storages
         {
             get
             {
-                return _networkStoragesList ?? (_networkStoragesList = new ObservableCollection<NetworkStorageVM>());
+                return _storages ?? (_storages = new ObservableCollection<NetworkStorageVM>());
             }
         }
 
-        private NetworkStorageVM _currentNetworkStorage;
-        public NetworkStorageVM CurrentNetworkStorage
+        private NetworkStorageVM _selectedStorage;
+        public NetworkStorageVM SelectedStorage
         {
             get
             {
-                return _currentNetworkStorage ?? (_currentNetworkStorage = new NetworkStorageVM());
+                return _selectedStorage ?? (_selectedStorage = new NetworkStorageVM());
             }
             set
             {
-                _currentNetworkStorage = value;
-                OnPropertyChanged("CurrentNetworkStorage");
+                _selectedStorage = value;
+                OnPropertyChanged("SelectedStorage");
             }
         }
 
-        private NetworkVM _currentNetwork;
-        public NetworkVM CurrentNetwork
+        private NetworkVM _selectedNetwork;
+        public NetworkVM SelectedNetwork
         {
             get 
             {
-                return _currentNetwork ?? (_currentNetwork = new NetworkVM()); 
+                return _selectedNetwork; 
             }
             set
             {
-                _currentNetwork = value;
-                OnPropertyChanged("CurrentNetworkVM");
+                _selectedNetwork = value;
+                OnPropertyChanged("SelectedNetwork");
             }
         }
 
@@ -127,5 +130,12 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        public NetworkWorkshopVM()
+        {
+            foreach (var s in _storages)
+            {
+                s.ParentViewModel = this;
+            }
+        }
     }
 }

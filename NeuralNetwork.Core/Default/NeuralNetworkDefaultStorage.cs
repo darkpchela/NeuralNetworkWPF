@@ -10,12 +10,15 @@ namespace NeuralNetwork.Core.Default
 
         public Guid Id { get; }
 
+        public bool IsStrict { get; }
+
         public NeuralNetworkStorageConstraints StorageConstraints { get; private set; }
 
-        public NeuralNetworksDefaultStorage()
+        public NeuralNetworksDefaultStorage(bool isStrict)
         {
             _instances = new Dictionary<Guid, NeuralNetworkDefault>();
-            Id = new Guid();
+            Id = Guid.NewGuid();
+            IsStrict = isStrict;
         }
 
         public int Count
@@ -51,14 +54,17 @@ namespace NeuralNetwork.Core.Default
             int currentInputsCounts = nNetworkInstance.Layers[0];
             int currentOutputsCount = nNetworkInstance.Layers[nNetworkInstance.Layers.Length - 1];
 
-            if (_instances.Count == 0)
-                StorageConstraints = new NeuralNetworkStorageConstraints(currentInputsCounts, currentOutputsCount);
-            else if (currentInputsCounts != StorageConstraints.InputsCount || currentOutputsCount != StorageConstraints.OutputsCount)
-                throw new ArgumentException("Invalid network properties");
+            if (IsStrict)
+            {
+                if (_instances.Count == 0 && StorageConstraints is null)
+                    StorageConstraints = new NeuralNetworkStorageConstraints(currentInputsCounts, currentOutputsCount);
+                
+                if (currentInputsCounts != StorageConstraints.InputsCount || currentOutputsCount != StorageConstraints.OutputsCount)
+                    throw new ArgumentException("Invalid network properties");
+            }
 
             _instances.Add(nNetworkInstance.Id, nNetworkInstance);
         }
-
         #region Disposable
 
         private bool disposed = false;

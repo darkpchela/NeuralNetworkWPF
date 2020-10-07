@@ -14,15 +14,27 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
     {
         public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
 
-        private NeuralNetworkDefault neuralNetwork;
-        private List<NeuralNetworksDefaultStorage> _strorages;
-        private NeuralNetworkDefaultMaster _nrlMaster;
+        private Dictionary<Guid, NetworksStorageModel> _strorages;
+        private NeuralNetworkDefaultTrainer _trainer;
+        private NeuralNetworkDefaultFactory _factory;
+        private NetworksStorageModel _tempStorage;
+
         private IFileService _fileService;
 
         private NetworkWorkshopModel()
         {
-            _nrlMaster = new NeuralNetworkDefaultMaster();
             _fileService = new FileService();
+
+            _trainer = new NeuralNetworkDefaultTrainer();
+            _factory = new NeuralNetworkDefaultFactory();
+            _tempStorage = new NetworksStorageModel(false) 
+            {
+                Name = "Temp_storage"
+            };
+            _strorages = new Dictionary<Guid, NetworksStorageModel>()
+            {
+                { _tempStorage.Id, _tempStorage }
+            };
         }
 
         public string[] GetAllFuncsNames()
@@ -30,24 +42,37 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             return FuncDictionary.GetAllFuncsNames();
         }
 
-        public void Create(NetworkVM networkPrototype)
+        public void Create(NetworkVM networkPrototype, string storageId = null)
         {
-            var defData = new NeuralNetworkDefaultData();
-            if (!string.IsNullOrEmpty(networkPrototype.Id) && Guid.TryParse(networkPrototype.Id, out Guid id))
-                defData.Id = id;
-
-            defData.ActivationFuncName = networkPrototype.CurrentFunc;
-            defData.LearningRate = networkPrototype.LearningRate;
-            defData.Layers = networkPrototype.Layers.Select(l=>l.NeuronsCount).ToArray();
-
-            _nrlMaster.CreateInstance(defData);
+            var defData = NetworkViewModelToNeuralNetworkDefaultData(networkPrototype);
+            var network = _factory.CreateInstance(defData);
+            if (string.IsNullOrEmpty(storageId))
+            {
+                _tempStorage.AddInstance(network);
+            }
+            else
+            {
+                var storage = _strorages[Guid.Parse(storageId)];
+                storage.AddInstance(network);
+            }
         }
 
         public float[] Query(float[] inputs, string networkId)
         {
-            return _nrlMaster.Query(inputs, Guid.Parse(networkId));
+            return null;
         }
 
+        private NeuralNetworkDefaultData NetworkViewModelToNeuralNetworkDefaultData(NetworkVM networkVM)
+        {
+            var defData = new NeuralNetworkDefaultData();
+            if (!string.IsNullOrEmpty(networkVM.Id) && Guid.TryParse(networkVM.Id, out Guid id))
+                defData.Id = id;
 
+            defData.ActivationFuncName = networkVM.CurrentFunc;
+            defData.LearningRate = networkVM.LearningRate;
+            defData.Layers = networkVM.Layers.Select(l => l.NeuronsCount).ToArray();
+
+            return defData;
+        }
     }
 }

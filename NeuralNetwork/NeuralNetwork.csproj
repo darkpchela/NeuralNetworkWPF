@@ -115,6 +115,7 @@
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
+    <Compile Include="Model\NeuralNetworkWorkshopModel\NetworksStorageModel.cs" />
     <Compile Include="Model\NeuralNetworkWorkshopModel\NetworkWorkshopModel.cs" />
     <Compile Include="ViewModels\Interfaces\IChildViewModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />

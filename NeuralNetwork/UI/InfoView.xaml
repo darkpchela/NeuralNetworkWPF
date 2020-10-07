@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="NeuralNetwork.UI.InfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:NeuralNetwork.UI"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Border BorderThickness="2" BorderBrush="{DynamicResource TextBlockFore}">
+        <StackPanel MinWidth="280pt" Background="{StaticResource InfoBack}">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Background" Value="{StaticResource InfoBack}"></Setter>
+                    <Setter Property="ItemsControl.FontSize" Value="16"></Setter>
+                    <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                    <Setter Property="Margin" Value="10 0 0 0"></Setter>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="{StaticResource InfoBack}"></Setter>
+                    <Setter Property="ItemsControl.FontSize" Value="14"></Setter>
+                    <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                    <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
+                    <Setter Property="Margin" Value="20 0 0 0"></Setter>
+                    <Setter Property="IsReadOnly" Value="True"></Setter>
+                </Style>
+            </StackPanel.Resources>
+            <Border BorderThickness="1" BorderBrush="{DynamicResource TextBlockFore}">
+                <StackPanel Orientation="Vertical" Margin="5 12 0 8" DataContext="{Binding CurrentNetworkStorage}">
+                    <TextBlock Text="Current storage ID:"></TextBlock>
+                    <TextBox Text="{Binding Id, Mode=OneWay}" />
+                    <TextBlock Text="Networks at storage:"></TextBlock>
+                    <TextBox Text="{Binding NetworksCount, Mode=OneWay}"></TextBox>
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="{StaticResource TextBlockFore}">
+                <StackPanel Orientation="Vertical" Margin="5 12 0 8" DataContext="{Binding CurrentNetwork}">
+                    <TextBlock Text="Current network ID:"></TextBlock>
+                    <TextBox Text="{Binding Id}"></TextBox>
+                    <TextBlock Text="Current network info:" ></TextBlock>
+                    <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                        <TextBlock Text="Layers count:"></TextBlock>
+                        <TextBox Text="{Binding LayersCount, Mode=OneWay}"></TextBox>
+                        <TextBlock Text="Inputs count:"></TextBlock>
+                        <TextBox Text="{Binding InputsCount, Mode=OneWay}"></TextBox>
+                        <TextBlock Text="Outputs count:"></TextBlock>
+                        <TextBox Text="{Binding OutputsCount, Mode=OneWay}"></TextBox>
+                        <TextBlock Text="Learning rate:"></TextBlock>
+                        <TextBox Text="{Binding LearningRate, Mode=OneWay}"></TextBox>
+                        <TextBlock Text="Activation func:"></TextBlock>
+                        <TextBox Text="{Binding ActivationFuncName, Mode=OneWay}"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="{x:Null}"></Setter>
+                    </Style>
+                    <Style TargetType="TreeView">
+                        <Setter Property="Background" Value="{x:Null}"></Setter>
+                    </Style>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="Background" Value="{x:Null}"></Setter>
+                        <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                    </Style>
+                    <Style TargetType="ListBox">
+                        <Setter Property="Background" Value="{x:Null}"></Setter>
+                    </Style>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="{x:Null}"></Setter>
+                        <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock>Storage list:</TextBlock>
+                <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ListBoxItem Content="{Binding Id}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                        <i:InvokeCommandAction Command="{Binding ParentViewModel.SelectStorage}" CommandParameter="{Binding Id}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ListBoxItem>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock>Networks list:</TextBlock>
+                <ListBox ItemsSource="{Binding SelectedStorage.Networks, Mode=OneWay}" SelectedItem="{Binding SelectedNetwork}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id}"></TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

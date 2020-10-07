@@ -34,31 +34,17 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private bool _storageSelected;
-        public bool StorageSelcted
+        private bool _redactorIsAtcive;
+        public bool RedactorIsActive
         {
             get
             {
-                return _storageSelected;
+                return _redactorIsAtcive;
             }
             set
             {
-                _storageSelected = value;
-                OnPropertyChanged("StorageSelected");
-            }
-        }
-
-        private bool _networkSelected;
-        public bool NetworkSelected
-        {
-            get
-            {
-                return _networkSelected;
-            }
-            set
-            {
-                _networkSelected = value;
-                OnPropertyChanged("NetworkSelected");
+                _redactorIsAtcive = value;
+                OnPropertyChanged("RedactorIsActive");
             }
         }
 
@@ -95,6 +81,7 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedNetwork = value;
+
                 OnPropertyChanged("SelectedNetwork");
             }
         }
@@ -107,6 +94,21 @@ namespace NeuralNetwork.ViewModels
                 return _selectStorage ?? (_selectStorage = new RelayCommand(obj=> 
                 {
                     MessageBox.Show(obj.ToString());
+                }));
+            }
+        }
+
+        private RelayCommand _newNetwork;
+        public RelayCommand NewNetwork
+        {
+            get
+            {
+                return _newNetwork ?? (_newNetwork = new RelayCommand(obj =>
+                {
+                    SelectedNetwork = new NetworkVM();
+                    RedactorVM = new NetworkRedactorVM();
+                    RedactorIsActive = true;
+                    RedactorVM.NetworkAtWork = SelectedNetwork;
                 }));
             }
         }

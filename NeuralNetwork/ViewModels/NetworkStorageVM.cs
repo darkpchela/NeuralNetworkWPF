@@ -23,6 +23,22 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private string _name;
+        public string Name
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_name) ? (_name = "Unnamed") : _name;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    _name = value;
+
+                OnPropertyChanged("Name");
+            }
+        }
+
         private int _networksCount;
         public int NetworksCount
         {

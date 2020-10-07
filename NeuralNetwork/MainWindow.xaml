@@ -4,196 +4,140 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="NeuralNetwork" Height="682" Width="1320" Background="Black">
+        Title="NeuralNetwork" Height="682" Width="1320">
     <Window.Resources>
-        <Color x:Key="ColorMain">#FF3A3A3A</Color>
-        <Color x:Key="Color1">#FF003F5D</Color>
-        <Color x:Key="Color2">#88FDFDFD</Color>
-        <SolidColorBrush x:Key="InfoBack" Color="{StaticResource Color1}" ></SolidColorBrush>
-        <SolidColorBrush x:Key="DefaultBack" Color="{StaticResource ColorMain}"></SolidColorBrush>
-        <SolidColorBrush x:Key="TextBlockFore" Color="{StaticResource Color2}"></SolidColorBrush>
-        <Style TargetType="Menu">
-            <Setter Property="ItemsControl.Foreground" Value="AliceBlue"></Setter>
-            <Setter Property="ItemsControl.Background" Value="DarkSlateGray"></Setter>
+        <Style TargetType="Border">
+            <Setter Property="BorderThickness" Value="2"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="Padding" Value="6"></Setter>
+            <Setter Property="Margin" Value="2"></Setter>
         </Style>
-        <Style TargetType="MenuItem">
-            <Setter Property="ItemsControl.FontSize" Value="15"></Setter>
-            <Setter Property="ItemsControl.Background" Value="DarkSlateGray"></Setter>
-            <Setter Property="ItemsControl.Foreground" Value="BurlyWood"></Setter>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"></Setter>
         </Style>
-        <Color x:Key="Color3">#AA0088FF</Color>
-        <SolidColorBrush x:Key="Brush1" Color="{DynamicResource Color3}" />
+        <Style x:Key="HeaderTextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Padding" Value="6"></Setter>
+            <Setter Property="Margin" Value="6"></Setter>
+        </Style>
+        <Style TargetType="DockPanel">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightGray"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="StackPanel">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightGray"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Menu Grid.Row="0" DockPanel.Dock="Left" VerticalAlignment="Center">
-            <MenuItem Header="File">
-                <MenuItem Header="New..">
-                    <MenuItem Header="New single network"></MenuItem>
-                    <MenuItem Header="New storage"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="Open" Command="{Binding OpenFile}"></MenuItem>
-                <MenuItem Header="Save"></MenuItem>
-                <Separator></Separator>
-                <MenuItem Header="Close"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Options"></MenuItem>
-            <MenuItem Header="Query" Command="{Binding Path=NetworkWorkshop.Query}"></MenuItem>
-            <MenuItem Header="Create" Command="{Binding Path=NetworkWorkshop.Create}" ></MenuItem>
-            <MenuItem Header="Add layer" Command="{Binding Path=NetworkWorkshop.AddLayer}"></MenuItem>
-            <MenuItem Header="Remove layer" Command="{Binding Path=NetworkWorkshop.RemoveLayer}"></MenuItem>
-        </Menu>
-        <DockPanel Grid.Row="1" DataContext="{Binding NetworkWorkshopVM}">
-            <DockPanel.Background>
-                <SolidColorBrush Color="{StaticResource Color1}" />
-            </DockPanel.Background>
-            <Border BorderThickness="2" BorderBrush="{StaticResource Brush1}">
-                <StackPanel DockPanel.Dock="Left" MinWidth="280pt" Background="{StaticResource InfoBack}">
-                    <StackPanel.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Background" Value="{StaticResource InfoBack}"></Setter>
-                            <Setter Property="ItemsControl.FontSize" Value="16"></Setter>
-                            <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
-                            <Setter Property="Margin" Value="10 0 0 0"></Setter>
-                        </Style>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Background" Value="{StaticResource InfoBack}"></Setter>
-                            <Setter Property="ItemsControl.FontSize" Value="14"></Setter>
-                            <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
-                            <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
-                            <Setter Property="Margin" Value="20 0 0 0"></Setter>
-                            <Setter Property="IsReadOnly" Value="True"></Setter>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Border BorderThickness="1" BorderBrush="{DynamicResource Brush1}">
-                        <StackPanel Orientation="Vertical" Margin="5 12 0 8" DataContext="{Binding CurrentNetworkStorage}">
-                            <TextBlock Text="Current storage ID:"></TextBlock>
-                            <TextBox Text="{Binding Id, Mode=OneWay}" />
-                            <TextBlock Text="Networks at storage:"></TextBlock>
-                            <TextBox Text="{Binding NetworksCount, Mode=OneWay}"></TextBox>
-                        </StackPanel>
-                    </Border>
-                    <Border BorderThickness="1" BorderBrush="{StaticResource Brush1}">
-                        <StackPanel Orientation="Vertical" Margin="5 12 0 8" DataContext="{Binding CurrentNetwork}">
-                            <TextBlock Text="Current network ID:"></TextBlock>
-                            <TextBox Text="{Binding Id}"></TextBox>
-                            <TextBlock Text="Current network info:" ></TextBlock>
-                            <StackPanel Orientation="Vertical" Margin="10 0 0 0">
-                                <TextBlock Text="Layers count:"></TextBlock>
-                                <TextBox Text="{Binding LayersCount, Mode=OneWay}"></TextBox>
-                                <TextBlock Text="Inputs count:"></TextBlock>
-                                <TextBox Text="{Binding InputsCount, Mode=OneWay}"></TextBox>
-                                <TextBlock Text="Outputs count:"></TextBlock>
-                                <TextBox Text="{Binding OutputsCount, Mode=OneWay}"></TextBox>
-                                <TextBlock Text="Learning rate:"></TextBlock>
-                                <TextBox Text="{Binding LearningRate, Mode=OneWay}"></TextBox>
-                                <TextBlock Text="Activation func:"></TextBlock>
-                                <TextBox Text="{Binding ActivationFuncName, Mode=OneWay}"></TextBox>
+    <Grid DataContext="{Binding NetworkWorkshopVM}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0">
+            <StackPanel>
+                <Border>
+                    <StackPanel>
+                        <Button>Open storage</Button>
+                        <Button>Open network</Button>
+                        <Button>Create new storage</Button>
+                        <Button Command="{Binding NewNetwork}">Create new network</Button>
+                    </StackPanel>
+                </Border>
+                <Border>
+                    <StackPanel>
+                        <TextBlock>Storage list</TextBlock>
+                        <ListBox ItemsSource="{Binding Storages}"></ListBox>
+                        <TextBlock>Network list</TextBlock>
+                        <ListBox ItemsSource="{Binding Networks}"></ListBox>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+        <Border Grid.Column="1" IsEnabled="{Binding RedactorIsActive}">
+            <DockPanel DataContext="{Binding RedactorVM}">
+                <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+                    <Border>
+                        <StackPanel>
+                            <StackPanel DataContext="{Binding StorageAtWork}">
+                                <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Storage properties</TextBlock>
+                                <TextBlock>Storage Id</TextBlock>
+                                <TextBox IsReadOnly="True" Text="{Binding Id}"></TextBox>
+                                <TextBlock>Storage name</TextBlock>
+                                <TextBox Text="{Binding Name}"></TextBox>
                             </StackPanel>
+                            <Button>Save</Button>
                         </StackPanel>
                     </Border>
-                    <StackPanel Orientation="Vertical" Margin="10 0 0 0">
-                        <StackPanel.Resources>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="{x:Null}"></Setter>
-                            </Style>
-                            <Style TargetType="TreeView">
-                                <Setter Property="Background" Value="{x:Null}"></Setter>
-                            </Style>
-                            <Style TargetType="TreeViewItem">
-                                <Setter Property="Background" Value="{x:Null}"></Setter>
-                                <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
-                            </Style>
-                            <Style TargetType="ListBox">
-                                <Setter Property="Background" Value="{x:Null}"></Setter>
-                            </Style>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="Background" Value="{x:Null}"></Setter>
-                                <Setter Property="Foreground" Value="{StaticResource TextBlockFore}"></Setter>
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock>Storage list:</TextBlock>
-                        <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <ListBoxItem Content="{Binding Id}" >
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="MouseDoubleClick" >
-                                                <i:InvokeCommandAction Command="{Binding ParentViewModel.SelectStorage}" CommandParameter="{Binding Id}"></i:InvokeCommandAction>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </ListBoxItem>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <TextBlock>Networks list:</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedStorage.Networks, Mode=OneWay}" SelectedItem="{Binding SelectedNetwork}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Id}"></TextBlock>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
                 </StackPanel>
-            </Border>
-            <DockPanel DockPanel.Dock="Left">
-                <Grid Grid.Row="1" DataContext="{Binding RedactorVM}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <DockPanel Grid.Column="0">
-                        <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding Funcs}" SelectedItem="{Binding CurrentActivationFunc}"></ComboBox>
-                        <xctk:DoubleUpDown DockPanel.Dock="Top" Value="{Binding LearningRate, Mode=TwoWay}" Increment="0.005" ></xctk:DoubleUpDown>
-                        <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
-                            <ItemsControl Grid.Column="0" ItemsSource="{Binding Layers}">
-                                <ItemsControl.Background>
-                                    <SolidColorBrush Color="{DynamicResource Color1}" />
-                                </ItemsControl.Background>
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel></StackPanel>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <DataTemplate.Resources>
-                                            <Style TargetType="DockPanel">
-                                                <Setter Property="Background" Value="Wheat"></Setter>
-                                            </Style>
-                                        </DataTemplate.Resources>
-                                        <DockPanel>
-                                            <TextBlock>Layer #</TextBlock>
-                                            <TextBlock Text="{Binding Path=LayerIndex}"></TextBlock>
-                                            <TextBlock>Neurons Count</TextBlock>
-                                            <xctk:IntegerUpDown Value="{Binding NeuronsCount, Mode=TwoWay}" Minimum="2"></xctk:IntegerUpDown>
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </DockPanel>
-                    <StackPanel Grid.Column="1" DataContext="{Binding Path=CurrentInputs}">
-                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[0], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
-                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[1], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
-                        <xctk:DoubleUpDown FormatString="F16" Value="{Binding Path=[2], Mode=TwoWay}" Increment=".0001"  Maximum="1.0" />
+                <Border DockPanel.Dock="Top">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+                        <StackPanel DataContext="{Binding NetworkAtWork}">
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Network properties</TextBlock>
+                            <TextBlock>Network Id</TextBlock>
+                            <TextBox IsReadOnly="True" Text="{Binding Id}"></TextBox>
+                            <TextBlock>Network name</TextBlock>
+                            <TextBox Text="{Binding Name}"></TextBox>
+                            <TextBlock>Activation func</TextBlock>
+                            <ComboBox ItemsSource="{Binding AllFuncs}" SelectedItem="{Binding CurrentFunc}"></ComboBox>
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Layers properties</TextBlock>
+                        </StackPanel>
+                        <Border>
+                            <DockPanel VerticalAlignment="Center" Height="200">
+                                <ScrollViewer DockPanel.Dock="Left" Height="200">
+                                    <ListBox ItemsSource="{Binding NetworkAtWork.Layers, Mode=OneWay}" Width="260">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <StackPanel.Resources>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Width" Value="100"></Setter>
+                                                        </Style>
+                                                        <Style TargetType="xctk:IntegerUpDown">
+                                                            <Setter Property="Width" Value="120"></Setter>
+                                                        </Style>
+                                                    </StackPanel.Resources>
+                                                    <TextBlock Text="{Binding LayerName}"></TextBlock>
+                                                    <xctk:IntegerUpDown Value="{Binding NeuronsCount, Mode=TwoWay}" Minimum="2"></xctk:IntegerUpDown>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </ScrollViewer>
+                                <StackPanel DockPanel.Dock="Right">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="MinWidth" Value="100"></Setter>
+                                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <Button Command="{Binding AddLayer}">Add layer</Button>
+                                    <Button Command="{Binding TestMessage}">Test</Button>
+                                    <Button Command="{Binding RemoveLayer}">Remove layer</Button>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
+                        <Button>Save</Button>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" DataContext="{Binding Path=CurrentOutputs}">
-                        <TextBlock Text="{Binding Path=[0]}" />
-                        <TextBlock Text="{Binding Path=[1]}" />
-                        <TextBlock Text="{Binding Path=[2]}" />
-                    </StackPanel>
-                </Grid>
+                </Border>
             </DockPanel>
-        </DockPanel>
+        </Border>
     </Grid>
 </Window>

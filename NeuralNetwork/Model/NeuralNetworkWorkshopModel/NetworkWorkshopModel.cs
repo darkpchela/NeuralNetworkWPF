@@ -22,7 +22,7 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             _fileService = new FileService();
         }
 
-        public string[] GetAllFuncsNames()
+        public static string[] GetAllFuncsNames()
         {
             return FuncDictionary.GetAllFuncsNames();
         }
@@ -30,7 +30,7 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
         public void Create(NetworkVM networkPrototype)
         {
             var defData = new NeuralNetworkDefaultData();
-            defData.ActivationFuncName = networkPrototype.ActivationFuncName;
+            defData.ActivationFuncName = networkPrototype.CurrentFunc;
             defData.LearningRate = networkPrototype.LearningRate;
             defData.Layers = networkPrototype.Layers.Select(l=>l.NeuronsCount).ToArray();
 

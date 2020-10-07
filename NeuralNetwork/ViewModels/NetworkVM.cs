@@ -1,5 +1,8 @@
-﻿using System;
+﻿using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -29,62 +32,68 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        string _activationFuncName;
-        public string ActivationFuncName 
+        private string _name;
+        public string Name
         {
             get
             {
-                if (string.IsNullOrEmpty(_activationFuncName))
-                    return "~~~No function~~~";
-                else
-                    return _activationFuncName;
+                return _name;
             }
             set
             {
-                _activationFuncName = value;
+                if (!string.IsNullOrEmpty(value))
+                    _name = value;
+
+                OnPropertyChanged("Name");
+            }
+        }
+
+        string _currentFunc;
+        public string CurrentFunc 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_currentFunc))
+                    return "~~~No function~~~";
+                else
+                    return _currentFunc;
+            }
+            set
+            {
+                _currentFunc = value;
                 OnPropertyChanged("ActivationFuncName");
             }
         }
 
-        private int _layersCount;
+        public IEnumerable<string> AllFuncs
+        {
+            get 
+            { 
+                return NetworkWorkshopModel.GetAllFuncsNames();
+            }
+        }
+
         public int LayersCount 
         {
             get
             {
-                return _layersCount;
-            }
-            set
-            {
-                _layersCount = value;
-                OnPropertyChanged("LayersCount");
+                return Layers.Count;
             }
         }
 
-        private int _inputsCount;
         public int InputsCount 
         { 
             get
             {
-                return _inputsCount;
-            }
-            set
-            {
-                _inputsCount = value;
-                OnPropertyChanged("InputsCount");
+                return Layers.First().NeuronsCount;
             }
         }
 
-        private int _outputsCount;
         public int OutputsCount 
         {
             get
             {
-                return _outputsCount;
-            }
-            set
-            {
-                _outputsCount = value;
-                OnPropertyChanged("OutputsCount");
+                return Layers.Last().NeuronsCount;
             }
         }
 
@@ -102,25 +111,19 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private List<NetworkLayerVM> _layers;
-        public List<NetworkLayerVM> Layers 
+        private ObservableCollection<NetworkLayerVM> _layers;
+        public ObservableCollection<NetworkLayerVM> Layers 
         {
             get
             {
-                return _layers ?? (_layers = new List<NetworkLayerVM>());
+                return _layers ?? (_layers = new ObservableCollection<NetworkLayerVM>());
             }
             set
             {
                 _layers = value;
                 OnPropertyChanged("Layers");
-                LayersCount = value.Count;
-                InputsCount = value.First()?.NeuronsCount ?? 0;
-                OutputsCount = value.Last()?.NeuronsCount ?? 0;
             }
         }
-
-        public IEnumerable<float[,]> Weigths { get; set; }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName]string property = "")

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeuralNetwork.ViewModels
 {
@@ -15,17 +16,31 @@ namespace NeuralNetwork.ViewModels
     {
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
 
-        private bool _singleMode;
-        public bool SingleMode
+        private bool _storageSelected;
+        public bool StorageSelected
         {
             get
             {
-                return _singleMode;
+                return _storageSelected;
             }
-            private set
+            set
             {
-                _singleMode = value;
-                OnPropertyChanged("SingleMode");
+                _storageSelected = value;
+                OnPropertyChanged("StorageSelected");
+            }
+        }
+
+        private bool _networkSelected;
+        public bool NetworkSelected
+        {
+            get
+            {
+                return _networkSelected;
+            }
+            set
+            {
+                _networkSelected = value;
+                OnPropertyChanged("NetworkSelected");
             }
         }
 
@@ -38,26 +53,63 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkVM _networkPrototype;
-        public NetworkVM NetworkPrototye
+        private NetworkVM _networkAtWork;
+        public NetworkVM NetworkAtWork
         {
             get
             {
-                return _networkPrototype ?? (_networkPrototype = new NetworkVM());
+                return _networkAtWork ?? (_networkAtWork = new NetworkVM());
             }
             set
             {
-                _networkPrototype = value;
-                OnPropertyChanged("NetworkPrototype");
+                _networkAtWork = value;
+                OnPropertyChanged("NetworkAtWork");
             }
         }
 
-        private ObservableCollection<string> _funcs;
-        public ObservableCollection<string> Funcs
+        private RelayCommand _removeLayer;
+        public RelayCommand RemoveLayer
         {
             get
             {
-                return _funcs ?? (_funcs = new ObservableCollection<string>(_workshopModel.GetAllFuncsNames()));
+                return _removeLayer ?? (_removeLayer = new RelayCommand(obj =>
+                {
+                    if (NetworkAtWork.LayersCount > 2)
+                        NetworkAtWork.Layers.RemoveAt(NetworkAtWork.LayersCount - 2);
+                }));
+            }
+        }
+
+        private RelayCommand _testMessage;
+        public RelayCommand TestMessage
+        {
+            get
+            {
+                return _testMessage ?? (_testMessage = new RelayCommand(obj =>
+                {
+                    MessageBox.Show(NetworkAtWork.LayersCount.ToString());
+                }));
+            }
+        }
+
+        private RelayCommand _addLayer;
+        public RelayCommand AddLayer
+        {
+            get
+            {
+                return _addLayer ?? (_addLayer = new RelayCommand(obj =>
+                {
+                    var layer = new NetworkLayerVM();
+                    int insertIndex = NetworkAtWork.LayersCount >= 2 ? NetworkAtWork.LayersCount - 1 : 0;
+                    
+                    if (NetworkAtWork.LayersCount == 0)
+                        layer.IsOutputLayer = true;
+
+                    layer.LayerIndex = insertIndex;
+
+                    NetworkAtWork.Layers.Insert(insertIndex, layer);
+                    NetworkAtWork.Layers.Last().LayerIndex++;
+                }));
             }
         }
 
@@ -68,7 +120,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return _create ?? (_create = new RelayCommand(obj =>
                 {
-                    _workshopModel.Create(NetworkPrototye);
+                    _workshopModel.Create(NetworkAtWork);
                 }));
             }
         }

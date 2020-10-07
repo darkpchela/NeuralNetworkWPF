@@ -5,6 +5,7 @@ using NeuralNetwork.Services.Services;
 using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
@@ -13,6 +14,8 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
     {
         public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
 
+        private NeuralNetworkDefault neuralNetwork;
+        private List<NeuralNetworksDefaultStorage> _strorages;
         private NeuralNetworkDefaultMaster _nrlMaster;
         private IFileService _fileService;
 
@@ -22,7 +25,7 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             _fileService = new FileService();
         }
 
-        public static string[] GetAllFuncsNames()
+        public string[] GetAllFuncsNames()
         {
             return FuncDictionary.GetAllFuncsNames();
         }
@@ -30,6 +33,9 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
         public void Create(NetworkVM networkPrototype)
         {
             var defData = new NeuralNetworkDefaultData();
+            if (!string.IsNullOrEmpty(networkPrototype.Id) && Guid.TryParse(networkPrototype.Id, out Guid id))
+                defData.Id = id;
+
             defData.ActivationFuncName = networkPrototype.CurrentFunc;
             defData.LearningRate = networkPrototype.LearningRate;
             defData.Layers = networkPrototype.Layers.Select(l=>l.NeuronsCount).ToArray();

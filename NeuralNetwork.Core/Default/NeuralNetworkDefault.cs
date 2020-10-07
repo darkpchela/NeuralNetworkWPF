@@ -11,7 +11,7 @@ namespace NeuralNetwork.Core.Default
 
         public NeuralNetworkDefault(int[] layers, Func<float, float> activationFunc, float learningRate = 0.05f)
         {
-            this.Id = new Guid();
+            this.Id = Guid.NewGuid();
             this.Layers = layers;
             this.ActivationFunc = activationFunc;
             this.LearningRate = learningRate;
@@ -21,7 +21,7 @@ namespace NeuralNetwork.Core.Default
 
         public NeuralNetworkDefault(Matrix2D[] weights, Func<float, float> activationFunc, float learningRate = 0.05f)
         {
-            this.Id = new Guid();
+            this.Id = Guid.NewGuid();
             this.ActivationFunc = activationFunc;
             this.Weigths = weights;
             this.LearningRate = learningRate;
@@ -45,7 +45,7 @@ namespace NeuralNetwork.Core.Default
 
         public NeuralNetworkDefault(NeuralNetworkDefaultData nrlNetData)
         {
-            this.Id = nrlNetData.Id ?? new Guid();
+            this.Id = nrlNetData.Id ?? Guid.NewGuid();
             this.Layers = nrlNetData.Layers;
             this.Weigths = nrlNetData.Weights ?? GetDefaultWeigths();
             if (!string.IsNullOrEmpty(nrlNetData.ActivationFuncName) && FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))

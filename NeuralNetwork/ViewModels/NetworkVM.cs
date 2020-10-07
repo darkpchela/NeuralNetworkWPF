@@ -11,23 +11,16 @@ namespace NeuralNetwork.ViewModels
 {
     public class NetworkVM : INotifyPropertyChanged
     {
-        private Guid? _id;
+        private string _id;
         public string Id 
         {
             get
             {
-                if (_id.HasValue)
-                    return _id.Value.ToString();
-                else
-                    return "~~~~~~~~-~~~~-~~~~-~~~~-~~~~~~~~~~~~";
+                return string.IsNullOrEmpty(_id) ? "//Network prototype has no Id//" : _id;
             }
-            set
+            private set
             {
-                if (Guid.TryParse(value, out Guid id))
-                    _id = id;
-                else
-                    _id = null;
-
+                _id = value;
                 OnPropertyChanged("Id");
             }
         }
@@ -37,7 +30,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _name;
+                return string.IsNullOrEmpty(_name) ? "//Unnamed//" : _name;
             }
             set
             {
@@ -54,7 +47,7 @@ namespace NeuralNetwork.ViewModels
             get
             {
                 if (string.IsNullOrEmpty(_currentFunc))
-                    return "~~~No function~~~";
+                    return "Sigmoid";
                 else
                     return _currentFunc;
             }
@@ -69,7 +62,7 @@ namespace NeuralNetwork.ViewModels
         {
             get 
             { 
-                return NetworkWorkshopModel.GetAllFuncsNames();
+                return NetworkWorkshopModel.Instanse.GetAllFuncsNames();
             }
         }
 

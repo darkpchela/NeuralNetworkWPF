@@ -92,7 +92,7 @@
                         <StackPanel DataContext="{Binding NetworkAtWork}">
                             <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Network properties</TextBlock>
                             <TextBlock>Network Id</TextBlock>
-                            <TextBox IsReadOnly="True" Text="{Binding Id}"></TextBox>
+                            <TextBox IsReadOnly="True" Text="{Binding Id, Mode=OneWay}"></TextBox>
                             <TextBlock>Network name</TextBlock>
                             <TextBox Text="{Binding Name}"></TextBox>
                             <TextBlock>Activation func</TextBlock>
@@ -100,8 +100,8 @@
                             <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Layers properties</TextBlock>
                         </StackPanel>
                         <Border>
-                            <DockPanel VerticalAlignment="Center" Height="200">
-                                <ScrollViewer DockPanel.Dock="Left" Height="200">
+                            <DockPanel VerticalAlignment="Center" Height="160">
+                                <ScrollViewer DockPanel.Dock="Left" Height="160">
                                     <ListBox ItemsSource="{Binding NetworkAtWork.Layers, Mode=OneWay}" Width="260">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>

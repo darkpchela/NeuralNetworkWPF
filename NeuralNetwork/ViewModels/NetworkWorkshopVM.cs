@@ -1,5 +1,5 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
-using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
+using NeuralNetwork.Models;
 using System.Linq;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Windows.Data;
 using NeuralNetwork.Infrastructure.Converters;
 using NeuralNetwork.Infrastructure.Etc;
+using System.Collections.Specialized;
 
 namespace NeuralNetwork.ViewModels
 {
@@ -20,11 +21,6 @@ namespace NeuralNetwork.ViewModels
         private void OnPropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        public NetworkWorkshopVM()
-        {
-            PropertyDependencyContainer.Regist("Test", _workshopModel, "TestInt", this, new IntToStringConverter());
         }
 
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
@@ -57,35 +53,56 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private ObservableCollection<NetworkStorageVM> _storages;
-        public ObservableCollection<NetworkStorageVM> Storages
+        private ObservableCollection<StoragePreviewVM> _storages;
+        public ObservableCollection<StoragePreviewVM> Storages
         {
             get
             {
-                return _storages ?? (_storages = new ObservableCollection<NetworkStorageVM>());
+                return _storages ?? (_storages = new ObservableCollection<StoragePreviewVM>(_workshopModel.Storages.ToPreviewViewModels()));
+            }
+            set
+            {
+                _storages = value;
+                OnPropertyChanged("Storages");
             }
         }
 
-        private NetworkStorageVM _selectedStorage;
-        public NetworkStorageVM SelectedStorage
+        private StoragePreviewVM _selectedStorage;
+        public StoragePreviewVM SelectedStorage
         {
             get
             {
-                return _selectedStorage ?? (_selectedStorage = new NetworkStorageVM());
+                return _selectedStorage;
             }
             set
             {
                 _selectedStorage = value;
+                NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(_workshopModel.GetStorageModel(value.Id).GetAllInstances().ToViewModels());
+
                 OnPropertyChanged("SelectedStorage");
             }
         }
 
-        private NetworkVM _selectedNetwork;
-        public NetworkVM SelectedNetwork
+        private ObservableCollection<NetworkInfoVM> _networksAtStorage;
+        public ObservableCollection<NetworkInfoVM> NetworksAtStorage
         {
-            get 
+            get
             {
-                return _selectedNetwork; 
+                return _networksAtStorage ?? (_networksAtStorage = new ObservableCollection<NetworkInfoVM>());
+            }
+            set
+            {
+                _networksAtStorage = value;
+                OnPropertyChanged("NetworksAtStorage");
+            }
+        }
+
+        private NetworkInfoVM _selectedNetwork;
+        public NetworkInfoVM SelectedNetwork
+        {
+            get
+            {
+                return _selectedNetwork;
             }
             set
             {
@@ -100,7 +117,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _selectStorage ?? (_selectStorage = new RelayCommand(obj=> 
+                return _selectStorage ?? (_selectStorage = new RelayCommand(obj =>
                 {
                     MessageBox.Show(obj.ToString());
                 }));
@@ -114,12 +131,31 @@ namespace NeuralNetwork.ViewModels
             {
                 return _newNetwork ?? (_newNetwork = new RelayCommand(obj =>
                 {
-                    SelectedNetwork = new NetworkVM();
                     RedactorVM = new NetworkRedactorVM();
                     RedactorIsActive = true;
-                    RedactorVM.NetworkAtWork = SelectedNetwork;
+                    RedactorVM.StorageAtWork = SelectedStorage != null ? _workshopModel.GetStorageModel(SelectedStorage.Id).ToViewModel() : _workshopModel.TempStorage.ToViewModel();
                 }));
             }
+        }
+
+
+        private void UpdateSources(object sneder, WorkshopSourceChangedEventArgs e)
+        {
+            switch (e.SourceName)
+            {
+                case Source.Storages:
+                    Storages = new ObservableCollection<StoragePreviewVM>(_workshopModel.Storages.ToPreviewViewModels());
+                    break;
+                case Source.Networks:
+                    if (SelectedStorage != null && e.SourceId == SelectedStorage.Id)
+                    NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(_workshopModel.GetStorageModel(e.SourceId).GetAllInstances().ToViewModels());
+                    break;
+            }
+        }
+
+        public NetworkWorkshopVM()
+        {
+            _workshopModel.SourceChanged += UpdateSources;
         }
     }
 }

@@ -114,20 +114,26 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Converters\IntToStringConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ModelToViewModelsConverters.cs" />
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependency.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependencyContainer.cs" />
+    <Compile Include="Infrastructure\Etc\WorkshopSourceChangedEventArgs.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
-    <Compile Include="Model\NeuralNetworkWorkshopModel\NetworksStorageModel.cs" />
-    <Compile Include="Model\NeuralNetworkWorkshopModel\NetworkWorkshopModel.cs" />
+    <Compile Include="Models\NetworkDataModel.cs" />
+    <Compile Include="Models\NetworkFactoryModel.cs" />
+    <Compile Include="Models\NetworksStorageModel.cs" />
+    <Compile Include="Models\NetworkWorkshopModel.cs" />
+    <Compile Include="Models\NetworkModel.cs" />
     <Compile Include="ViewModels\Interfaces\IChildViewModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\NetworkTrainerVM.cs" />
-    <Compile Include="ViewModels\NetworkVM.cs" />
+    <Compile Include="ViewModels\NetworkInfoVM.cs" />
     <Compile Include="ViewModels\NetworkLayerVM.cs" />
     <Compile Include="ViewModels\NetworkRedactorVM.cs" />
     <Compile Include="ViewModels\NetworkWorkshopVM.cs" />
     <Compile Include="ViewModels\NetworkStorageVM.cs" />
+    <Compile Include="ViewModels\StoragePreviewVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

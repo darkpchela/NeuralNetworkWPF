@@ -1,5 +1,5 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
-using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
+using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -51,14 +51,19 @@ namespace NeuralNetwork.ViewModels
             {
                 return _stoargeAtWork ?? (_stoargeAtWork = new NetworkStorageVM());
             }
+            set
+            {
+                _stoargeAtWork = value;
+                OnPropertyChanged("StorageAtWork");
+            }
         }
 
-        private NetworkVM _networkAtWork;
-        public NetworkVM NetworkAtWork
+        private NetworkInfoVM _networkAtWork;
+        public NetworkInfoVM NetworkAtWork
         {
             get
             {
-                return _networkAtWork ?? (_networkAtWork = new NetworkVM());
+                return _networkAtWork ?? (_networkAtWork = new NetworkInfoVM());
             }
             set
             {

@@ -1,4 +1,4 @@
-﻿using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
+﻿using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace NeuralNetwork.ViewModels
 {
-    public class NetworkVM : INotifyPropertyChanged
+    public class NetworkInfoVM : INotifyPropertyChanged
     {
         private string _id;
         public string Id 
@@ -18,7 +18,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return string.IsNullOrEmpty(_id) ? "//Network prototype has no Id//" : _id;
             }
-            private set
+            set
             {
                 _id = value;
                 OnPropertyChanged("Id");
@@ -55,14 +55,6 @@ namespace NeuralNetwork.ViewModels
             {
                 _currentFunc = value;
                 OnPropertyChanged("ActivationFuncName");
-            }
-        }
-
-        public IEnumerable<string> AllFuncs
-        {
-            get 
-            { 
-                return NetworkWorkshopModel.Instanse.GetAllFuncsNames();
             }
         }
 

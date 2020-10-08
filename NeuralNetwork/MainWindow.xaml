@@ -65,9 +65,27 @@
                 <Border>
                     <StackPanel>
                         <TextBlock>Storage list</TextBlock>
-                        <ListBox ItemsSource="{Binding Storages}"></ListBox>
+                        <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="100"></TextBlock>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Id}"></TextBlock>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                         <TextBlock>Network list</TextBlock>
-                        <ListBox ItemsSource="{Binding Networks}"></ListBox>
+                        <ListBox ItemsSource="{Binding NetworksAtStorage}" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="100"></TextBlock>
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Id}"></TextBlock>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </Border>
             </StackPanel>

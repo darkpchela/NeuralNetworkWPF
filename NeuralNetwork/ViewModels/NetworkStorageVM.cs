@@ -57,7 +57,7 @@ namespace NeuralNetwork.ViewModels
 
         public int OutputsCount { get; set; }
 
-        public IEnumerable<NetworkVM> Networks { get; set; }
+        public IEnumerable<NetworkInfoVM> Networks { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName]string property = "")

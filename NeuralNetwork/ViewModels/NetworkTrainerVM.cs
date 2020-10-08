@@ -1,5 +1,5 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
-using NeuralNetwork.Model.NeuralNetworkWorkshopModel;
+using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,12 +30,12 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkVM _currentNetwork;
-        public NetworkVM CurrentNetwork
+        private NetworkInfoVM _currentNetwork;
+        public NetworkInfoVM CurrentNetwork
         {
             get
             {
-                return _currentNetwork ?? (_currentNetwork = new NetworkVM());
+                return _currentNetwork ?? (_currentNetwork = new NetworkInfoVM());
             }
             set
             {
@@ -58,7 +58,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return _query ?? (_query = new RelayCommand(obj =>
                 {
-                    var results = _workshopModel.Query(CurrentInputs.ToArray(), CurrentNetwork.Id);
+                    //var results = _workshopModel.Query(CurrentInputs.ToArray(), CurrentNetwork.Id);
                 }));
             }
         }

@@ -21,11 +21,27 @@ namespace NeuralNetwork.Models
             SourceChanged?.Invoke(this, e);
         }
 
-        public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
-
         private NeuralNetworkDefaultTrainer _trainer;
         private NetworkFactoryModel _factory;
         private IFileService _fileService;
+
+        public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
+
+        private NetworkWorkshopModel()
+        {
+            _fileService = new FileService();
+            _trainer = new NeuralNetworkDefaultTrainer();
+            _factory = new NetworkFactoryModel();
+            TempStorage = new NetworksStorageModel(false) 
+            {
+                Name = "Temp_storage"
+            };
+            Storages = new ObservableCollection<NetworksStorageModel>()
+            {
+                TempStorage 
+            };
+        }
+
 
         public NetworksStorageModel TempStorage { get; }
         public ObservableCollection<NetworksStorageModel> Storages { get; }
@@ -70,19 +86,5 @@ namespace NeuralNetwork.Models
             return defData;
         }
 
-        private NetworkWorkshopModel()
-        {
-            _fileService = new FileService();
-            _trainer = new NeuralNetworkDefaultTrainer();
-            _factory = new NetworkFactoryModel();
-            TempStorage = new NetworksStorageModel(false) 
-            {
-                Name = "Temp_storage"
-            };
-            Storages = new ObservableCollection<NetworksStorageModel>()
-            {
-                TempStorage 
-            };
-        }
     }
 }

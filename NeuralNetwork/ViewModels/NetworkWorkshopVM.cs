@@ -18,12 +18,33 @@ namespace NeuralNetwork.ViewModels
     public class NetworkWorkshopVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
+        private void UpdateSources(object sneder, WorkshopSourceChangedEventArgs e)
+        {
+            switch (e.SourceName)
+            {
+                case Source.Storages:
+                    Storages = new ObservableCollection<StoragePreviewVM>(_workshopModel.Storages.ToPreviewViewModels());
+                    break;
+                case Source.Networks:
+                    if (SelectedStorage != null && e.SourceId == SelectedStorage.Id)
+                    NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(_workshopModel.GetStorageModel(e.SourceId).GetAllInstances().ToViewModels());
+                    break;
+            }
+        }
+        
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
+
+        public NetworkWorkshopVM()
+        {
+            _workshopModel.SourceChanged += UpdateSources;
+        }
+
 
         private NetworkRedactorVM _redactorVM;
         public NetworkRedactorVM RedactorVM
@@ -138,24 +159,5 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-
-        private void UpdateSources(object sneder, WorkshopSourceChangedEventArgs e)
-        {
-            switch (e.SourceName)
-            {
-                case Source.Storages:
-                    Storages = new ObservableCollection<StoragePreviewVM>(_workshopModel.Storages.ToPreviewViewModels());
-                    break;
-                case Source.Networks:
-                    if (SelectedStorage != null && e.SourceId == SelectedStorage.Id)
-                    NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(_workshopModel.GetStorageModel(e.SourceId).GetAllInstances().ToViewModels());
-                    break;
-            }
-        }
-
-        public NetworkWorkshopVM()
-        {
-            _workshopModel.SourceChanged += UpdateSources;
-        }
     }
 }

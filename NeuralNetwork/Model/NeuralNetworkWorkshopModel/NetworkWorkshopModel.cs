@@ -6,15 +6,36 @@ using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
 {
-    public class NetworkWorkshopModel
+    public class NetworkWorkshopModel :INotifyPropertyChanged
     {
-        public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName]string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
 
-        private Dictionary<Guid, NetworksStorageModel> _strorages;
+        private string _test="1";
+        public string Test
+        {
+            get
+            {
+                return _test;
+            }
+            set
+            {
+                _test = value;
+                OnPropertyChanged("Test");
+            }
+        }
+
+        public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
+        public ObservableCollection<NetworksStorageModel> Storages { get; private set; }
         private NeuralNetworkDefaultTrainer _trainer;
         private NeuralNetworkDefaultFactory _factory;
         private NetworksStorageModel _tempStorage;
@@ -31,9 +52,9 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             {
                 Name = "Temp_storage"
             };
-            _strorages = new Dictionary<Guid, NetworksStorageModel>()
+            Storages = new ObservableCollection<NetworksStorageModel>()
             {
-                { _tempStorage.Id, _tempStorage }
+                _tempStorage 
             };
         }
 
@@ -52,9 +73,10 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             }
             else
             {
-                var storage = _strorages[Guid.Parse(storageId)];
+                var storage = Storages.First(s => s.Id == Guid.Parse(storageId));
                 storage.AddInstance(network);
             }
+            Test = "2";
         }
 
         public float[] Query(float[] inputs, string networkId)
@@ -65,7 +87,7 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
         private NeuralNetworkDefaultData NetworkViewModelToNeuralNetworkDefaultData(NetworkVM networkVM)
         {
             var defData = new NeuralNetworkDefaultData();
-            if (!string.IsNullOrEmpty(networkVM.Id) && Guid.TryParse(networkVM.Id, out Guid id))
+            if (Guid.TryParse(networkVM.Id, out Guid id))
                 defData.Id = id;
 
             defData.ActivationFuncName = networkVM.CurrentFunc;

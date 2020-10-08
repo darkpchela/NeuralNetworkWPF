@@ -59,6 +59,7 @@
                         <Button>Open network</Button>
                         <Button>Create new storage</Button>
                         <Button Command="{Binding NewNetwork}">Create new network</Button>
+                        <Button Content="{Binding TestInt}"></Button>
                     </StackPanel>
                 </Border>
                 <Border>
@@ -134,7 +135,7 @@
                                 </StackPanel>
                             </DockPanel>
                         </Border>
-                        <Button>Save</Button>
+                        <Button Command="{Binding Create}">Save</Button>
                     </StackPanel>
                 </Border>
             </DockPanel>

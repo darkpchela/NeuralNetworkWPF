@@ -22,39 +22,9 @@ namespace NeuralNetwork.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private PropertyDependencyStorage _dependencyStorage = new PropertyDependencyStorage();
-        public Dictionary<string, List<(string, IValueConverter)>> BindedProperties { get; }
-        private void UpdateProperty(object sender, PropertyChangedEventArgs e)
-        {
-            if (!_dependencyStorage.ContainsDependency(e.PropertyName, sender))
-                return;
-
-            var dependency = _dependencyStorage.GetPropDependency(e.PropertyName, sender);
-            var propValue = dependency.Source.GetType().GetProperty(e.PropertyName).GetValue(sender, null);
-           
-            if (dependency.Converter != null)
-                propValue = dependency.Converter.Convert(propValue, null, null, null);
-
-            dependency.Target.GetType().GetProperty(dependency.TargetPropName).SetValue(this, propValue);
-        }
         public NetworkWorkshopVM()
         {
-            _dependencyStorage.Regist("Test", _workshopModel, "TestInt", this, new IntToStringConverter());
-            _workshopModel.PropertyChanged += UpdateProperty;
-        }
-
-        private int _testInt;
-        public int TestInt
-        {
-            get
-            {
-                return _testInt;
-            }
-            set
-            {
-                _testInt = value;
-                OnPropertyChanged("TestInt");
-            }
+            PropertyDependencyContainer.Regist("Test", _workshopModel, "TestInt", this, new IntToStringConverter());
         }
 
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;

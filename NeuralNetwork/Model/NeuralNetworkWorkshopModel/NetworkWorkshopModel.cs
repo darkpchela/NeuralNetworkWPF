@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 
 namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
 {
-    public class NetworkWorkshopModel :INotifyPropertyChanged
+    public class NetworkWorkshopModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName]string property = "")
@@ -20,27 +20,15 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private string _test="1";
-        public string Test
-        {
-            get
-            {
-                return _test;
-            }
-            set
-            {
-                _test = value;
-                OnPropertyChanged("Test");
-            }
-        }
-
-        public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
-        public ObservableCollection<NetworksStorageModel> Storages { get; private set; }
         private NeuralNetworkDefaultTrainer _trainer;
         private NeuralNetworkDefaultFactory _factory;
         private NetworksStorageModel _tempStorage;
 
         private IFileService _fileService;
+        public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
+
+        public ObservableCollection<NetworksStorageModel> Storages { get; private set; }
+
 
         private NetworkWorkshopModel()
         {
@@ -76,7 +64,6 @@ namespace NeuralNetwork.Model.NeuralNetworkWorkshopModel
                 var storage = Storages.First(s => s.Id == Guid.Parse(storageId));
                 storage.AddInstance(network);
             }
-            Test = "2";
         }
 
         public float[] Query(float[] inputs, string networkId)

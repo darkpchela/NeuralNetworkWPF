@@ -28,11 +28,11 @@ namespace NeuralNetwork.ViewModels
             switch (e.SourceName)
             {
                 case Source.Storages:
-                    Storages = new ObservableCollection<StoragePreviewVM>(_workshopModel.Storages.ToPreviewViewModels());
+                    Storages = new ObservableCollection<NetworkStorageVM>(_workshopModel.Storages.ToViewModels());
                     break;
                 case Source.Networks:
                     if (SelectedStorage != null && e.SourceId == SelectedStorage.Id)
-                    NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(_workshopModel.GetStorageModel(e.SourceId).GetAllInstances().ToViewModels());
+                    NetworksAtStorage = new ObservableCollection<NetworkVM>(_workshopModel.GetStorageModel(e.SourceId).GetAllInstances().ToViewModels());
                     break;
             }
         }
@@ -72,12 +72,12 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private ObservableCollection<StoragePreviewVM> _storages;
-        public ObservableCollection<StoragePreviewVM> Storages
+        private ObservableCollection<NetworkStorageVM> _storages;
+        public ObservableCollection<NetworkStorageVM> Storages
         {
             get
             {
-                return _storages ?? (_storages = new ObservableCollection<StoragePreviewVM>(_workshopModel.Storages.ToPreviewViewModels()));
+                return _storages ?? (_storages = new ObservableCollection<NetworkStorageVM>(_workshopModel.Storages.ToViewModels()));
             }
             set
             {
@@ -86,8 +86,8 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private StoragePreviewVM _selectedStorage;
-        public StoragePreviewVM SelectedStorage
+        private NetworkStorageVM _selectedStorage;
+        public NetworkStorageVM SelectedStorage
         {
             get
             {
@@ -102,22 +102,22 @@ namespace NeuralNetwork.ViewModels
                     return;
                 }
                 var storageModel = _workshopModel.GetStorageModel(value.Id);
-                NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(storageModel.GetAllInstances().ToViewModels());
+                NetworksAtStorage = new ObservableCollection<NetworkVM>(storageModel.GetAllInstances().ToViewModels());
                 RedactorVM = new NetworkRedactorVM 
                 { 
-                    StorageAtWork = storageModel.ToViewModel() 
+                    StorageAtWork = storageModel.GetViewModel() 
                 };
                 RedactorIsActive = true;
                 OnPropertyChanged("SelectedStorage");
             }
         }
 
-        private ObservableCollection<NetworkInfoVM> _networksAtStorage;
-        public ObservableCollection<NetworkInfoVM> NetworksAtStorage
+        private ObservableCollection<NetworkVM> _networksAtStorage;
+        public ObservableCollection<NetworkVM> NetworksAtStorage
         {
             get
             {
-                return _networksAtStorage ?? (_networksAtStorage = new ObservableCollection<NetworkInfoVM>());
+                return _networksAtStorage ?? (_networksAtStorage = new ObservableCollection<NetworkVM>());
             }
             set
             {
@@ -126,8 +126,8 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkInfoVM _selectedNetwork;
-        public NetworkInfoVM SelectedNetwork
+        private NetworkVM _selectedNetwork;
+        public NetworkVM SelectedNetwork
         {
             get
             {
@@ -151,8 +151,8 @@ namespace NeuralNetwork.ViewModels
                     RedactorVM = new NetworkRedactorVM();
                     RedactorIsActive = true;
                     if (SelectedStorage is null)
-                        SelectedStorage = _workshopModel.TempStorage.ToPreviewModel();
-                    RedactorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).ToViewModel();
+                        SelectedStorage = _workshopModel.TempStorage.GetViewModel();
+                    RedactorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).GetViewModel();
                 }));
             }
         }

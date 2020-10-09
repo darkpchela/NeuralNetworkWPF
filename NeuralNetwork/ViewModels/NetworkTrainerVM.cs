@@ -30,12 +30,12 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkInfoVM _currentNetwork;
-        public NetworkInfoVM CurrentNetwork
+        private NetworkVM _currentNetwork;
+        public NetworkVM CurrentNetwork
         {
             get
             {
-                return _currentNetwork ?? (_currentNetwork = new NetworkInfoVM());
+                return _currentNetwork;
             }
             set
             {

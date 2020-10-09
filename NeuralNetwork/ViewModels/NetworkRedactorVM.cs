@@ -49,7 +49,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _stoargeAtWork ?? (_stoargeAtWork = new NetworkStorageVM());
+                return _stoargeAtWork;
             }
             set
             {
@@ -58,12 +58,12 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkInfoVM _networkAtWork;
-        public NetworkInfoVM NetworkAtWork
+        private NetworkVM _networkAtWork;
+        public NetworkVM NetworkAtWork
         {
             get
             {
-                return _networkAtWork ?? (_networkAtWork = new NetworkInfoVM());
+                return _networkAtWork;
             }
             set
             {

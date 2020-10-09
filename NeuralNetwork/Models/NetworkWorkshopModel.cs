@@ -62,7 +62,7 @@ namespace NeuralNetwork.Models
             return FuncDictionary.GetAllFuncsNames();
         }
 
-        public void CreateNetwork(NetworkInfoVM networkPrototype, string storageId = null)
+        public void CreateNetwork(NetworkVM networkPrototype, string storageId = null)
         {
             var defData = NetworkViewModelToNetworkDataModel(networkPrototype);
             var network = _factory.CreateInstance(defData);
@@ -86,7 +86,7 @@ namespace NeuralNetwork.Models
             OnSourceChanged(new WorkshopSourceChangedEventArgs(Source.Storages, storage.Id.ToString()));
         }
 
-        private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkInfoVM networkVM)
+        private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)
         {
             var defData = new NetworkDataModel();
             if (Guid.TryParse(networkVM.Id, out Guid id))

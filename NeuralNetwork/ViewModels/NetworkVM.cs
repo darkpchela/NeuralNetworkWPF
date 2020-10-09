@@ -9,8 +9,14 @@ using System.Runtime.CompilerServices;
 
 namespace NeuralNetwork.ViewModels
 {
-    public class NetworkInfoVM : INotifyPropertyChanged
+    public class NetworkVM : INotifyPropertyChanged
     {
+        private NetworkModel _networkModel;
+        public NetworkVM(NetworkModel model)
+        {
+            _networkModel = model;
+        }
+
         private string _id;
         public string Id 
         {

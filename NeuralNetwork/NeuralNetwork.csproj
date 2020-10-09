@@ -129,12 +129,11 @@
     <Compile Include="ViewModels\Interfaces\IChildViewModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\NetworkTrainerVM.cs" />
-    <Compile Include="ViewModels\NetworkInfoVM.cs" />
+    <Compile Include="ViewModels\NetworkVM.cs" />
     <Compile Include="ViewModels\NetworkLayerVM.cs" />
     <Compile Include="ViewModels\NetworkRedactorVM.cs" />
     <Compile Include="ViewModels\NetworkWorkshopVM.cs" />
     <Compile Include="ViewModels\NetworkStorageVM.cs" />
-    <Compile Include="ViewModels\StoragePreviewVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

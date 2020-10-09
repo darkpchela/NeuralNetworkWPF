@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuralNetwork.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -7,6 +8,12 @@ namespace NeuralNetwork.ViewModels
 {
     public class NetworkStorageVM : INotifyPropertyChanged
     {
+        private NetworksStorageModel _storageModel;
+        public NetworkStorageVM(NetworksStorageModel model)
+        {
+            _storageModel = model;
+        }
+
         private Guid _id;
         public string Id 
         {
@@ -57,7 +64,7 @@ namespace NeuralNetwork.ViewModels
 
         public int OutputsCount { get; set; }
 
-        public IEnumerable<NetworkInfoVM> Networks { get; set; }
+        public IEnumerable<NetworkVM> Networks { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName]string property = "")
@@ -65,6 +72,5 @@ namespace NeuralNetwork.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        public NetworkWorkshopVM ParentViewModel { get; set; }
     }
 }

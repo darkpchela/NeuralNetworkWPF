@@ -7,11 +7,11 @@ namespace NeuralNetwork.Core.Default
     {
         private Dictionary<Guid, T> _instances;
 
-        public Guid Id { get; }
+        public virtual Guid Id { get; }
 
-        public bool IsStrict { get; }
+        public virtual bool IsStrict { get; }
 
-        public NeuralNetworkStorageConstraints StorageConstraints { get; private set; }
+        public virtual NeuralNetworkStorageConstraints StorageConstraints { get; private set; }
 
         public NeuralNetworksDefaultStorage(bool isStrict)
         {

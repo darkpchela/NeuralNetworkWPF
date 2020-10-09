@@ -22,27 +22,8 @@ namespace NeuralNetwork.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
-
-        private void UpdateSources(object sneder, WorkshopSourceChangedEventArgs e)
-        {
-            switch (e.SourceName)
-            {
-                case Source.Storages:
-                    Storages = new ObservableCollection<NetworkStorageVM>(_workshopModel.Storages.ToViewModels());
-                    break;
-                case Source.Networks:
-                    if (SelectedStorage != null && e.SourceId == SelectedStorage.Id)
-                    NetworksAtStorage = new ObservableCollection<NetworkVM>(_workshopModel.GetStorageModel(e.SourceId).GetAllInstances().ToViewModels());
-                    break;
-            }
-        }
         
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
-        public NetworkWorkshopVM()
-        {
-            _workshopModel.SourceChanged += UpdateSources;
-        }
-
 
         private NetworkRedactorVM _redactorVM;
         public NetworkRedactorVM RedactorVM
@@ -103,9 +84,9 @@ namespace NeuralNetwork.ViewModels
                 }
                 var storageModel = _workshopModel.GetStorageModel(value.Id);
                 NetworksAtStorage = new ObservableCollection<NetworkVM>(storageModel.GetAllInstances().ToViewModels());
-                RedactorVM = new NetworkRedactorVM 
-                { 
-                    StorageAtWork = storageModel.GetViewModel() 
+                RedactorVM = new NetworkRedactorVM
+                {
+                    StorageAtWork = SelectedStorage
                 };
                 RedactorIsActive = true;
                 OnPropertyChanged("SelectedStorage");

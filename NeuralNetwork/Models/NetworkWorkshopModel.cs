@@ -16,15 +16,6 @@ namespace NeuralNetwork.Models
 {
     public class NetworkWorkshopModel
     {
-        public event WorkshopSourceChangedEventHandler SourceChanged;
-        private void OnSourceChanged(WorkshopSourceChangedEventArgs e)
-        {
-            SourceChanged?.Invoke(this, e);
-        }
-        private void OnStorageChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            SourceChanged?.Invoke(this, new WorkshopSourceChangedEventArgs(Source.Storages, ((NetworksStorageModel)e.NewItems[0]).Id.ToString()));
-        }
 
         private NeuralNetworkDefaultTrainer _trainer;
         private NetworkFactoryModel _factory;
@@ -45,7 +36,6 @@ namespace NeuralNetwork.Models
             {
                 TempStorage 
             };
-            Storages.CollectionChanged += OnStorageChanged;
         }
 
 
@@ -75,15 +65,12 @@ namespace NeuralNetwork.Models
                 var storage = Storages.First(s => s.Id == Guid.Parse(storageId));
                 storage.AddInstance(network);
             }
-
-            OnSourceChanged(new WorkshopSourceChangedEventArgs(Source.Networks, storageId ?? TempStorage.Id.ToString()));
         }
 
         public void CreateStorage()
         {
             var storage = new NetworksStorageModel(true);
             Storages.Add(storage);
-            OnSourceChanged(new WorkshopSourceChangedEventArgs(Source.Storages, storage.Id.ToString()));
         }
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)

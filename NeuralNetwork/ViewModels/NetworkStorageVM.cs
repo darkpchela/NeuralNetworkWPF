@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Models;
+﻿using NeuralNetwork.Infrastructure.Etc;
+using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ namespace NeuralNetwork.ViewModels
         public NetworkStorageVM(NetworksStorageModel model)
         {
             _storageModel = model;
+            PropertyDependencyContainer.Regist(nameof(_storageModel.Name), _storageModel, nameof(Name), this, x => x.ToString() + "mapped");
         }
 
         private Guid _id;

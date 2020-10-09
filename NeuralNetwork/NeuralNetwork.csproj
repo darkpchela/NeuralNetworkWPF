@@ -119,7 +119,6 @@
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependency.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependencyContainer.cs" />
-    <Compile Include="Infrastructure\Etc\WorkshopSourceChangedEventArgs.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
     <Compile Include="Models\NetworkDataModel.cs" />
     <Compile Include="Models\NetworkFactoryModel.cs" />

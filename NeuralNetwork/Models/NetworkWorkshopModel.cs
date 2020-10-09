@@ -56,7 +56,7 @@ namespace NeuralNetwork.Models
             return FuncDictionary.GetAllFuncsNames();
         }
 
-        public void Create(NetworkInfoVM networkPrototype, string storageId = null)
+        public void CreateNetwork(NetworkInfoVM networkPrototype, string storageId = null)
         {
             var defData = NetworkViewModelToNetworkDataModel(networkPrototype);
             var network = _factory.CreateInstance(defData);
@@ -71,6 +71,13 @@ namespace NeuralNetwork.Models
             }
 
             OnSourceChanged(new WorkshopSourceChangedEventArgs(Source.Networks, storageId ?? TempStorage.Id.ToString()));
+        }
+
+        public void CreateStorage()
+        {
+            var storage = new NetworksStorageModel(true);
+            Storages.Add(storage);
+            OnSourceChanged(new WorkshopSourceChangedEventArgs(Source.Storages, storage.Id.ToString()));
         }
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkInfoVM networkVM)

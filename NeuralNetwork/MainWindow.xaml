@@ -57,7 +57,7 @@
                     <StackPanel>
                         <Button>Open storage</Button>
                         <Button>Open network</Button>
-                        <Button>Create new storage</Button>
+                        <Button Command="{Binding NewStorage}">Create new storage</Button>
                         <Button Command="{Binding NewNetwork}">Create new network</Button>
                         <Button Content="{Binding TestInt}"></Button>
                     </StackPanel>
@@ -102,7 +102,7 @@
                                 <TextBlock>Storage name</TextBlock>
                                 <TextBox Text="{Binding Name}"></TextBox>
                             </StackPanel>
-                            <Button>Save</Button>
+                            <Button Command="{Binding Save}">Save</Button>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -153,7 +153,7 @@
                                 </StackPanel>
                             </DockPanel>
                         </Border>
-                        <Button Command="{Binding Create}">Save</Button>
+                        <Button Command="{Binding Create}">Create network</Button>
                     </StackPanel>
                 </Border>
             </DockPanel>

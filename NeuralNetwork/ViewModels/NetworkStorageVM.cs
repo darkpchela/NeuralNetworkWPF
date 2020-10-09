@@ -7,12 +7,12 @@ namespace NeuralNetwork.ViewModels
 {
     public class NetworkStorageVM : INotifyPropertyChanged
     {
-        private Guid? _id;
+        private Guid _id;
         public string Id 
         {
             get
             {
-                return _id?.ToString() ?? "~~~~~~~~-~~~~-~~~~-~~~~-~~~~~~~~~~~~";
+                return _id.ToString();
             }
             set
             {

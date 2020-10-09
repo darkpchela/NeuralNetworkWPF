@@ -18,7 +18,6 @@ namespace NeuralNetwork.ViewModels
     public class NetworkWorkshopVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
         private void OnPropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
@@ -39,7 +38,6 @@ namespace NeuralNetwork.ViewModels
         }
         
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
-
         public NetworkWorkshopVM()
         {
             _workshopModel.SourceChanged += UpdateSources;
@@ -98,8 +96,18 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedStorage = value;
-                NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(_workshopModel.GetStorageModel(value.Id).GetAllInstances().ToViewModels());
-
+                if (value is null) 
+                {
+                    RedactorIsActive = false;
+                    return;
+                }
+                var storageModel = _workshopModel.GetStorageModel(value.Id);
+                NetworksAtStorage = new ObservableCollection<NetworkInfoVM>(storageModel.GetAllInstances().ToViewModels());
+                RedactorVM = new NetworkRedactorVM 
+                { 
+                    StorageAtWork = storageModel.ToViewModel() 
+                };
+                RedactorIsActive = true;
                 OnPropertyChanged("SelectedStorage");
             }
         }
@@ -133,18 +141,6 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private RelayCommand _selectStorage;
-        public RelayCommand SelectStorage
-        {
-            get
-            {
-                return _selectStorage ?? (_selectStorage = new RelayCommand(obj =>
-                {
-                    MessageBox.Show(obj.ToString());
-                }));
-            }
-        }
-
         private RelayCommand _newNetwork;
         public RelayCommand NewNetwork
         {
@@ -154,7 +150,21 @@ namespace NeuralNetwork.ViewModels
                 {
                     RedactorVM = new NetworkRedactorVM();
                     RedactorIsActive = true;
-                    RedactorVM.StorageAtWork = SelectedStorage != null ? _workshopModel.GetStorageModel(SelectedStorage.Id).ToViewModel() : _workshopModel.TempStorage.ToViewModel();
+                    if (SelectedStorage is null)
+                        SelectedStorage = _workshopModel.TempStorage.ToPreviewModel();
+                    RedactorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).ToViewModel();
+                }));
+            }
+        }
+
+        private RelayCommand _newStorage;
+        public RelayCommand NewStorage
+        {
+            get
+            {
+                return _newStorage ?? (_newStorage = new RelayCommand(obj =>
+                {
+                    _workshopModel.CreateStorage();
                 }));
             }
         }

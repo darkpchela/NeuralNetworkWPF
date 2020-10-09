@@ -113,6 +113,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\Converters\GuidToStringConverter.cs" />
     <Compile Include="Infrastructure\Converters\IntToStringConverter.cs" />
     <Compile Include="Infrastructure\Converters\ModelToViewModelsConverters.cs" />
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />

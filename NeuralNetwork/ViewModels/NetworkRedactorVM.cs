@@ -125,7 +125,19 @@ namespace NeuralNetwork.ViewModels
             {
                 return _create ?? (_create = new RelayCommand(obj =>
                 {
-                    _workshopModel.Create(NetworkAtWork);
+                    _workshopModel.CreateNetwork(NetworkAtWork);
+                }));
+            }
+        }
+
+        private RelayCommand _save;
+        public RelayCommand Save
+        {
+            get
+            {
+                return _save ?? (_save = new RelayCommand(obj =>
+                {
+                    _workshopModel.GetStorageModel(StorageAtWork.Id).Name = StorageAtWork.Name;
                 }));
             }
         }

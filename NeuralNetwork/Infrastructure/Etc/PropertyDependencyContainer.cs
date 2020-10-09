@@ -19,7 +19,8 @@ namespace NeuralNetwork.Infrastructure.Etc
 
             ((INotifyPropertyChanged)registForm.Source).PropertyChanged += UpdateProperty;
 
-            _dependencies.Add((sourcePropName, source), registForm);
+            if (!_dependencies.ContainsKey((sourcePropName, source)))
+                _dependencies.Add((sourcePropName, source), registForm);
         }
 
         private static void UpdateProperty(object sender, PropertyChangedEventArgs e)

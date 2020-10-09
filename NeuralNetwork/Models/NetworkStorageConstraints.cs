@@ -1,11 +1,11 @@
-﻿namespace NeuralNetwork.Core
+﻿namespace NeuralNetwork.Models
 {
-    public class NeuralNetworkStorageConstraints
+    public class NetworkStorageConstraints
     {
         public int InputsCount { get; }
         public int OutputsCount { get; }
 
-        public NeuralNetworkStorageConstraints(int inputsCount, int outputsCount)
+        public NetworkStorageConstraints(int inputsCount, int outputsCount)
         {
             InputsCount = inputsCount;
             OutputsCount = outputsCount;

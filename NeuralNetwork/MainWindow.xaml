@@ -76,7 +76,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <TextBlock>Network list</TextBlock>
-                        <ListBox ItemsSource="{Binding NetworksAtStorage}" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}">
+                        <ListBox ItemsSource="{Binding SelectedStorage.Networks}" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
@@ -91,7 +91,7 @@
             </StackPanel>
         </Border>
         <Border Grid.Column="1" IsEnabled="{Binding RedactorIsActive}">
-            <DockPanel DataContext="{Binding RedactorVM}">
+            <DockPanel DataContext="{Binding EditorVM}">
                 <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
                     <Border>
                         <StackPanel>
@@ -100,7 +100,7 @@
                                 <TextBlock>Storage Id</TextBlock>
                                 <TextBox IsReadOnly="True" Text="{Binding Id}"></TextBox>
                                 <TextBlock>Storage name</TextBlock>
-                                <TextBox Text="{Binding Name}"></TextBox>
+                                <TextBox IsReadOnly="{Binding IsDefaultStorage}" Text="{Binding Name}"></TextBox>
                             </StackPanel>
                             <Button Command="{Binding Save}">Save</Button>
                         </StackPanel>

@@ -24,18 +24,23 @@ namespace NeuralNetwork.ViewModels
         }
         
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
+        public NetworkWorkshopVM()
+        {
+            PropertyDependencyContainer.Regist(nameof(_workshopModel.Storages), _workshopModel, nameof(Storages), this,
+                s => new ObservableCollection<NetworkStorageVM>(((IEnumerable<NetworksStorageModel>)s).ToViewModels()));
+        }
 
-        private NetworkRedactorVM _redactorVM;
-        public NetworkRedactorVM RedactorVM
+        private EditorVM _editorVM;
+        public EditorVM EditorVM
         {
             get
             {
-                return _redactorVM;
+                return _editorVM;
             }
             set
             {
-                _redactorVM = value;
-                OnPropertyChanged("RedactorVM");
+                _editorVM = value;
+                OnPropertyChanged(nameof(EditorVM));
             }
         }
 
@@ -83,13 +88,28 @@ namespace NeuralNetwork.ViewModels
                     return;
                 }
                 var storageModel = _workshopModel.GetStorageModel(value.Id);
-                NetworksAtStorage = new ObservableCollection<NetworkVM>(storageModel.GetAllInstances().ToViewModels());
-                RedactorVM = new NetworkRedactorVM
+                NetworksAtStorage = new ObservableCollection<NetworkVM>(storageModel.Networks.ToViewModels());
+                EditorVM = new EditorVM
                 {
-                    StorageAtWork = SelectedStorage
+                    StorageAtWork = SelectedStorage,
+                    NetworkAtWork = new NetworkVM()
                 };
                 RedactorIsActive = true;
                 OnPropertyChanged("SelectedStorage");
+            }
+        }
+
+        private NetworkVM _selectedNetwork;
+        public NetworkVM SelectedNetwork
+        {
+            get
+            {
+                return _selectedNetwork;
+            }
+            set
+            {
+                _selectedNetwork = value;
+                OnPropertyChanged("SelectedNetwork");
             }
         }
 
@@ -107,20 +127,6 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private NetworkVM _selectedNetwork;
-        public NetworkVM SelectedNetwork
-        {
-            get
-            {
-                return _selectedNetwork;
-            }
-            set
-            {
-                _selectedNetwork = value;
-
-                OnPropertyChanged("SelectedNetwork");
-            }
-        }
 
         private RelayCommand _newNetwork;
         public RelayCommand NewNetwork
@@ -129,11 +135,12 @@ namespace NeuralNetwork.ViewModels
             {
                 return _newNetwork ?? (_newNetwork = new RelayCommand(obj =>
                 {
-                    RedactorVM = new NetworkRedactorVM();
+                    EditorVM = new EditorVM();
                     RedactorIsActive = true;
                     if (SelectedStorage is null)
                         SelectedStorage = _workshopModel.TempStorage.GetViewModel();
-                    RedactorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).GetViewModel();
+                    EditorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).GetViewModel();
+                    EditorVM.NetworkAtWork = new NetworkVM();
                 }));
             }
         }

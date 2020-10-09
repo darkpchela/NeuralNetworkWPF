@@ -12,37 +12,9 @@ using System.Windows;
 
 namespace NeuralNetwork.ViewModels
 {
-    public class NetworkRedactorVM : INotifyPropertyChanged
+    public class EditorVM : INotifyPropertyChanged
     {
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
-
-        private bool _storageSelected;
-        public bool StorageSelected
-        {
-            get
-            {
-                return _storageSelected;
-            }
-            set
-            {
-                _storageSelected = value;
-                OnPropertyChanged("StorageSelected");
-            }
-        }
-
-        private bool _networkSelected;
-        public bool NetworkSelected
-        {
-            get
-            {
-                return _networkSelected;
-            }
-            set
-            {
-                _networkSelected = value;
-                OnPropertyChanged("NetworkSelected");
-            }
-        }
 
         private NetworkStorageVM _stoargeAtWork;
         public NetworkStorageVM StorageAtWork
@@ -125,7 +97,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return _create ?? (_create = new RelayCommand(obj =>
                 {
-                    _workshopModel.CreateNetwork(NetworkAtWork);
+                    _workshopModel.CreateNetwork(NetworkAtWork, StorageAtWork?.Id);
                 }));
             }
         }
@@ -137,7 +109,10 @@ namespace NeuralNetwork.ViewModels
             {
                 return _save ?? (_save = new RelayCommand(obj =>
                 {
-                    _workshopModel.GetStorageModel(StorageAtWork.Id).Name = StorageAtWork.Name;
+                    if (StorageAtWork.Name != NetworkWorkshopModel.DefaultStorageName)
+                        _workshopModel.GetStorageModel(StorageAtWork.Id).Name = StorageAtWork.Name;
+                    else
+                        MessageBox.Show("Invalid storage name!");
                 }));
             }
         }

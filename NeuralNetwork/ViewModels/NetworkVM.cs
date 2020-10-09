@@ -12,7 +12,7 @@ namespace NeuralNetwork.ViewModels
     public class NetworkVM : INotifyPropertyChanged
     {
         private NetworkModel _networkModel;
-        public NetworkVM(NetworkModel model)
+        public NetworkVM(NetworkModel model = null)
         {
             _networkModel = model;
         }

@@ -14,12 +14,19 @@ using System.Runtime.CompilerServices;
 
 namespace NeuralNetwork.Models
 {
-    public class NetworkWorkshopModel
+    public class NetworkWorkshopModel : INotifyPropertyChanged
     {
+        public const string DefaultStorageName = "Default_storage";
 
         private NeuralNetworkDefaultTrainer _trainer;
         private NetworkFactoryModel _factory;
         private IFileService _fileService;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName]string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
 
         public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
 
@@ -30,7 +37,7 @@ namespace NeuralNetwork.Models
             _factory = new NetworkFactoryModel();
             TempStorage = new NetworksStorageModel(false) 
             {
-                Name = "Temp_storage"
+                Name = DefaultStorageName
             };
             Storages = new ObservableCollection<NetworksStorageModel>()
             {
@@ -71,6 +78,7 @@ namespace NeuralNetwork.Models
         {
             var storage = new NetworksStorageModel(true);
             Storages.Add(storage);
+            OnPropertyChanged("Storages");
         }
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)

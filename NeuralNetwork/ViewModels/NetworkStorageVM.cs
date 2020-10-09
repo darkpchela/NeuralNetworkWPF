@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Infrastructure.Etc;
+﻿using NeuralNetwork.Infrastructure.Converters;
+using NeuralNetwork.Infrastructure.Etc;
 using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,24 @@ namespace NeuralNetwork.ViewModels
     public class NetworkStorageVM : INotifyPropertyChanged
     {
         private NetworksStorageModel _storageModel;
-        public NetworkStorageVM(NetworksStorageModel model)
+        public NetworkStorageVM(NetworksStorageModel model = null)
         {
             _storageModel = model;
-            PropertyDependencyContainer.Regist(nameof(_storageModel.Name), _storageModel, nameof(Name), this, x => x.ToString() + "mapped");
+
+            if (model != null)
+            {
+                PropertyDependencyContainer.Regist(nameof(_storageModel.Name), _storageModel, nameof(Name), this);
+                PropertyDependencyContainer.Regist(nameof(_storageModel.Networks), _storageModel, nameof(Networks), this, o => ((IEnumerable<NetworkModel>)o).ToViewModels());
+            }
+        }
+
+        private bool isDefaultStorage;
+        public bool IsDefaultStorage
+        {
+            get
+            {
+                return isDefaultStorage = Name == NetworkWorkshopModel.DefaultStorageName;
+            }
         }
 
         private Guid _id;
@@ -66,7 +81,19 @@ namespace NeuralNetwork.ViewModels
 
         public int OutputsCount { get; set; }
 
-        public IEnumerable<NetworkVM> Networks { get; set; }
+        private IEnumerable<NetworkVM> _networks;
+        public IEnumerable<NetworkVM> Networks 
+        {
+            get
+            {
+                return _networks;
+            }
+            set
+            {
+                _networks = value;
+                OnPropertyChanged(nameof(Networks));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName]string property = "")

@@ -7,6 +7,7 @@ using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -19,6 +20,10 @@ namespace NeuralNetwork.Models
         private void OnSourceChanged(WorkshopSourceChangedEventArgs e)
         {
             SourceChanged?.Invoke(this, e);
+        }
+        private void OnStorageChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SourceChanged?.Invoke(this, new WorkshopSourceChangedEventArgs(Source.Storages, ((NetworksStorageModel)e.NewItems[0]).Id.ToString()));
         }
 
         private NeuralNetworkDefaultTrainer _trainer;
@@ -40,6 +45,7 @@ namespace NeuralNetwork.Models
             {
                 TempStorage 
             };
+            Storages.CollectionChanged += OnStorageChanged;
         }
 
 

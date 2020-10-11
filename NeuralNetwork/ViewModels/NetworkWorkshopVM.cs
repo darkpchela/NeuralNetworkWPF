@@ -155,5 +155,17 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private RelayCommand _saveNetwork;
+        public RelayCommand SaveNetwork
+        {
+            get
+            {
+                return _saveNetwork ?? (_saveNetwork = new RelayCommand(obj =>
+                {
+
+                }));
+            }
+        }
+
     }
 }

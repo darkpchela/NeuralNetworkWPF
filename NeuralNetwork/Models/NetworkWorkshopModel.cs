@@ -1,7 +1,7 @@
 ﻿using NeuralNetwork.Core.Default;
 using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Infrastructure.Etc;
-using NeuralNetwork.Services.Interfaces;
+using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Services.Services;
 using NeuralNetwork.ViewModels;
 using System;
@@ -84,6 +84,11 @@ namespace NeuralNetwork.Models
             var storage = new NetworksStorageModel(true);
             Storages.Add(storage);
             OnPropertyChanged("Storages");
+        }
+
+        public bool SaveNetwork()
+        {
+
         }
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)

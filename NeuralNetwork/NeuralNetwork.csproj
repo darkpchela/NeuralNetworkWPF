@@ -119,7 +119,13 @@
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependency.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependencyContainer.cs" />
+    <Compile Include="Infrastructure\Interfaces\IFileReader.cs" />
+    <Compile Include="Infrastructure\Interfaces\IFileReadStrategy.cs" />
+    <Compile Include="Infrastructure\Interfaces\IFileService.cs" />
+    <Compile Include="Infrastructure\Interfaces\IObjectSaver.cs" />
+    <Compile Include="Infrastructure\Interfaces\IObjectSaveStrategy.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
+    <Compile Include="Infrastructure\Services\FileService.cs" />
     <Compile Include="Models\NetworkDataModel.cs" />
     <Compile Include="Models\NetworkFactoryModel.cs" />
     <Compile Include="Models\NetworksStorageModel.cs" />
@@ -177,10 +183,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NeuralNetwork.BLL\NeuralNetwork.Services.csproj">
-      <Project>{d48667f0-b604-4942-a8db-046b158cd0de}</Project>
-      <Name>NeuralNetwork.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NeuralNetwork.Core\NeuralNetwork.Core.csproj">
       <Project>{552b0ac6-cc52-474f-bc09-79b1ff9d1d26}</Project>
       <Name>NeuralNetwork.Core</Name>

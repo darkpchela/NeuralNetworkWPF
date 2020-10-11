@@ -65,7 +65,7 @@
                 <Border>
                     <StackPanel>
                         <TextBlock>Storage list</TextBlock>
-                        <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage}">
+                        <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
@@ -93,9 +93,9 @@
         <Border Grid.Column="1" IsEnabled="{Binding RedactorIsActive}">
             <DockPanel DataContext="{Binding EditorVM}">
                 <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
-                    <Border>
-                        <StackPanel>
-                            <StackPanel DataContext="{Binding StorageAtWork}">
+                    <Border IsEnabled="{Binding IsStorageAtWork}">
+                        <StackPanel >
+                            <StackPanel DataContext="{Binding StorageAtWork}" >
                                 <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Storage properties</TextBlock>
                                 <TextBlock>Storage Id</TextBlock>
                                 <TextBox IsReadOnly="True" Text="{Binding Id}"></TextBox>
@@ -106,16 +106,16 @@
                         </StackPanel>
                     </Border>
                 </StackPanel>
-                <Border DockPanel.Dock="Top">
+                <Border DockPanel.Dock="Top" IsEnabled="{Binding IsNetworkAtWork}">
                     <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
-                        <StackPanel DataContext="{Binding NetworkAtWork}">
+                        <StackPanel DataContext="{Binding NetworkAtWork}" >
                             <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Network properties</TextBlock>
                             <TextBlock>Network Id</TextBlock>
                             <TextBox IsReadOnly="True" Text="{Binding Id, Mode=OneWay}"></TextBox>
                             <TextBlock>Network name</TextBlock>
                             <TextBox Text="{Binding Name}"></TextBox>
                             <TextBlock>Activation func</TextBlock>
-                            <ComboBox ItemsSource="{Binding AllFuncs}" SelectedItem="{Binding CurrentFunc}"></ComboBox>
+                            <ComboBox ItemsSource="{Binding FuncsNames}" SelectedItem="{Binding CurrentFunc}"></ComboBox>
                             <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Layers properties</TextBlock>
                         </StackPanel>
                         <Border>

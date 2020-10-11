@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Models;
+﻿using NeuralNetwork.Core.Etc;
+using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,6 +45,15 @@ namespace NeuralNetwork.ViewModels
                     _name = value;
 
                 OnPropertyChanged("Name");
+            }
+        }
+
+        private IEnumerable<string> _funcsNames;
+        public IEnumerable<string> FuncsNames
+        {
+            get
+            {
+                return _funcsNames ?? (_funcsNames = FuncDictionary.GetAllFuncsNames());
             }
         }
 

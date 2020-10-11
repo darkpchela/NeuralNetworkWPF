@@ -91,8 +91,7 @@ namespace NeuralNetwork.ViewModels
                 NetworksAtStorage = new ObservableCollection<NetworkVM>(storageModel.Networks.ToViewModels());
                 EditorVM = new EditorVM
                 {
-                    StorageAtWork = SelectedStorage,
-                    NetworkAtWork = new NetworkVM()
+                    StorageAtWork = SelectedStorage
                 };
                 RedactorIsActive = true;
                 OnPropertyChanged("SelectedStorage");
@@ -127,7 +126,6 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-
         private RelayCommand _newNetwork;
         public RelayCommand NewNetwork
         {
@@ -140,7 +138,7 @@ namespace NeuralNetwork.ViewModels
                     if (SelectedStorage is null)
                         SelectedStorage = _workshopModel.TempStorage.GetViewModel();
                     EditorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).GetViewModel();
-                    EditorVM.NetworkAtWork = new NetworkVM();
+                    EditorVM.NetworkAtWork = _workshopModel.GetNetworkPrototype().GetViewModel();
                 }));
             }
         }

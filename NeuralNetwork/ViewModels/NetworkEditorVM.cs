@@ -16,6 +16,34 @@ namespace NeuralNetwork.ViewModels
     {
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
 
+        private bool _isStorageAtWork;
+        public bool IsStorageAtWork
+        {
+            get
+            {
+                return _isStorageAtWork;
+            }
+            set
+            {
+                _isStorageAtWork = value;
+                OnPropertyChanged(nameof(IsStorageAtWork));
+            }
+        }
+
+        private bool _isNetworkAtWork;
+        public bool IsNetworkAtWork
+        {
+            get
+            {
+                return _isNetworkAtWork;
+            }
+            set
+            {
+                _isNetworkAtWork = value;
+                OnPropertyChanged(nameof(IsNetworkAtWork));
+            }
+        }
+
         private NetworkStorageVM _stoargeAtWork;
         public NetworkStorageVM StorageAtWork
         {
@@ -26,6 +54,12 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _stoargeAtWork = value;
+
+                if (value is null)
+                    IsStorageAtWork = false;
+                else
+                    IsStorageAtWork = true;
+
                 OnPropertyChanged("StorageAtWork");
             }
         }
@@ -40,6 +74,12 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _networkAtWork = value;
+
+                if (value is null)
+                    IsNetworkAtWork = false;
+                else
+                    IsNetworkAtWork = true;
+
                 OnPropertyChanged("NetworkAtWork");
             }
         }
@@ -98,6 +138,7 @@ namespace NeuralNetwork.ViewModels
                 return _create ?? (_create = new RelayCommand(obj =>
                 {
                     _workshopModel.CreateNetwork(NetworkAtWork, StorageAtWork?.Id);
+                    NetworkAtWork = null;
                 }));
             }
         }

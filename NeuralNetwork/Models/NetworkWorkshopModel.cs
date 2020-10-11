@@ -45,7 +45,6 @@ namespace NeuralNetwork.Models
             };
         }
 
-
         public NetworksStorageModel TempStorage { get; }
         public ObservableCollection<NetworksStorageModel> Storages { get; }
 
@@ -59,8 +58,14 @@ namespace NeuralNetwork.Models
             return FuncDictionary.GetAllFuncsNames();
         }
 
+        public NetworkModel GetNetworkPrototype()
+        {
+            return _factory.CreatePrototype();
+        }
+
         public void CreateNetwork(NetworkVM networkPrototype, string storageId = null)
         {
+
             var defData = NetworkViewModelToNetworkDataModel(networkPrototype);
             var network = _factory.CreateInstance(defData);
             if (string.IsNullOrEmpty(storageId))

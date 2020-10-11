@@ -59,7 +59,20 @@
                         <Button>Open network</Button>
                         <Button Command="{Binding NewStorage}">Create new storage</Button>
                         <Button Command="{Binding NewNetwork}">Create new network</Button>
-                        <Button>Save selected storage</Button>
+                        <Button Command="{Binding SaveNetwork}">Save selected storage</Button>
+                    </StackPanel>
+                </Border>
+                <Border>
+                    <StackPanel>
+                        <TextBlock>Folder: </TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.15*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" IsReadOnly="True" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding WorkingFolder}"></TextBox>
+                        <Button Grid.Column="1" Command="{Binding SelectWorkingFolder}">...</Button>
+                        </Grid>
                     </StackPanel>
                 </Border>
                 <Border>

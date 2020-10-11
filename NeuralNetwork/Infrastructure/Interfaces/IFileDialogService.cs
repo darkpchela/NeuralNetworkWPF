@@ -1,13 +1,14 @@
 ﻿namespace NeuralNetwork.Infrastructure.Interfaces
 {
-    public interface IFileDialogService
+    public interface IBrowserDialogService
     {
-        void ShowMessage(string message);
+        bool OpenFileDialog(out string fileName, string filter = null);
 
-        bool OpenFileDialog(out string fileName);
+        bool OpenFileDialog(out string[] fileNames, string filter = null);
 
-        bool OpenFileDialog(out string[] fileNames);
+        bool OpenFolder(out string folderPath);
 
-        bool SaveFileDialog();
+        bool SaveFileDialog(string filter);
+
     }
 }

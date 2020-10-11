@@ -27,5 +27,20 @@ namespace NeuralNetwork.Models
             };
             return networkVM;
         }
+
+        public NetworkDataModel GetNetworkData()
+        {
+            var data = new NetworkDataModel
+            {
+                ActivationFuncName = FuncDictionary.GetFuncName(ActivationFunc),
+                Id = Id,
+                Layers = Layers,
+                LearningRate = LearningRate,
+                Name = Name,
+                Weights = Weigths
+            };
+
+            return data;
+        }
     }
 }

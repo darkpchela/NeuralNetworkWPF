@@ -1,7 +1,9 @@
-﻿namespace NeuralNetwork.Infrastructure.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace NeuralNetwork.Infrastructure.Interfaces
 {
     public interface IObjectSaveStrategy<T>
     {
-        bool SaveToFile(T obj);
+        Task<bool> SaveToFile(T obj, string folderPath);
     }
 }

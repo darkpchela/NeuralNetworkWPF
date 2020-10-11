@@ -1,33 +1,25 @@
 ﻿using NeuralNetwork.Infrastructure.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace NeuralNetwork.Infrastructure.Services
 {
     public class FileService : IFileService
     {
-        public bool DeleteFile(string fileName)
+        public Task<bool> DeleteFile(string fileName)
         {
             throw new NotImplementedException();
         }
 
-        public T ReadFromFile<T>(string fileName)
+        public Task<T> ReadFromFile<T>(string fileName)
         {
             throw new NotImplementedException();
         }
 
-        public T[] ReadFromFiles<T>(string[] fileNames)
+        public async Task<bool> SaveToFileAsync<T>(T obj, string folderPath, IObjectSaveStrategy<T> saveStrategy)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool SaveToFile<T>(T obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SaveToFiles<T>(T[] objects)
-        {
-            throw new NotImplementedException();
+            bool saved = await saveStrategy.SaveToFile(obj, folderPath);
+            return saved;
         }
     }
 }

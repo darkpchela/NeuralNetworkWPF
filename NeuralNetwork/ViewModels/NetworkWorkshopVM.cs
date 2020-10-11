@@ -12,6 +12,8 @@ using System.Windows.Data;
 using NeuralNetwork.Infrastructure.Converters;
 using NeuralNetwork.Infrastructure.Etc;
 using System.Collections.Specialized;
+using NeuralNetwork.Infrastructure.Interfaces;
+using NeuralNetwork.Infrastructure.Services;
 
 namespace NeuralNetwork.ViewModels
 {
@@ -24,10 +26,14 @@ namespace NeuralNetwork.ViewModels
         }
         
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
+        private IBrowserDialogService fileDialogService = new DefaultFileDialogService();
         public NetworkWorkshopVM()
         {
+            WorkingFolder = _workshopModel.WorkingFolder;
+
             PropertyDependencyContainer.Regist(nameof(_workshopModel.Storages), _workshopModel, nameof(Storages), this,
                 s => new ObservableCollection<NetworkStorageVM>(((IEnumerable<NetworksStorageModel>)s).ToViewModels()));
+            PropertyDependencyContainer.Regist(nameof(_workshopModel.WorkingFolder), _workshopModel, nameof(WorkingFolder), this);
         }
 
         private EditorVM _editorVM;
@@ -55,6 +61,20 @@ namespace NeuralNetwork.ViewModels
             {
                 _redactorIsAtcive = value;
                 OnPropertyChanged("RedactorIsActive");
+            }
+        }
+
+        private string _workingFolder;
+        public string WorkingFolder
+        {
+            get
+            {
+                return _workingFolder;
+            }
+            set
+            {
+                _workingFolder = value;
+                OnPropertyChanged(nameof(WorkingFolder));
             }
         }
 
@@ -160,9 +180,25 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _saveNetwork ?? (_saveNetwork = new RelayCommand(obj =>
+                return _saveNetwork ?? (_saveNetwork = new RelayCommand(async obj =>
                 {
+                    if (await _workshopModel.SaveNetworkAsync(SelectedNetwork.Id, SelectedStorage.Id))
+                        MessageBox.Show("Saved");
+                    else
+                        MessageBox.Show("Save error");
+                }));
+            }
+        }
 
+        private RelayCommand _selectWorkingFolder;
+        public RelayCommand SelectWorkingFolder
+        {
+            get
+            {
+                return _selectWorkingFolder ?? (_selectWorkingFolder = new RelayCommand(obj =>
+                {
+                    fileDialogService.OpenFolder(out string folder);
+                    _workshopModel.ChangeWorkingFolder(folder);
                 }));
             }
         }

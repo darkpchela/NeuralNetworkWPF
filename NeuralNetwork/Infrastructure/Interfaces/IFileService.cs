@@ -1,15 +1,13 @@
-﻿namespace NeuralNetwork.Infrastructure.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace NeuralNetwork.Infrastructure.Interfaces
 {
     public interface IFileService
     {
-        T ReadFromFile<T>(string fileName);
+        Task<T> ReadFromFile<T>(string fileName);
 
-        T[] ReadFromFiles<T>(string[] fileNames);
+        Task<bool> DeleteFile(string fileName);
 
-        bool DeleteFile(string fileName);
-
-        bool SaveToFile<T>(T obj);
-
-        bool SaveToFiles<T>(T[] objects);
+        Task<bool> SaveToFileAsync<T>(T obj, string folderPath, IObjectSaveStrategy<T> saveStrategy);
     }
 }

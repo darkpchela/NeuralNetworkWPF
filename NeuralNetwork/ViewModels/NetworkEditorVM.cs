@@ -137,7 +137,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return _create ?? (_create = new RelayCommand(obj =>
                 {
-                    _workshopModel.CreateNetwork(NetworkAtWork, StorageAtWork?.Id);
+                    _workshopModel.CreateNetwork(NetworkAtWork, StorageAtWork.Id);
                     NetworkAtWork = null;
                 }));
             }

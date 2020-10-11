@@ -89,7 +89,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <TextBlock>Network list</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedStorage.Networks}" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}">
+                        <ListBox ItemsSource="{Binding SelectedStorage.Networks, Mode=OneWay}" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>

@@ -69,12 +69,11 @@ namespace NeuralNetwork.Models
         }
         public NetworkStorageVM GetViewModel()
         {
-
             NetworkStorageVM storageVM = new NetworkStorageVM(this)
             {
                 Id = Id.ToString(),
                 Name = Name,
-                Networks = Networks.ToViewModels()
+                Networks = Networks.ToViewModels(),
             };
 
             return storageVM;

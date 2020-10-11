@@ -127,13 +127,13 @@
     <Compile Include="Infrastructure\Services\FileService.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelReadStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelSaveStrategy.cs" />
+    <Compile Include="Infrastructure\Services\Strategies\StorageModelSaveStrategy.cs" />
     <Compile Include="Models\NetworkDataModel.cs" />
     <Compile Include="Models\NetworkFactoryModel.cs" />
     <Compile Include="Models\NetworksStorageModel.cs" />
     <Compile Include="Models\NetworkWorkshopModel.cs" />
     <Compile Include="Models\NetworkModel.cs" />
     <Compile Include="Models\NetworkStorageConstraints.cs" />
-    <Compile Include="ViewModels\Interfaces\IChildViewModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\NetworkTrainerVM.cs" />
     <Compile Include="ViewModels\NetworkVM.cs" />

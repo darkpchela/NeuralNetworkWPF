@@ -2,7 +2,7 @@
 using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Infrastructure.Etc;
 using NeuralNetwork.Infrastructure.Interfaces;
-using NeuralNetwork.Services.Services;
+using NeuralNetwork.Infrastructure.Services;
 using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -88,7 +88,7 @@ namespace NeuralNetwork.Models
 
         public bool SaveNetwork()
         {
-
+            return true;
         }
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)

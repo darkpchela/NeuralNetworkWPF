@@ -125,7 +125,8 @@
     <Compile Include="Infrastructure\Interfaces\IObjectSaveStrategy.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
     <Compile Include="Infrastructure\Services\FileService.cs" />
-    <Compile Include="Infrastructure\Services\FileManager\NetworkDataModelSaveStrategy.cs" />
+    <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelReadStrategy.cs" />
+    <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelSaveStrategy.cs" />
     <Compile Include="Models\NetworkDataModel.cs" />
     <Compile Include="Models\NetworkFactoryModel.cs" />
     <Compile Include="Models\NetworksStorageModel.cs" />

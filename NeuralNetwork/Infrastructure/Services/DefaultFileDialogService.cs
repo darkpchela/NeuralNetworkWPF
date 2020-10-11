@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
 using NeuralNetwork.Infrastructure.Interfaces;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using FolderDialog = System.Windows.Forms.FolderBrowserDialog;
 
@@ -13,6 +15,7 @@ namespace NeuralNetwork.Infrastructure.Services
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
             openFileDialog.Filter = filter;
             openFileDialog.Multiselect = false;
 

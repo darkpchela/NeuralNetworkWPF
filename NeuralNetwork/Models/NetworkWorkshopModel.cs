@@ -3,7 +3,7 @@ using NeuralNetwork.Core.Etc;
 using NeuralNetwork.Infrastructure.Etc;
 using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
-using NeuralNetwork.Infrastructure.Services.FileManager;
+using NeuralNetwork.Infrastructure.Services.Strategies;
 using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -110,7 +110,7 @@ namespace NeuralNetwork.Models
         {
             var networkModel = GetStorageModel(storageId).GetInstance(Guid.Parse(networkId));
             var data = networkModel.GetNetworkData();
-            var saved = await _fileService.SaveToFileAsync(data, "D:\\", new NetworkDataModelSaveStrategy());
+            var saved = await _fileService.SaveToFileAsync(data, WorkingFolder, new NetworkDataModelSaveStrategy());
             return saved;
         }
 
@@ -120,6 +120,16 @@ namespace NeuralNetwork.Models
                 return;
 
             WorkingFolder = folderPath;
+        }
+
+        public async void LoadNetwork(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                return;
+
+            var data = await _fileService.ReadFromFileAsync<NetworkDataModel>(fileName, new NetworkDataModelReadStrategy());
+            var networkModel = new NetworkModel(data);
+            TempStorage.AddInstance(networkModel);
         }
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)

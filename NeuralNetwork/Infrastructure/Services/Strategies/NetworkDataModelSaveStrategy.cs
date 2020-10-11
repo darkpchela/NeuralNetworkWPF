@@ -5,21 +5,22 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Infrastructure.Services.FileManager
+namespace NeuralNetwork.Infrastructure.Services.Strategies
 {
     public class NetworkDataModelSaveStrategy : IObjectSaveStrategy<NetworkDataModel>
     {
-        public async Task<bool> SaveToFile(NetworkDataModel obj, string folderPath)
+        public Task<bool> SaveToFile(NetworkDataModel obj, string folderPath)
         {
             try
             {
                 var objJson = JsonConvert.SerializeObject(obj);
-                File.WriteAllText(folderPath + obj.Id.ToString()+".json", objJson);
-                return true;
+                var fileName = Path.Combine(folderPath, obj.Id.ToString() + ".json");
+                File.WriteAllText(fileName, objJson);
+                return Task.FromResult(true);
             }
             catch (Exception ex)
             {
-                return false;
+                return Task.FromResult(false);
             }
         }
     }

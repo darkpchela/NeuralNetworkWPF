@@ -4,7 +4,7 @@ namespace NeuralNetwork.Infrastructure.Interfaces
 {
     public interface IFileService
     {
-        Task<T> ReadFromFile<T>(string fileName);
+        Task<T> ReadFromFileAsync<T>(string fileName, IFileReadStrategy<T> readStrategy);
 
         Task<bool> DeleteFile(string fileName);
 

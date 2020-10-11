@@ -190,6 +190,19 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private RelayCommand _openNetwork;
+        public RelayCommand OpenNetwork
+        {
+            get
+            {
+                return _openNetwork ?? (_openNetwork = new RelayCommand(obj =>
+                {
+                    fileDialogService.OpenFileDialog(out string fileName, "Json files(*.json)|*.json");
+                    _workshopModel.LoadNetwork(fileName);
+                }));
+            }
+        }
+
         private RelayCommand _selectWorkingFolder;
         public RelayCommand SelectWorkingFolder
         {

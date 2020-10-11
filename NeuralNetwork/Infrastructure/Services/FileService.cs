@@ -11,9 +11,10 @@ namespace NeuralNetwork.Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<T> ReadFromFile<T>(string fileName)
+        public async Task<T> ReadFromFileAsync<T>(string fileName, IFileReadStrategy<T> fileReadStrategy)
         {
-            throw new NotImplementedException();
+            T obj = await fileReadStrategy.ReadFile(fileName);
+            return obj;
         }
 
         public async Task<bool> SaveToFileAsync<T>(T obj, string folderPath, IObjectSaveStrategy<T> saveStrategy)

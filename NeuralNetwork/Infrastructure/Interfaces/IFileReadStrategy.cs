@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace NeuralNetwork.Infrastructure.Interfaces
 {
     public interface IFileReadStrategy<T>
     {
-        T ReadFile(FileStream fileStream);
+        Task<T> ReadFile(string fileName);
     }
 }

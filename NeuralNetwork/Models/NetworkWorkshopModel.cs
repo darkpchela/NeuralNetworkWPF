@@ -19,6 +19,12 @@ namespace NeuralNetwork.Models
 {
     public class NetworkWorkshopModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName]string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         public const string DefaultStorageName = "Default_storage";
         private string _defaultWorkingFolder = Directory.GetCurrentDirectory() + "\\Default";
 
@@ -40,11 +46,6 @@ namespace NeuralNetwork.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName]string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
 
         public static NetworkWorkshopModel Instanse { get; } = new NetworkWorkshopModel();
 
@@ -61,7 +62,7 @@ namespace NeuralNetwork.Models
 
             Storages = new ObservableCollection<NetworksStorageModel>()
             {
-                TempStorage 
+                TempStorage
             };
 
             if (!Directory.Exists(_defaultWorkingFolder))
@@ -103,7 +104,6 @@ namespace NeuralNetwork.Models
         {
             var storage = new NetworksStorageModel(true);
             Storages.Add(storage);
-            OnPropertyChanged("Storages");
         }
 
         public async Task<bool> SaveNetworkAsync(string networkId, string storageId)
@@ -131,6 +131,7 @@ namespace NeuralNetwork.Models
             var networkModel = new NetworkModel(data);
             TempStorage.AddInstance(networkModel);
         }
+
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)
         {

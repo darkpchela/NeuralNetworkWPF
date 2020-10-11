@@ -29,6 +29,7 @@ namespace NeuralNetwork.ViewModels
         private IBrowserDialogService fileDialogService = new DefaultFileDialogService();
         public NetworkWorkshopVM()
         {
+            _workshopModel.Storages.CollectionChanged += OnStorageCollectionChanged;
             WorkingFolder = _workshopModel.WorkingFolder;
             Storages = new ObservableCollection<NetworkStorageVM>(_workshopModel.Storages.ToViewModels());
 
@@ -79,8 +80,8 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private IEnumerable<NetworkStorageVM> _storages;
-        public IEnumerable<NetworkStorageVM> Storages
+        private ObservableCollection<NetworkStorageVM> _storages;
+        public ObservableCollection<NetworkStorageVM> Storages
         {
             get
             {
@@ -103,7 +104,6 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedStorage = value;
-
                 if (value is null)
                     RedactorIsActive = false;
                 else
@@ -199,6 +199,27 @@ namespace NeuralNetwork.ViewModels
                     fileDialogService.OpenFolder(out string folder);
                     _workshopModel.ChangeWorkingFolder(folder);
                 }));
+            }
+        }
+
+        private void OnStorageCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (var item in e.NewItems)
+                    {
+                        var model = item as NetworksStorageModel;
+                        Storages.Add(model.GetViewModel());
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (var item in e.NewItems)
+                    {
+                        var model = item as NetworksStorageModel;
+                        Storages.Remove(Storages.First(s => s.Id == model.Id.ToString()));
+                    }
+                    break;
             }
         }
 

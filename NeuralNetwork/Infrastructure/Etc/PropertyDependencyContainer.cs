@@ -36,5 +36,6 @@ namespace NeuralNetwork.Infrastructure.Etc
 
             dependency.Target.GetType().GetProperty(dependency.TargetPropName).SetValue(dependency.Target, propValue);
         }
+
     }
 }

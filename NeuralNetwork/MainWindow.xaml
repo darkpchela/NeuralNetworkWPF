@@ -58,6 +58,7 @@
                         <Button>Open storage</Button>
                         <Button Command="{Binding OpenNetwork}">Open network</Button>
                         <Button Command="{Binding NewStorage}">Create new storage</Button>
+                        <Button Command="{Binding RemoveStorage}"> Remove storage</Button>
                         <Button Command="{Binding NewNetwork}">Create new network</Button>
                         <Button Command="{Binding SaveNetwork}">Save selected network</Button>
                     </StackPanel>
@@ -77,6 +78,7 @@
                 </Border>
                 <Border>
                     <StackPanel>
+                        <TextBlock Text="{Binding dep}"></TextBlock>
                         <TextBlock>Storage list</TextBlock>
                         <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListBox.ItemTemplate>

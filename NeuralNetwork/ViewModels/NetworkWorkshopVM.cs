@@ -14,6 +14,7 @@ using NeuralNetwork.Infrastructure.Etc;
 using System.Collections.Specialized;
 using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
+using System.Threading;
 
 namespace NeuralNetwork.ViewModels
 {
@@ -27,14 +28,13 @@ namespace NeuralNetwork.ViewModels
         
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
         private IBrowserDialogService fileDialogService = new DefaultFileDialogService();
+
         public NetworkWorkshopVM()
         {
             _workshopModel.Storages.CollectionChanged += OnStorageCollectionChanged;
             WorkingFolder = _workshopModel.WorkingFolder;
             Storages = new ObservableCollection<NetworkStorageVM>(_workshopModel.Storages.ToViewModels());
 
-            PropertyDependencyContainer.Regist(nameof(_workshopModel.Storages), _workshopModel, nameof(Storages), this,
-                 s => ((IEnumerable<NetworksStorageModel>)s).ToViewModels());
             PropertyDependencyContainer.Regist(nameof(_workshopModel.WorkingFolder), _workshopModel, nameof(WorkingFolder), this);
         }
 
@@ -161,6 +161,18 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private RelayCommand _removeStorage;
+        public RelayCommand RemoveStorage
+        {
+            get
+            {
+                return _removeStorage ?? (_removeStorage = new RelayCommand(obj =>
+                {
+                    _workshopModel.RemoveStorage(SelectedStorage.Id);
+                }));
+            }
+        }
+
         private RelayCommand _saveNetwork;
         public RelayCommand SaveNetwork
         {
@@ -214,7 +226,7 @@ namespace NeuralNetwork.ViewModels
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var item in e.NewItems)
+                    foreach (var item in e.OldItems)
                     {
                         var model = item as NetworksStorageModel;
                         Storages.Remove(Storages.First(s => s.Id == model.Id.ToString()));

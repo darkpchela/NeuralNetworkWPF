@@ -106,6 +106,11 @@ namespace NeuralNetwork.Models
             Storages.Add(storage);
         }
 
+        public void RemoveStorage(string storageId)
+        {
+            Storages.Remove(Storages.First(s => s.Id == Guid.Parse(storageId)));
+        }
+
         public async Task<bool> SaveNetworkAsync(string networkId, string storageId)
         {
             var networkModel = GetStorageModel(storageId).GetInstance(Guid.Parse(networkId));

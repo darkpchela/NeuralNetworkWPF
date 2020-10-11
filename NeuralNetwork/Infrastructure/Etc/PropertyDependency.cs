@@ -6,7 +6,7 @@ namespace NeuralNetwork.Infrastructure.Etc
     {
         internal object Source { get; set; }
         internal string SourcePropName { get; set; }
-        internal object Target { get; set; }
+        internal WeakReference Target { get; set; }
         internal string TargetPropName { get; set; }
         internal Func<object, object> MappingFunc { get; set; }
     }

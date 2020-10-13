@@ -28,7 +28,8 @@ namespace NeuralNetwork.Infrastructure.Services.Strategies
                 {
                     Id = obj.Id,
                     NetworksIds = obj.Networks.Select(n => n.Id).ToArray(),
-                    NetworksFolder = networksFolder
+                    NetworksFolder = networksFolder,
+                    Name = obj.Name
                 };
 
                 var metaJson = JsonConvert.SerializeObject(storageMeta);

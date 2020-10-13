@@ -6,6 +6,8 @@ namespace NeuralNetwork.Infrastructure.Services.Strategies.Etc
     {
         public Guid Id { get; set; }
 
+        public string Name { get; set; }
+
         public Guid[] NetworksIds { get; set; }
 
         public string NetworksFolder { get; set; }

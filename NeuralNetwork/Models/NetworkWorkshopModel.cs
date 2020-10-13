@@ -103,7 +103,7 @@ namespace NeuralNetwork.Models
             Storages.Add(storage);
         }
 
-        public async Task<bool> SaveStorage(string storageId)
+        public async Task<bool> SaveStorageAsync(string storageId)
         {
             var storageModel = Storages.FirstOrDefault(s => s.Id == Guid.Parse(storageId));
 
@@ -134,7 +134,7 @@ namespace NeuralNetwork.Models
             WorkingFolder = folderPath;
         }
 
-        public async void LoadNetwork(string fileName)
+        public async void LoadNetworkAsync(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
                 return;
@@ -142,6 +142,21 @@ namespace NeuralNetwork.Models
             var data = await _fileService.ReadFromFileAsync<NetworkDataModel>(fileName, new NetworkDataModelReadStrategy());
             var networkModel = new NetworkModel(data);
             TempStorage.AddInstance(networkModel);
+        }
+
+        public async Task<bool> LoadStorageAsync(string fileName)
+        {
+            try
+            {
+                var storageModel = await _fileService.ReadFromFileAsync<NetworksStorageModel>(fileName, new StorageModelReadStrategy());
+                Storages.Add(storageModel);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
         }
 
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)

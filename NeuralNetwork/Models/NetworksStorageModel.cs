@@ -32,10 +32,15 @@ namespace NeuralNetwork.Models
 
         public NetworkStorageConstraints StorageConstraints { get; private set; }
 
-        public NetworksStorageModel(bool isStrict = true)
+        public NetworksStorageModel(bool isStrict = true) : this(Guid.NewGuid(), isStrict)
         {
             Networks = new List<NetworkModel>();
-            Id = Guid.NewGuid();
+        }
+
+        public NetworksStorageModel(Guid id, bool isStrict = true)
+        {
+            Networks = new List<NetworkModel>();
+            Id = id;
             IsStrict = isStrict;
         }
 

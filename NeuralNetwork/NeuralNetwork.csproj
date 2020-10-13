@@ -128,6 +128,7 @@
     <Compile Include="Infrastructure\Services\Strategies\Etc\StorageMetaData.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelReadStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelSaveStrategy.cs" />
+    <Compile Include="Infrastructure\Services\Strategies\StorageModelReadStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\StorageModelSaveStrategy.cs" />
     <Compile Include="Models\NetworkDataModel.cs" />
     <Compile Include="Models\NetworkFactoryModel.cs" />

@@ -55,7 +55,7 @@
             <StackPanel>
                 <Border>
                     <StackPanel>
-                        <Button>Open storage</Button>
+                        <Button Command="{Binding OpenStorage}">Open storage</Button>
                         <Button Command="{Binding OpenNetwork}">Open network</Button>
                         <Button Command="{Binding NewStorage}">Create new storage</Button>
                         <Button Command="{Binding RemoveStorage}"> Remove storage</Button>

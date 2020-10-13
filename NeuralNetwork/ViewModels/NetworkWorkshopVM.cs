@@ -195,7 +195,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return _saveStorage ?? (_saveStorage = new RelayCommand(async obj =>
                 {
-                    var saved = await _workshopModel.SaveStorage(_selectedStorage.Id);
+                    var saved = await _workshopModel.SaveStorageAsync(_selectedStorage.Id);
                     if (saved)
                         MessageBox.Show("Saved");
                     else
@@ -212,11 +212,31 @@ namespace NeuralNetwork.ViewModels
                 return _openNetwork ?? (_openNetwork = new RelayCommand(obj =>
                 {
                     fileDialogService.OpenFileDialog(out string fileName, "Json files(*.json)|*.json");
-                    _workshopModel.LoadNetwork(fileName);
+                    _workshopModel.LoadNetworkAsync(fileName);
                 }));
             }
         }
 
+        private RelayCommand _openStorage;
+        public RelayCommand OpenStorage
+        {
+            get
+            {
+                return _openStorage ?? (_openStorage = new RelayCommand(async obj =>
+                {
+                    if (fileDialogService.OpenFileDialog(out string fileName))
+                    {
+                        var loaded = await _workshopModel.LoadStorageAsync(fileName);
+
+                        if (loaded)
+                            MessageBox.Show("Loaded");
+                        else
+                            MessageBox.Show("Error");
+                    }
+
+                }));
+            }
+        }
         private RelayCommand _selectWorkingFolder;
         public RelayCommand SelectWorkingFolder
         {

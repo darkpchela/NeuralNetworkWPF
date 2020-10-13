@@ -65,9 +65,6 @@ namespace NeuralNetwork.Models
                 TempStorage
             };
 
-            if (!Directory.Exists(_defaultWorkingFolder))
-                Directory.CreateDirectory(_defaultWorkingFolder);
-
             WorkingFolder = _defaultWorkingFolder;
         }
 
@@ -106,6 +103,16 @@ namespace NeuralNetwork.Models
             Storages.Add(storage);
         }
 
+        public async Task<bool> SaveStorage(string storageId)
+        {
+            var storageModel = Storages.FirstOrDefault(s => s.Id == Guid.Parse(storageId));
+
+            if (storageModel is null)
+                return false;
+
+            return await _fileService.SaveToFileAsync<NetworksStorageModel>(storageModel, WorkingFolder, new StorageModelSaveStrategy());
+        }
+
         public void RemoveStorage(string storageId)
         {
             Storages.Remove(Storages.First(s => s.Id == Guid.Parse(storageId)));
@@ -137,13 +144,13 @@ namespace NeuralNetwork.Models
             TempStorage.AddInstance(networkModel);
         }
 
-
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)
         {
             var defData = new NetworkDataModel();
             if (Guid.TryParse(networkVM.Id, out Guid id))
                 defData.Id = id;
 
+            defData.Name = networkVM.Name;
             defData.ActivationFuncName = networkVM.CurrentFunc;
             defData.LearningRate = networkVM.LearningRate;
             defData.Layers = networkVM.Layers.Select(l => l.NeuronsCount).ToArray();

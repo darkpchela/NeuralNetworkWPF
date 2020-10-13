@@ -125,6 +125,7 @@
     <Compile Include="Infrastructure\Interfaces\IObjectSaveStrategy.cs" />
     <Compile Include="Infrastructure\Services\DefaultFileDialogService.cs" />
     <Compile Include="Infrastructure\Services\FileService.cs" />
+    <Compile Include="Infrastructure\Services\Strategies\Etc\StorageMetaData.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelReadStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelSaveStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\StorageModelSaveStrategy.cs" />
@@ -206,6 +207,7 @@
       <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -188,6 +188,22 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private RelayCommand _saveStorage;
+        public RelayCommand SaveStorage
+        {
+            get
+            {
+                return _saveStorage ?? (_saveStorage = new RelayCommand(async obj =>
+                {
+                    var saved = await _workshopModel.SaveStorage(_selectedStorage.Id);
+                    if (saved)
+                        MessageBox.Show("Saved");
+                    else
+                        MessageBox.Show("Error");
+                }));
+            }
+        }
+
         private RelayCommand _openNetwork;
         public RelayCommand OpenNetwork
         {

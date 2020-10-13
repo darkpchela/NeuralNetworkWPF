@@ -8,7 +8,7 @@
         xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="NeuralNetwork" Height="682" Width="1320">
+        Title="NeuralNetwork" Height="Auto" Width="Auto">
     <Window.Resources>
         <Style TargetType="Border">
             <Setter Property="BorderThickness" Value="2"></Setter>
@@ -61,6 +61,7 @@
                         <Button Command="{Binding RemoveStorage}"> Remove storage</Button>
                         <Button Command="{Binding NewNetwork}">Create new network</Button>
                         <Button Command="{Binding SaveNetwork}">Save selected network</Button>
+                        <Button Command="{Binding SaveStorage}">Save selected storage</Button>
                     </StackPanel>
                 </Border>
                 <Border>
@@ -78,7 +79,6 @@
                 </Border>
                 <Border>
                     <StackPanel>
-                        <TextBlock Text="{Binding dep}"></TextBlock>
                         <TextBlock>Storage list</TextBlock>
                         <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListBox.ItemTemplate>
@@ -131,6 +131,8 @@
                             <TextBox Text="{Binding Name}"></TextBox>
                             <TextBlock>Activation func</TextBlock>
                             <ComboBox ItemsSource="{Binding FuncsNames}" SelectedItem="{Binding CurrentFunc}"></ComboBox>
+                            <TextBlock>Learning rate</TextBlock>
+                            <TextBox Text="{Binding LearningRate}"></TextBox>
                             <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Layers properties</TextBlock>
                         </StackPanel>
                         <Border>

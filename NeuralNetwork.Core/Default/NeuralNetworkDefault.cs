@@ -45,13 +45,15 @@ namespace NeuralNetwork.Core.Default
 
         public NeuralNetworkDefault(NeuralNetworkDefaultData nrlNetData)
         {
-            this.Id = nrlNetData.Id ?? Guid.NewGuid();
-            this.Layers = nrlNetData.Layers;
-            this.Weigths = nrlNetData.Weights ?? GetDefaultWeigths();
+            Id = nrlNetData.Id ?? Guid.NewGuid();
+            Layers = nrlNetData.Layers;
+            Weigths = nrlNetData.Weights ?? GetDefaultWeigths();
+            LearningRate = nrlNetData.LearningRate;
+
             if (!string.IsNullOrEmpty(nrlNetData.ActivationFuncName) && FuncDictionary.TryGetFunc(nrlNetData.ActivationFuncName, out Func<float, float> activationFunc))
-                this.ActivationFunc = activationFunc;
+                ActivationFunc = activationFunc;
             else
-                this.ActivationFunc = MathFuncs.Sigmoid;
+                ActivationFunc = MathFuncs.Sigmoid;
         }
 
         public override void Train(float[] inputValues, float[] targetValues)

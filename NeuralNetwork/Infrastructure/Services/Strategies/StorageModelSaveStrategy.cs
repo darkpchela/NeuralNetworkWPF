@@ -1,7 +1,9 @@
 ﻿using NeuralNetwork.Infrastructure.Interfaces;
+using NeuralNetwork.Infrastructure.Services.Strategies.Etc;
 using NeuralNetwork.Models;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NeuralNetwork.Infrastructure.Services.Strategies
@@ -13,20 +15,31 @@ namespace NeuralNetwork.Infrastructure.Services.Strategies
             try
             {
                 string storageFolder = Path.Combine(folderPath, obj.Id.ToString());
+                string networksFolder = Path.Combine(storageFolder, "Networks");
+                string metaFileName = Path.Combine(storageFolder, "meta.json");
 
                 if (!Directory.Exists(storageFolder))
+                {
                     Directory.CreateDirectory(storageFolder);
+                    Directory.CreateDirectory(networksFolder);
+                }
 
-                var metaJson = JsonConvert.SerializeObject(obj);
-                var metaFileName = Path.Combine(storageFolder, "Storage", ".json");
+                StorageMetaData storageMeta = new StorageMetaData
+                {
+                    Id = obj.Id,
+                    NetworksIds = obj.Networks.Select(n => n.Id).ToArray(),
+                    NetworksFolder = networksFolder
+                };
+
+                var metaJson = JsonConvert.SerializeObject(storageMeta);
                 File.WriteAllText(metaFileName, metaJson);
 
+                var networkSaveStrategy = new NetworkDataModelSaveStrategy();
                 foreach (var n in obj.Networks)
                 {
-                    var networkJson = JsonConvert.SerializeObject(n);
-                    var networkFileName = Path.Combine(storageFolder, n.Id.ToString(), ".json");
-                    File.WriteAllText(networkFileName, networkJson);
+                    networkSaveStrategy.SaveToFile(n.GetNetworkData(), networksFolder);
                 }
+
                 return Task.FromResult(true);
             }
             catch

@@ -43,7 +43,7 @@ namespace NeuralNetwork.Infrastructure.Etc
             if (dependency.MappingFunc != null)
                 propValue = dependency.MappingFunc(propValue);
 
-            dependency.Target.GetType().GetProperty(dependency.TargetPropName).SetValue(dependency.Target, propValue);
+            dependency.Target.Target.GetType().GetProperty(dependency.TargetPropName).SetValue(dependency.Target.Target, propValue);
         }
 
         private static void CollectGarbage()

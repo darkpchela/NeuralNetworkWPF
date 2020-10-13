@@ -90,6 +90,12 @@ namespace NeuralNetwork.Models
         public void CreateStorage()
         {
             var storage = new NetworksStorageModel(true);
+
+            while(Storages.FirstOrDefault(s => s.Name == storage.Name) != null)
+            {
+                storage.Name += " - copy";
+            }
+
             Storages.Add(storage);
         }
 

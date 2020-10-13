@@ -14,7 +14,7 @@ namespace NeuralNetwork.Models
         public  Guid Id { get; }
         public bool IsStrict { get; }
 
-        private string _name;
+        private string _name = "Unnamed";
         public string Name 
         {
             get

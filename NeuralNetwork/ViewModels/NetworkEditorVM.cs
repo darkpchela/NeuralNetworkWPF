@@ -150,7 +150,7 @@ namespace NeuralNetwork.ViewModels
             {
                 return _save ?? (_save = new RelayCommand(obj =>
                 {
-                    if (StorageAtWork.Name != NetworkWorkshopModel.DefaultStorageName)
+                    if (StorageAtWork.Name != NetworkWorkshopModel.DefaultStorageName && _workshopModel.Storages.FirstOrDefault(s => s.Name == StorageAtWork.Name) is null)
                         _workshopModel.GetStorageModel(StorageAtWork.Id).Name = StorageAtWork.Name;
                     else
                         MessageBox.Show("Invalid storage name!");

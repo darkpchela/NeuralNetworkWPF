@@ -5,6 +5,20 @@ namespace NeuralNetwork.ViewModels
 {
     public class NetworkLayerVM : INotifyPropertyChanged
     {
+        private bool _isPrototype;
+        public bool IsPrototype
+        {
+            get
+            {
+                return _isPrototype;
+            }
+            set
+            {
+                _isPrototype = value;
+                OnPropertyChanged(nameof(IsPrototype));
+            }
+        }
+
         private int _layerIndex;
         public int LayerIndex
         {

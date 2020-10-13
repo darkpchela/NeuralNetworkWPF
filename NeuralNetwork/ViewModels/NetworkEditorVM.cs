@@ -16,34 +16,6 @@ namespace NeuralNetwork.ViewModels
     {
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
 
-        private bool _isStorageAtWork;
-        public bool IsStorageAtWork
-        {
-            get
-            {
-                return _isStorageAtWork;
-            }
-            set
-            {
-                _isStorageAtWork = value;
-                OnPropertyChanged(nameof(IsStorageAtWork));
-            }
-        }
-
-        private bool _isNetworkAtWork;
-        public bool IsNetworkAtWork
-        {
-            get
-            {
-                return _isNetworkAtWork;
-            }
-            set
-            {
-                _isNetworkAtWork = value;
-                OnPropertyChanged(nameof(IsNetworkAtWork));
-            }
-        }
-
         private NetworkStorageVM _stoargeAtWork;
         public NetworkStorageVM StorageAtWork
         {
@@ -54,12 +26,6 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _stoargeAtWork = value;
-
-                if (value is null)
-                    IsStorageAtWork = false;
-                else
-                    IsStorageAtWork = true;
-
                 OnPropertyChanged("StorageAtWork");
             }
         }
@@ -69,18 +35,33 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _networkAtWork;
+                return _networkAtWork ?? new NetworkVM()
+                {
+                    IsPrototype = true
+                };
             }
             set
             {
                 _networkAtWork = value;
-
-                if (value is null)
-                    IsNetworkAtWork = false;
-                else
-                    IsNetworkAtWork = true;
+                
+                if (value != null && StorageAtWork != null && value.IsPrototype && !StorageAtWork.IsPrototype)
+                    NetworkEditorEnabled = true;
 
                 OnPropertyChanged("NetworkAtWork");
+            }
+        }
+
+        private bool _networkEditorEnabled;
+        public bool NetworkEditorEnabled
+        {
+            get
+            {
+                return _networkEditorEnabled;
+            }
+            set
+            {
+                _networkEditorEnabled = value;
+                OnPropertyChanged(nameof(NetworkEditorEnabled));
             }
         }
 
@@ -93,18 +74,6 @@ namespace NeuralNetwork.ViewModels
                 {
                     if (NetworkAtWork.LayersCount > 2)
                         NetworkAtWork.Layers.RemoveAt(NetworkAtWork.LayersCount - 2);
-                }));
-            }
-        }
-
-        private RelayCommand _testMessage;
-        public RelayCommand TestMessage
-        {
-            get
-            {
-                return _testMessage ?? (_testMessage = new RelayCommand(obj =>
-                {
-                    MessageBox.Show(NetworkAtWork.LayersCount.ToString());
                 }));
             }
         }
@@ -130,12 +99,12 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private RelayCommand _create;
-        public RelayCommand Create
+        private RelayCommand _createNetwork;
+        public RelayCommand CreateNetwork
         {
             get
             {
-                return _create ?? (_create = new RelayCommand(obj =>
+                return _createNetwork ?? (_createNetwork = new RelayCommand(obj =>
                 {
                     _workshopModel.CreateNetwork(NetworkAtWork, StorageAtWork.Id);
                     NetworkAtWork = null;
@@ -143,15 +112,18 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private RelayCommand _save;
-        public RelayCommand Save
+        private RelayCommand _createStorage;
+        public RelayCommand CreateStorage
         {
             get
             {
-                return _save ?? (_save = new RelayCommand(obj =>
+                return _createStorage ?? (_createStorage = new RelayCommand(obj =>
                 {
                     if (StorageAtWork.Name != NetworkWorkshopModel.DefaultStorageName && _workshopModel.Storages.FirstOrDefault(s => s.Name == StorageAtWork.Name) is null)
-                        _workshopModel.GetStorageModel(StorageAtWork.Id).Name = StorageAtWork.Name;
+                    {
+                        _workshopModel.CreateStorage(StorageAtWork);
+                        StorageAtWork = null;
+                    }
                     else
                         MessageBox.Show("Invalid storage name!");
                 }));

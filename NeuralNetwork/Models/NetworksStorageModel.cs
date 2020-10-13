@@ -79,6 +79,7 @@ namespace NeuralNetwork.Models
                 Id = Id.ToString(),
                 Name = Name,
                 Networks = Networks.ToViewModels(),
+                IsPrototype = false
             };
 
             return storageVM;

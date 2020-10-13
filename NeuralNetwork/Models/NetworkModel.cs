@@ -23,7 +23,8 @@ namespace NeuralNetwork.Models
                 Layers = new ObservableCollection<NetworkLayerVM>(Layers.ToLayerViewModels()),
                 CurrentFunc = FuncDictionary.GetFuncName(ActivationFunc),
                 LearningRate = LearningRate,
-                Name = Name
+                Name = Name,
+                IsPrototype = false
             };
             return networkVM;
         }

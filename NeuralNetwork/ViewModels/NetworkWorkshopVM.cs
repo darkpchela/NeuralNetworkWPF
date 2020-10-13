@@ -43,7 +43,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _trainerVM;
+                return _trainerVM ?? (_trainerVM = new NetworkTrainerVM());
             }
             set
             {
@@ -57,40 +57,12 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _editorVM;
+                return _editorVM ?? (_editorVM = new EditorVM());
             }
             set
             {
                 _editorVM = value;
                 OnPropertyChanged(nameof(EditorVM));
-            }
-        }
-
-        private bool _editorIsAtcive;
-        public bool EditorIsActive
-        {
-            get
-            {
-                return _editorIsAtcive;
-            }
-            set
-            {
-                _editorIsAtcive = value;
-                OnPropertyChanged(nameof(EditorIsActive));
-            }
-        }
-
-        private string _workingFolder;
-        public string WorkingFolder
-        {
-            get
-            {
-                return _workingFolder;
-            }
-            set
-            {
-                _workingFolder = value;
-                OnPropertyChanged(nameof(WorkingFolder));
             }
         }
 
@@ -108,6 +80,68 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private bool _trainerIsActive;
+        public bool TrainerIsActive
+        {
+            get
+            {
+                return _trainerIsActive;
+            }
+            set
+            {
+                _trainerIsActive = value;
+                if (value == true)
+                    EditorIsActive = false;
+
+                OnPropertyChanged(nameof(TrainerIsActive));
+            }
+        }
+
+        private bool _editorIsAtcive;
+        public bool EditorIsActive
+        {
+            get
+            {
+                return _editorIsAtcive;
+            }
+            set
+            {
+                _editorIsAtcive = value;
+                if (value == true)
+                    TrainerIsActive = false;
+
+                OnPropertyChanged(nameof(EditorIsActive));
+            }
+        }
+
+        private bool _storageSelected;
+        public bool StorageSelected
+        {
+            get
+            {
+                return _storageSelected;
+            }
+            set
+            {
+                _storageSelected = value;
+                OnPropertyChanged(nameof(StorageSelected));
+            }
+        }
+
+        private string _workingFolder;
+        public string WorkingFolder
+        {
+            get
+            {
+                return _workingFolder;
+            }
+            set
+            {
+                _workingFolder = value;
+                OnPropertyChanged(nameof(WorkingFolder));
+            }
+        }
+
         private NetworkStorageVM _selectedStorage;
         public NetworkStorageVM SelectedStorage
         {
@@ -118,17 +152,22 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedStorage = value;
-                if (value is null)
-                    EditorIsActive = false;
-                else
-                    EditorIsActive = true;
 
-                EditorVM = new EditorVM
+                if (value != null)
                 {
-                    StorageAtWork = SelectedStorage
-                };
+                    TrainerIsActive = true;
+                    StorageSelected = true;
+                }
+                else
+                {
+                    EditorIsActive = false;
+                    StorageSelected = false;
+                }
 
-                OnPropertyChanged("SelectedStorage");
+                _trainerVM.CurrentStorage = SelectedStorage;
+                _trainerVM.CurrentNetwork = SelectedNetwork;
+
+                OnPropertyChanged(nameof(SelectedStorage));
             }
         }
 
@@ -142,7 +181,10 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedNetwork = value;
-                OnPropertyChanged("SelectedNetwork");
+                _editorVM.NetworkAtWork = SelectedNetwork;
+                _trainerVM.CurrentNetwork = SelectedNetwork;
+                TrainerIsActive = true;
+                OnPropertyChanged(nameof(SelectedNetwork));
             }
         }
 
@@ -153,12 +195,15 @@ namespace NeuralNetwork.ViewModels
             {
                 return _newNetwork ?? (_newNetwork = new RelayCommand(obj =>
                 {
-                    EditorVM = new EditorVM();
                     EditorIsActive = true;
                     if (SelectedStorage is null)
-                        SelectedStorage = _workshopModel.TempStorage.GetViewModel();
+                        SelectedStorage = _workshopModel.DefaultStorage.GetViewModel();
+
                     EditorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).GetViewModel();
-                    EditorVM.NetworkAtWork = _workshopModel.GetNetworkPrototype().GetViewModel();
+                    EditorVM.NetworkAtWork = new NetworkVM()
+                    {
+                        IsPrototype = true
+                    };
                 }));
             }
         }
@@ -170,7 +215,11 @@ namespace NeuralNetwork.ViewModels
             {
                 return _newStorage ?? (_newStorage = new RelayCommand(obj =>
                 {
-                    _workshopModel.CreateStorage();
+                    _editorVM.StorageAtWork = new NetworkStorageVM()
+                    {
+                        IsPrototype = true
+                    };
+                    EditorIsActive = true;
                 }));
             }
         }
@@ -251,6 +300,7 @@ namespace NeuralNetwork.ViewModels
                 }));
             }
         }
+
         private RelayCommand _selectWorkingFolder;
         public RelayCommand SelectWorkingFolder
         {

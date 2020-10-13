@@ -31,11 +31,28 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private bool _isPrototype;
+        public bool IsPrototype
+        {
+            get
+            {
+                return _isPrototype;
+            }
+            set
+            {
+                _isPrototype = value;
+                OnPropertyChanged(nameof(IsPrototype));
+            }
+        }
+
         private Guid _id;
         public string Id 
         {
             get
             {
+                if (IsPrototype)
+                    return "Prototype has no Id";
+
                 return _id.ToString();
             }
             set

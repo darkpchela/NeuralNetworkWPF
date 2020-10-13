@@ -8,27 +8,34 @@
         xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="NeuralNetwork" Height="Auto" Width="Auto">
+        Title="NeuralNetwork" Height="Auto" Width="Auto" d:DesignWidth="1171" d:DesignHeight="697">
     <Window.Resources>
         <Style TargetType="Border">
             <Setter Property="BorderThickness" Value="2"></Setter>
-            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="BorderBrush" Value="DarkGray"></Setter>
             <Setter Property="Padding" Value="6"></Setter>
             <Setter Property="Margin" Value="2"></Setter>
         </Style>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16"></Setter>
-        </Style>
-        <Style x:Key="HeaderTextBlock" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="18"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14"></Setter>
         </Style>
-        <Style TargetType="Button">
+        <Style x:Key="HeaderTextBlock" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="12"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"></Setter>
             <Setter Property="Padding" Value="6"></Setter>
             <Setter Property="Margin" Value="6"></Setter>
+        </Style>
+        <Style x:Key="DangerButton" TargetType="Button">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Padding" Value="6"></Setter>
+            <Setter Property="Margin" Value="6"></Setter>
+            <Setter Property="Background" Value="IndianRed"></Setter>
+            <Setter Property="FontWeight" Value="DemiBold"></Setter>
         </Style>
         <Style TargetType="DockPanel">
             <Style.Triggers>
@@ -52,78 +59,98 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0">
-            <StackPanel>
-                <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.25*"></RowDefinition>
+                    <RowDefinition Height="0.6*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0">
                     <StackPanel>
-                        <Button Command="{Binding OpenStorage}">Open storage</Button>
-                        <Button Command="{Binding OpenNetwork}">Open network</Button>
-                        <Button Command="{Binding NewStorage}">Create new storage</Button>
-                        <Button Command="{Binding RemoveStorage}"> Remove storage</Button>
-                        <Button Command="{Binding NewNetwork}">Create new network</Button>
-                        <Button Command="{Binding SaveNetwork}">Save selected network</Button>
-                        <Button Command="{Binding SaveStorage}">Save selected storage</Button>
-                    </StackPanel>
-                </Border>
-                <Border>
-                    <StackPanel>
-                        <TextBlock>Folder: </TextBlock>
+                        <TextBlock>Folder:</TextBlock>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="0.15*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.20*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" IsReadOnly="True" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding WorkingFolder}"></TextBox>
-                        <Button Grid.Column="1" Command="{Binding SelectWorkingFolder}">...</Button>
+                            <TextBox Grid.Column="0" IsReadOnly="True" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding WorkingFolder}"></TextBox>
+                            <Button Grid.Column="1" Height="20" Width="30" Command="{Binding SelectWorkingFolder}">...</Button>
                         </Grid>
                     </StackPanel>
                 </Border>
-                <Border>
+                <Border Grid.Row="1">
                     <StackPanel>
                         <TextBlock>Storage list</TextBlock>
-                        <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="100"></TextBlock>
-                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Id}"></TextBlock>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                        <ScrollViewer>
+                            <ListBox ItemsSource="{Binding Storages}" SelectedItem="{Binding SelectedStorage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="100"></TextBlock>
+                                            <TextBlock DockPanel.Dock="Right" Text="{Binding Id}"></TextBlock>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
                         <TextBlock>Network list</TextBlock>
-                        <ListBox ItemsSource="{Binding SelectedStorage.Networks, Mode=OneWay}" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="100"></TextBlock>
-                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Id}"></TextBlock>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                        <ScrollViewer>
+                            <ListBox ItemsSource="{Binding SelectedStorage.Networks, Mode=OneWay}" SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="100"></TextBlock>
+                                            <TextBlock DockPanel.Dock="Right" Text="{Binding Id}"></TextBlock>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
                     </StackPanel>
                 </Border>
-            </StackPanel>
+                <Border Grid.Row="2">
+                    <StackPanel>
+                        <Border>
+                            <StackPanel>
+                                <Button Command="{Binding NewStorage}">Create new storage</Button>
+                                <Button Command="{Binding NewNetwork}" IsEnabled="{Binding StorageSelected}">Add new network</Button>
+                            </StackPanel>
+                        </Border>
+                        <Border>
+                            <StackPanel>
+                                <Button Command="{Binding OpenStorage}">Load storage</Button>
+                                <Button Command="{Binding OpenNetwork}">Load network</Button>
+                            </StackPanel>
+                        </Border>
+                        <Border>
+                            <StackPanel>
+                                <Button Command="{Binding RemoveNetwork}" Style="{StaticResource DangerButton}">Remove network</Button>
+                                <Button Command="{Binding RemoveStorage}" Style="{StaticResource DangerButton}">Remove storage</Button>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Border>
         <Border Grid.Column="1" IsEnabled="{Binding EditorIsActive}">
             <DockPanel DataContext="{Binding EditorVM}">
                 <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
-                    <Border IsEnabled="{Binding IsStorageAtWork}">
-                        <StackPanel >
-                            <StackPanel DataContext="{Binding StorageAtWork}" >
+                    <Border>
+                        <StackPanel>
+                            <StackPanel DataContext="{Binding StorageAtWork}" IsEnabled="{Binding IsPrototype}">
                                 <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Storage properties</TextBlock>
                                 <TextBlock>Storage Id</TextBlock>
                                 <TextBox IsReadOnly="True" Text="{Binding Id}"></TextBox>
                                 <TextBlock>Storage name</TextBlock>
                                 <TextBox IsReadOnly="{Binding IsDefaultStorage}" Text="{Binding Name}"></TextBox>
                             </StackPanel>
-                            <Button Command="{Binding Save}">Save</Button>
+                            <Button Command="{Binding CreateStorage}">Create storage</Button>
                         </StackPanel>
                     </Border>
                 </StackPanel>
-                <Border DockPanel.Dock="Top" IsEnabled="{Binding IsNetworkAtWork}">
-                    <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
-                        <StackPanel DataContext="{Binding NetworkAtWork}" >
+                <Border DockPanel.Dock="Top" IsEnabled="{Binding NetworkEditorEnabled}">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" DataContext="{Binding NetworkAtWork}">
                             <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Network properties</TextBlock>
                             <TextBlock>Network Id</TextBlock>
                             <TextBox IsReadOnly="True" Text="{Binding Id, Mode=OneWay}"></TextBox>
@@ -134,46 +161,85 @@
                             <TextBlock>Learning rate</TextBlock>
                             <TextBox Text="{Binding LearningRate}"></TextBox>
                             <TextBlock HorizontalAlignment="Center" Style="{StaticResource HeaderTextBlock}">Layers properties</TextBlock>
+                            <ScrollViewer DockPanel.Dock="Left" Height="160">
+                                <ListBox ItemsSource="{Binding Layers, Mode=OneWay}" Width="Auto">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Width" Value="100"></Setter>
+                                                    </Style>
+                                                    <Style TargetType="xctk:IntegerUpDown">
+                                                        <Setter Property="Width" Value="120"></Setter>
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                                <TextBlock Text="{Binding LayerName}"></TextBlock>
+                                                <xctk:IntegerUpDown Value="{Binding NeuronsCount, Mode=TwoWay}" Minimum="2"></xctk:IntegerUpDown>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
                         </StackPanel>
-                        <Border>
-                            <DockPanel VerticalAlignment="Center" Height="160">
-                                <ScrollViewer DockPanel.Dock="Left" Height="160">
-                                    <ListBox ItemsSource="{Binding NetworkAtWork.Layers, Mode=OneWay}" Width="260">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <StackPanel.Resources>
-                                                        <Style TargetType="TextBlock">
-                                                            <Setter Property="Width" Value="100"></Setter>
-                                                        </Style>
-                                                        <Style TargetType="xctk:IntegerUpDown">
-                                                            <Setter Property="Width" Value="120"></Setter>
-                                                        </Style>
-                                                    </StackPanel.Resources>
-                                                    <TextBlock Text="{Binding LayerName}"></TextBlock>
-                                                    <xctk:IntegerUpDown Value="{Binding NeuronsCount, Mode=TwoWay}" Minimum="2"></xctk:IntegerUpDown>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </ScrollViewer>
-                                <StackPanel DockPanel.Dock="Right">
-                                    <StackPanel.Resources>
-                                        <Style TargetType="Button">
-                                            <Setter Property="MinWidth" Value="100"></Setter>
-                                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-                                        </Style>
-                                    </StackPanel.Resources>
-                                    <Button Command="{Binding AddLayer}">Add layer</Button>
-                                    <Button Command="{Binding TestMessage}">Test</Button>
-                                    <Button Command="{Binding RemoveLayer}">Remove layer</Button>
-                                </StackPanel>
-                            </DockPanel>
-                        </Border>
-                        <Button Command="{Binding Create}">Create network</Button>
-                    </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Command="{Binding AddLayer}">Add layer</Button>
+                            <Button Command="{Binding RemoveLayer}">Remove layer</Button>
+                        </StackPanel>
+                        <Button DockPanel.Dock="Bottom" Command="{Binding CreateNetwork}">Create network and add to storage</Button>
+                    </DockPanel>
                 </Border>
             </DockPanel>
+        </Border>
+        <Border Grid.Column="2" IsEnabled="{Binding TrainerIsActive, Mode=OneWay}">
+            <Grid DataContext="{Binding TrainerVM}">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0">
+                </Border>
+                <Border Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0">
+                            <StackPanel>
+                                <TextBlock>Current storage</TextBlock>
+                                <TextBlock>Current network</TextBlock>
+                                <TextBlock>Inputs count</TextBlock>
+                                <TextBlock>Outputs count</TextBlock>
+                                <TextBlock>Train iterations</TextBlock>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1">
+                            <StackPanel>
+                                <TextBlock Text="{Binding CurrentStorage.Name}"></TextBlock>
+                                <TextBlock Text="{Binding CurrentNetwork.Name}"></TextBlock>
+                                <TextBlock Text="{Binding CurrentNetwork.InputsCount}"></TextBlock>
+                                <TextBlock Text="{Binding CurrentNetwork.OutputsCount}"></TextBlock>
+                                <TextBlock>0</TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="2">
+                    <StackPanel>
+                        <DockPanel DockPanel.Dock="Bottom">
+                            <Border DockPanel.Dock="Right">
+                                <StackPanel>
+                                    <Button>Query</Button>
+                                    <Button>Train</Button>
+                                    <Button>Query output</Button>
+                                </StackPanel>
+                            </Border>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Border>
     </Grid>
 </Window>

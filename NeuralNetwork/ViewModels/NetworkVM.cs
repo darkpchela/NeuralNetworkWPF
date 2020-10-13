@@ -18,12 +18,29 @@ namespace NeuralNetwork.ViewModels
             _networkModel = model;
         }
 
+        private bool _isPrototype;
+        public bool IsPrototype
+        {
+            get
+            {
+                return _isPrototype;
+            }
+            set
+            {
+                _isPrototype = value;
+                OnPropertyChanged(nameof(IsPrototype));
+            }
+        }
+
         private string _id;
         public string Id 
         {
             get
             {
-                return string.IsNullOrEmpty(_id) ? "//Network prototype has no Id//" : _id;
+                if (IsPrototype)
+                    return "Prototype has no Id";
+
+                return _id;
             }
             set
             {

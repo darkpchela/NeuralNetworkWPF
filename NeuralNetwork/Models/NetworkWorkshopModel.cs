@@ -58,8 +58,8 @@ namespace NeuralNetwork.Models
             InitializeDefaultStorage();
         }
 
-        public NetworksStorageModel TempStorage { get; }
-        public ObservableCollection<NetworksStorageModel> Storages { get; }
+        public NetworksStorageModel DefaultStorage { get; private set; }
+        public ObservableCollection<NetworksStorageModel> Storages { get; private set; }
 
         public NetworksStorageModel GetStorageModel(string id)
         {
@@ -71,32 +71,27 @@ namespace NeuralNetwork.Models
             return _factory.CreatePrototype();
         }
 
-        public void CreateNetwork(NetworkVM networkPrototype, string storageId = null)
+        public async void CreateNetwork(NetworkVM networkPrototype, string storageId = null)
         {
 
             var defData = NetworkViewModelToNetworkDataModel(networkPrototype);
             var network = _factory.CreateInstance(defData);
-            if (string.IsNullOrEmpty(storageId))
-            {
-                TempStorage.AddInstance(network);
-            }
-            else
-            {
-                var storage = Storages.First(s => s.Id == Guid.Parse(storageId));
-                storage.AddInstance(network);
-            }
+            var storage = string.IsNullOrEmpty(storageId) ? DefaultStorage : Storages.First(s => s.Id == Guid.Parse(storageId));
+
+            storage.AddInstance(network);
+
+            await SaveStorageAsync(storage.Id.ToString());
         }
 
-        public void CreateStorage()
+        public async void CreateStorage(NetworkStorageVM storagePrototype)
         {
-            var storage = new NetworksStorageModel(true);
-
-            while(Storages.FirstOrDefault(s => s.Name == storage.Name) != null)
+            var storageModel = new NetworksStorageModel()
             {
-                storage.Name += " - copy";
-            }
+                Name = storagePrototype.Name
+            };
 
-            Storages.Add(storage);
+            Storages.Add(storageModel);
+            await SaveStorageAsync(storageModel.Id.ToString());
         }
 
         public async Task<bool> SaveStorageAsync(string storageId)
@@ -137,7 +132,7 @@ namespace NeuralNetwork.Models
 
             var data = await _fileService.ReadFromFileAsync<NetworkDataModel>(fileName, new NetworkDataModelReadStrategy());
             var networkModel = new NetworkModel(data);
-            TempStorage.AddInstance(networkModel);
+            DefaultStorage.AddInstance(networkModel);
         }
 
         public async Task<bool> LoadStorageAsync(string fileName)
@@ -163,15 +158,23 @@ namespace NeuralNetwork.Models
 
         private async void InitializeDefaultStorage()
         {
-            var defStorageLoaded = await LoadStorageAsync(_defaultStorageMetaFileName);
-            if (!defStorageLoaded)
+            try
             {
+                var defStorageModel = await _fileService.ReadFromFileAsync<NetworksStorageModel>(_defaultStorageMetaFileName, new StorageModelReadStrategy());
+                DefaultStorage = defStorageModel;
+                Storages.Add(defStorageModel);
+            }
+            catch
+            {
+
                 var defStorageModel = new NetworksStorageModel(false)
                 {
                     Name = DefaultStorageName
                 };
 
+                DefaultStorage = defStorageModel;
                 Storages.Add(defStorageModel);
+
                 await SaveStorageAsync(defStorageModel.Id.ToString());
             }
         }

@@ -19,17 +19,6 @@ namespace NeuralNetwork.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private NetworkWorkshopModel _workshopModel;
-
-        private ObservableCollection<Guid> _networksIds; 
-        public ObservableCollection<Guid> NetworksIds
-        {
-            get
-            {
-                return _networksIds ?? (_networksIds = new ObservableCollection<Guid>());
-            }
-        }
-
         private NetworkVM _currentNetwork;
         public NetworkVM CurrentNetwork
         {
@@ -40,28 +29,43 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _currentNetwork = value;
-                OnPropertyChanged("CurrentNetworkVM");
+                OnPropertyChanged(nameof(CurrentNetwork));
             }
         }
 
-        public List<float> CurrentInputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
-        public List<float> CurrentOutputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
-
-        public string CurrentTrainFile { get; set; }
-        public string CurrentFolder { get; set; }
-
-
-        private RelayCommand _query;
-        public RelayCommand Query
+        private NetworkStorageVM _currentStorage;
+        public NetworkStorageVM CurrentStorage
         {
             get
             {
-                return _query ?? (_query = new RelayCommand(obj =>
-                {
-                    //var results = _workshopModel.Query(CurrentInputs.ToArray(), CurrentNetwork.Id);
-                }));
+                return _currentStorage;
+            }
+            set
+            {
+                _currentStorage = value;
+                OnPropertyChanged(nameof(CurrentStorage));
             }
         }
+
+
+        //public List<float> CurrentInputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
+        //public List<float> CurrentOutputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
+
+        //public string CurrentTrainFile { get; set; }
+        //public string CurrentFolder { get; set; }
+
+
+        //private RelayCommand _query;
+        //public RelayCommand Query
+        //{
+        //    get
+        //    {
+        //        return _query ?? (_query = new RelayCommand(obj =>
+        //        {
+        //            //var results = _workshopModel.Query(CurrentInputs.ToArray(), CurrentNetwork.Id);
+        //        }));
+        //    }
+        //}
 
 
 

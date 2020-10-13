@@ -14,7 +14,7 @@ namespace NeuralNetwork.Infrastructure.Services.Strategies
         {
             try
             {
-                string storageFolder = Path.Combine(folderPath, obj.Id.ToString());
+                string storageFolder = Path.Combine(folderPath, obj.Name.ToString());
                 string networksFolder = Path.Combine(storageFolder, "Networks");
                 string metaFileName = Path.Combine(storageFolder, "meta.json");
 

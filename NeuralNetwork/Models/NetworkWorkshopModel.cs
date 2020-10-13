@@ -26,9 +26,9 @@ namespace NeuralNetwork.Models
         }
 
         public const string DefaultStorageName = "Default_storage";
-        private string _defaultWorkingFolder = Directory.GetCurrentDirectory() + "\\Default";
+        private string _defaultWorkingFolder = Path.Combine(Directory.GetCurrentDirectory(), "Storages");
+        private string _defaultStorageMetaFileName = Path.Combine(Directory.GetCurrentDirectory(), "Storages", DefaultStorageName, "meta.json"); 
 
-        private NeuralNetworkDefaultTrainer _trainer;
         private NetworkFactoryModel _factory;
         private IFileService _fileService;
 
@@ -52,20 +52,10 @@ namespace NeuralNetwork.Models
         private NetworkWorkshopModel()
         {
             _fileService = new FileService();
-            _trainer = new NeuralNetworkDefaultTrainer();
             _factory = new NetworkFactoryModel();
-
-            TempStorage = new NetworksStorageModel(false) 
-            {
-                Name = DefaultStorageName
-            };
-
-            Storages = new ObservableCollection<NetworksStorageModel>()
-            {
-                TempStorage
-            };
-
+            Storages = new ObservableCollection<NetworksStorageModel>();
             WorkingFolder = _defaultWorkingFolder;
+            InitializeDefaultStorage();
         }
 
         public NetworksStorageModel TempStorage { get; }
@@ -149,8 +139,13 @@ namespace NeuralNetwork.Models
             try
             {
                 var storageModel = await _fileService.ReadFromFileAsync<NetworksStorageModel>(fileName, new StorageModelReadStrategy());
-                Storages.Add(storageModel);
-                return true;
+                if (Storages.FirstOrDefault(s => s.Id == storageModel.Id) is null)
+                {
+                    Storages.Add(storageModel);
+                    return true;
+                }
+                else
+                    return false;
             }
             catch
             {
@@ -159,6 +154,21 @@ namespace NeuralNetwork.Models
 
         }
 
+
+        private async void InitializeDefaultStorage()
+        {
+            var defStorageLoaded = await LoadStorageAsync(_defaultStorageMetaFileName);
+            if (!defStorageLoaded)
+            {
+                var defStorageModel = new NetworksStorageModel(false)
+                {
+                    Name = DefaultStorageName
+                };
+
+                Storages.Add(defStorageModel);
+                await SaveStorageAsync(defStorageModel.Id.ToString());
+            }
+        }
         private NetworkDataModel NetworkViewModelToNetworkDataModel(NetworkVM networkVM)
         {
             var defData = new NetworkDataModel();

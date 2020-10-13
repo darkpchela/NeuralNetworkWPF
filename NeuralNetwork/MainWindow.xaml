@@ -105,7 +105,7 @@
                 </Border>
             </StackPanel>
         </Border>
-        <Border Grid.Column="1" IsEnabled="{Binding RedactorIsActive}">
+        <Border Grid.Column="1" IsEnabled="{Binding EditorIsActive}">
             <DockPanel DataContext="{Binding EditorVM}">
                 <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
                     <Border IsEnabled="{Binding IsStorageAtWork}">

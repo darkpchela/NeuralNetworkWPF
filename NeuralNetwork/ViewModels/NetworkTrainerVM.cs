@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.ViewModels
 {
-    public class NetworkTrainer : INotifyPropertyChanged
+    public class NetworkTrainerVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName]string property = "")

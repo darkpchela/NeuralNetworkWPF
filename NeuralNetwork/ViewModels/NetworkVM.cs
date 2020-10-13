@@ -37,7 +37,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return string.IsNullOrEmpty(_name) ? "//Unnamed//" : _name;
+                return string.IsNullOrEmpty(_name) ? "Unnamed" : _name;
             }
             set
             {

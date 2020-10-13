@@ -14,7 +14,7 @@ namespace NeuralNetwork.Infrastructure.Services.Strategies
             try
             {
                 var objJson = JsonConvert.SerializeObject(obj);
-                var fileName = Path.Combine(folderPath, obj.Id.ToString() + ".json");
+                var fileName = Path.Combine(folderPath, obj.Name.ToString() + ".json");
                 File.WriteAllText(fileName, objJson);
                 return Task.FromResult(true);
             }

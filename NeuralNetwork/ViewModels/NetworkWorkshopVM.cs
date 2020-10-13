@@ -38,6 +38,20 @@ namespace NeuralNetwork.ViewModels
             PropertyDependencyContainer.Regist(nameof(_workshopModel.WorkingFolder), _workshopModel, nameof(WorkingFolder), this);
         }
 
+        private NetworkTrainerVM _trainerVM;
+        public NetworkTrainerVM TrainerVM
+        {
+            get
+            {
+                return _trainerVM;
+            }
+            set
+            {
+                _trainerVM = value;
+                OnPropertyChanged(nameof(TrainerVM));
+            }
+        }
+
         private EditorVM _editorVM;
         public EditorVM EditorVM
         {
@@ -52,17 +66,17 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private bool _redactorIsAtcive;
-        public bool RedactorIsActive
+        private bool _editorIsAtcive;
+        public bool EditorIsActive
         {
             get
             {
-                return _redactorIsAtcive;
+                return _editorIsAtcive;
             }
             set
             {
-                _redactorIsAtcive = value;
-                OnPropertyChanged("RedactorIsActive");
+                _editorIsAtcive = value;
+                OnPropertyChanged(nameof(EditorIsActive));
             }
         }
 
@@ -105,9 +119,9 @@ namespace NeuralNetwork.ViewModels
             {
                 _selectedStorage = value;
                 if (value is null)
-                    RedactorIsActive = false;
+                    EditorIsActive = false;
                 else
-                    RedactorIsActive = true;
+                    EditorIsActive = true;
 
                 EditorVM = new EditorVM
                 {
@@ -140,7 +154,7 @@ namespace NeuralNetwork.ViewModels
                 return _newNetwork ?? (_newNetwork = new RelayCommand(obj =>
                 {
                     EditorVM = new EditorVM();
-                    RedactorIsActive = true;
+                    EditorIsActive = true;
                     if (SelectedStorage is null)
                         SelectedStorage = _workshopModel.TempStorage.GetViewModel();
                     EditorVM.StorageAtWork =_workshopModel.GetStorageModel(SelectedStorage.Id).GetViewModel();

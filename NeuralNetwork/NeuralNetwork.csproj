@@ -133,6 +133,7 @@
     <Compile Include="Models\NetworkDataModel.cs" />
     <Compile Include="Models\NetworkFactoryModel.cs" />
     <Compile Include="Models\NetworksStorageModel.cs" />
+    <Compile Include="Models\NetworkTrainerModel.cs" />
     <Compile Include="Models\NetworkWorkshopModel.cs" />
     <Compile Include="Models\NetworkModel.cs" />
     <Compile Include="Models\NetworkStorageConstraints.cs" />

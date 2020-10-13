@@ -94,27 +94,9 @@ namespace NeuralNetwork.Models
             await SaveStorageAsync(storageModel.Id.ToString());
         }
 
-        public async Task<bool> SaveStorageAsync(string storageId)
-        {
-            var storageModel = Storages.FirstOrDefault(s => s.Id == Guid.Parse(storageId));
-
-            if (storageModel is null)
-                return false;
-
-            return await _fileService.SaveToFileAsync<NetworksStorageModel>(storageModel, WorkingFolder, new StorageModelSaveStrategy());
-        }
-
         public void RemoveStorage(string storageId)
         {
             Storages.Remove(Storages.First(s => s.Id == Guid.Parse(storageId)));
-        }
-
-        public async Task<bool> SaveNetworkAsync(string networkId, string storageId)
-        {
-            var networkModel = GetStorageModel(storageId).GetInstance(Guid.Parse(networkId));
-            var data = networkModel.GetNetworkData();
-            var saved = await _fileService.SaveToFileAsync(data, WorkingFolder, new NetworkDataModelSaveStrategy());
-            return saved;
         }
 
         public void ChangeWorkingFolder(string folderPath)
@@ -156,6 +138,22 @@ namespace NeuralNetwork.Models
         }
 
 
+        private async Task<bool> SaveNetworkAsync(string networkId, string storageId)
+        {
+            var networkModel = GetStorageModel(storageId).GetInstance(Guid.Parse(networkId));
+            var data = networkModel.GetNetworkData();
+            var saved = await _fileService.SaveToFileAsync(data, WorkingFolder, new NetworkDataModelSaveStrategy());
+            return saved;
+        }
+        private async Task<bool> SaveStorageAsync(string storageId)
+        {
+            var storageModel = Storages.FirstOrDefault(s => s.Id == Guid.Parse(storageId));
+
+            if (storageModel is null)
+                return false;
+
+            return await _fileService.SaveToFileAsync<NetworksStorageModel>(storageModel, WorkingFolder, new StorageModelSaveStrategy());
+        }
         private async void InitializeDefaultStorage()
         {
             try

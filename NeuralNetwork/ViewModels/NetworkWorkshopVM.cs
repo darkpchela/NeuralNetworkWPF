@@ -236,37 +236,6 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private RelayCommand _saveNetwork;
-        public RelayCommand SaveNetwork
-        {
-            get
-            {
-                return _saveNetwork ?? (_saveNetwork = new RelayCommand(async obj =>
-                {
-                    if (await _workshopModel.SaveNetworkAsync(SelectedNetwork.Id, SelectedStorage.Id))
-                        MessageBox.Show("Saved");
-                    else
-                        MessageBox.Show("Save error");
-                }));
-            }
-        }
-
-        private RelayCommand _saveStorage;
-        public RelayCommand SaveStorage
-        {
-            get
-            {
-                return _saveStorage ?? (_saveStorage = new RelayCommand(async obj =>
-                {
-                    var saved = await _workshopModel.SaveStorageAsync(_selectedStorage.Id);
-                    if (saved)
-                        MessageBox.Show("Saved");
-                    else
-                        MessageBox.Show("Error");
-                }));
-            }
-        }
-
         private RelayCommand _openNetwork;
         public RelayCommand OpenNetwork
         {

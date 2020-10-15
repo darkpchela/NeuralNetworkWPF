@@ -18,7 +18,7 @@ namespace NeuralNetwork.Infrastructure.Etc
             registForm.TargetPropName = targetPropName;
             registForm.MappingFunc = mappingFunc;
 
-            ((INotifyPropertyChanged)registForm.SourceRef).PropertyChanged += UpdateProperty;
+            ((INotifyPropertyChanged)registForm.SourceRef.Target).PropertyChanged += UpdateProperty;
 
             if (!_dependencies.ContainsKey((sourcePropName, source)))
                 _dependencies.Add((sourcePropName, source), registForm);

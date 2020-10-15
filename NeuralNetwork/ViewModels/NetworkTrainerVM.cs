@@ -19,6 +19,20 @@ namespace NeuralNetwork.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
+        private VisualizerVM _visualizerVM;
+        public VisualizerVM VisualizerVM
+        {
+            get
+            {
+                return _visualizerVM ??(_visualizerVM = new VisualizerVM());
+            }
+            set
+            {
+                _visualizerVM = value;
+                OnPropertyChanged(nameof(VisualizerVM));
+            }
+        }
+
         private NetworkVM _currentNetwork;
         public NetworkVM CurrentNetwork
         {

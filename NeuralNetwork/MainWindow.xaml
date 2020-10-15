@@ -18,6 +18,7 @@
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Margin" Value="2 0 0 0"></Setter>
         </Style>
         <Style x:Key="HeaderTextBlock" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"></Setter>
@@ -194,11 +195,42 @@
         <Border Grid.Column="2" IsEnabled="{Binding TrainerIsActive, Mode=OneWay}">
             <Grid DataContext="{Binding TrainerVM}">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="0.5*"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top" DataContext="{Binding VisualizerVM}">
+                        <TextBlock Style="{StaticResource HeaderTextBlock}" HorizontalAlignment="Center" >Visualization</TextBlock>
+                        <Border>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>Resolution</TextBlock>
+                                    <TextBlock Text="{Binding Width}"></TextBlock>
+                                    <TextBlock>x</TextBlock>
+                                    <TextBlock Text="{Binding Height}"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding PixelPaths}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Canvas.LayoutTransform>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="-90"></RotateTransform>
+                                                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterX="0" CenterY="0"></ScaleTransform>
+                                                </TransformGroup>
+                                            </Canvas.LayoutTransform>
+                                        </Canvas>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+                    </StackPanel>
                 </Border>
                 <Border Grid.Row="1">
                     <Grid>
@@ -234,6 +266,7 @@
                                     <Button>Query</Button>
                                     <Button>Train</Button>
                                     <Button>Query output</Button>
+                                    <Button>Vizualize file</Button>
                                 </StackPanel>
                             </Border>
                         </DockPanel>

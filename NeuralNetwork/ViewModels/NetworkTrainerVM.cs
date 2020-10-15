@@ -101,7 +101,7 @@ namespace NeuralNetwork.ViewModels
             }
             set
             {
-                SelectedOutputData = value;
+                _selectedOutputData = value;
                 OnPropertyChanged(nameof(SelectedOutputData));
             }
         }

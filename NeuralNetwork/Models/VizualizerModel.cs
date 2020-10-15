@@ -19,10 +19,5 @@ namespace NeuralNetwork.Models
         {
             _fileService = new FileService();
         }
-
-        public async void VizualizeFileMNIST(string fileName)
-        {
-            var result = await _fileService.ReadFromFileAsync(fileName, new CsvMNISTFileReadStrategy());
-        }
     }
 }

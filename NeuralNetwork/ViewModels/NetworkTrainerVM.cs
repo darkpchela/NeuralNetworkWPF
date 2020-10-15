@@ -1,14 +1,19 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
+using NeuralNetwork.Infrastructure.Converters;
 using NeuralNetwork.Infrastructure.Etc;
+using NeuralNetwork.Infrastructure.Interfaces;
+using NeuralNetwork.Infrastructure.Services;
 using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeuralNetwork.ViewModels
 {
@@ -20,7 +25,13 @@ namespace NeuralNetwork.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private NetworkTrainerModel trainerModel = NetworkTrainerModel.Instance;
+        private NetworkTrainerModel _trainerModel = NetworkTrainerModel.Instance;
+        private IFileDialogService _dialogService;
+
+        public NetworkTrainerVM()
+        {
+            _dialogService = new DefaultFileDialogService();
+        }
 
         private NetworkVM _currentNetwork;
         public NetworkVM CurrentNetwork
@@ -156,9 +167,25 @@ namespace NeuralNetwork.ViewModels
                 OnPropertyChanged(nameof(SelectedDataFormat));
             }
         }
-        //private ienu
 
-        //private RelayCommand _loadTrainFile;
-        //public RelayCommand LoadTrainFile
+        private RelayCommand _loadTrainFile;
+        public RelayCommand LoadTrainFile
+        {
+            get
+            {
+                return _loadTrainFile ?? (_loadTrainFile = new RelayCommand(async obj =>
+                {
+                    if (_dialogService.OpenFileDialog(out string fileName))
+                    {
+                        await _trainerModel.LoadTrainFile(fileName, SelectedDataFormat);
+                        InputDatas = new ObservableCollection<QueryDataVM>(_trainerModel.TrainDatas.ToViewModels());
+                    }
+                    else
+                        MessageBox.Show("Error");
+
+                }));
+            }
+        }
+
     }
 }

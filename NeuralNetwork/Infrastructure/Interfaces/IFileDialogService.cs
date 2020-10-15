@@ -1,6 +1,6 @@
 ﻿namespace NeuralNetwork.Infrastructure.Interfaces
 {
-    public interface IBrowserDialogService
+    public interface IFileDialogService
     {
         bool OpenFileDialog(out string fileName, string filter = null);
 

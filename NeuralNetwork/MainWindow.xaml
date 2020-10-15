@@ -255,7 +255,12 @@
                             <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Top">Input datas</TextBlock>
                                 <ScrollViewer>
-                                    <ListBox ItemsSource="{Binding InputOutputs, Mode=TwoWay}" SelectedItem="{Binding SelectedInputData, Mode=TwoWay}">
+                                    <ListBox ItemsSource="{Binding InputDatas, Mode=TwoWay}" SelectedItem="{Binding SelectedInputData, Mode=TwoWay}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Marker}"></TextBlock>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
                                     </ListBox>
                                 </ScrollViewer>
                             </DockPanel>
@@ -276,7 +281,7 @@
                                         <Button>Query</Button>
                                         <Button>Query output</Button>
                                         <Button>Train</Button>
-                                        <Button>Select train file</Button>
+                                        <Button Command="{Binding LoadTrainFile}">Load train file</Button>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -295,17 +300,18 @@
                             <Border>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Style="{StaticResource HeaderTextBlock}" HorizontalAlignment="Center" >Visualization</TextBlock>
-                                    <StackPanel Orientation="Horizontal">
+                                    <!--<StackPanel Orientation="Horizontal">
                                         <TextBlock>Resolution</TextBlock>
                                         <TextBlock Text="{Binding Width}"></TextBlock>
                                         <TextBlock>x</TextBlock>
                                         <TextBlock Text="{Binding Height}"></TextBlock>
-                                    </StackPanel>
+                                    </StackPanel>-->
                                 </StackPanel>
                             </Border>
                         </StackPanel>
                         <Border Grid.Row="1">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <StackPanel DataContext="{Binding InputVisualizer}">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <ItemsControl ItemsSource="{Binding PixelPaths}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -321,9 +327,11 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                             </ScrollViewer>
+                            </StackPanel>
                         </Border>
                         <Border Grid.Row="2">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <StackPanel DataContext="{Binding OutputVisualizer}">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <ItemsControl ItemsSource="{Binding PixelPaths}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -339,6 +347,7 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                             </ScrollViewer>
+                            </StackPanel>
                         </Border>
                     </Grid>
                 </Border>

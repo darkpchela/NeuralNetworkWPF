@@ -7,7 +7,7 @@ using FolderDialog = System.Windows.Forms.FolderBrowserDialog;
 
 namespace NeuralNetwork.Infrastructure.Services
 {
-    public class DefaultFileDialogService : IBrowserDialogService
+    public class DefaultFileDialogService : IFileDialogService
     {
         //_filter = "Json files(*.json)|*.json|NeuralNetwork data(*.nnd)|*.nnd";
 

@@ -1,8 +1,6 @@
-﻿using NeuralNetwork.Core.Etc;
-using NeuralNetwork.Models;
+﻿using NeuralNetwork.Models;
 using NeuralNetwork.ViewModels;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace NeuralNetwork.Infrastructure.Converters
@@ -48,6 +46,16 @@ namespace NeuralNetwork.Infrastructure.Converters
             networkLayerVMs.Last().IsOutputLayer = true;
 
             return networkLayerVMs;
+        }
+
+        public static IEnumerable<QueryDataVM> ToViewModels(this IEnumerable<QueryDataModel> models)
+        {
+            foreach (var model in models)
+            {
+                var viewModel = model.GetViewModel();
+
+                yield return viewModel;
+            }
         }
     }
 }

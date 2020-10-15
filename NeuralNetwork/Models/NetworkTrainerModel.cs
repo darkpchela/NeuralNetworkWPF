@@ -1,4 +1,8 @@
-﻿using NeuralNetwork.ViewModels;
+﻿using NeuralNetwork.Infrastructure.Etc;
+using NeuralNetwork.Infrastructure.Interfaces;
+using NeuralNetwork.Infrastructure.Services;
+using NeuralNetwork.Infrastructure.Services.Strategies;
+using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,9 +22,46 @@ namespace NeuralNetwork.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
+        private IFileService _fileService;
+
         public static NetworkTrainerModel Instance = new NetworkTrainerModel();
+        private NetworkTrainerModel()
+        {
+            _fileService = new FileService();
+        }
 
+        private ObservableCollection<QueryDataModel> _trainDatas;
+        public ObservableCollection<QueryDataModel> TrainDatas
+        {
+            get
+            {
+                return _trainDatas ?? (_trainDatas = new ObservableCollection<QueryDataModel>());
+            }
+            set
+            {
+                _trainDatas = value;
+                OnPropertyChanged(nameof(TrainDatas));
+            }
+        }
 
+        public async Task LoadTrainFile(string fileName, TrainDataFormat dataFormat)
+        {
+            TrainDatas.Clear();
+
+            switch (dataFormat)
+            {
+                case TrainDataFormat.BlackMNIST28x28:
+                    var mnistDatas = await _fileService.ReadFromFileAsync(fileName, new CsvMNISTFileReadStrategy());
+                    foreach (var data in mnistDatas)
+                    {
+                        var dataModel = new QueryDataModel();
+                        dataModel.Marker = data.Marker.ToString();
+                        dataModel.Values = from v in data.PixelsValues select (float)v;
+                        TrainDatas.Add(dataModel);
+                    }
+                    break;
+            }
+        }
 
     }
 }

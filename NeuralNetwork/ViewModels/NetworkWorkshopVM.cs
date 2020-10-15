@@ -27,7 +27,7 @@ namespace NeuralNetwork.ViewModels
         }
         
         private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
-        private IBrowserDialogService fileDialogService = new DefaultFileDialogService();
+        private IFileDialogService fileDialogService = new DefaultFileDialogService();
 
         public NetworkWorkshopVM()
         {

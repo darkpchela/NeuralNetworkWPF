@@ -1,18 +1,14 @@
-﻿using System;
+﻿using NeuralNetwork.ViewModels;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeuralNetwork.Models
 {
-    public class QueryDataModel<T> : INotifyPropertyChanged
+    public class QueryDataModel : INotifyPropertyChanged
     {
         private string _marker;
-        public string Marker 
+        public string Marker
         {
             get
             {
@@ -25,8 +21,8 @@ namespace NeuralNetwork.Models
             }
         }
 
-        private ObservableCollection<T> _values;
-        public ObservableCollection<T> Values
+        private IEnumerable<float> _values;
+        public IEnumerable<float> Values
         {
             get
             {
@@ -43,6 +39,14 @@ namespace NeuralNetwork.Models
         private void OnPropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        public QueryDataVM GetViewModel()
+        {
+            var viewModel = new QueryDataVM(this);
+            viewModel.Marker = Marker;
+
+            return viewModel;
         }
     }
 }

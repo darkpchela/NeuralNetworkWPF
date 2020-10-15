@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using NeuralNetwork.Models;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -10,6 +10,12 @@ namespace NeuralNetwork.ViewModels
         private void OnPropertyChanged([CallerMemberName]string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        public QueryDataVM(QueryDataModel model)
+        {
+            Marker = model.Marker;
+            DataModel = model;
         }
 
         private string _marker;
@@ -26,17 +32,16 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private ObservableCollection<int> _values;
-        public ObservableCollection<int> Values
+        private QueryDataModel _dataModel;
+        public QueryDataModel DataModel
         {
             get
             {
-                return _values;
+                return _dataModel;
             }
-            set
+            private set
             {
-                _values = value;
-                OnPropertyChanged(nameof(Values));
+                _dataModel = value;
             }
         }
     }

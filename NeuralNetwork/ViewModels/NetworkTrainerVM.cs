@@ -1,4 +1,5 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
+using NeuralNetwork.Infrastructure.Etc;
 using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
@@ -19,19 +20,7 @@ namespace NeuralNetwork.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private VisualizerVM _visualizerVM;
-        public VisualizerVM VisualizerVM
-        {
-            get
-            {
-                return _visualizerVM ??(_visualizerVM = new VisualizerVM());
-            }
-            set
-            {
-                _visualizerVM = value;
-                OnPropertyChanged(nameof(VisualizerVM));
-            }
-        }
+        private NetworkTrainerModel trainerModel = NetworkTrainerModel.Instance;
 
         private NetworkVM _currentNetwork;
         public NetworkVM CurrentNetwork
@@ -61,27 +50,115 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private VisualizerVM _inputVisualizer;
+        public VisualizerVM InputVisualizer
+        {
+            get
+            {
+                return _inputVisualizer;
+            }
+            set
+            {
+                _inputVisualizer = value;
+                OnPropertyChanged(nameof(InputVisualizer));
+            }
+        }
 
-        //public List<float> CurrentInputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
-        //public List<float> CurrentOutputs { get; set; } = new List<float> { 0.0f, 0.0f, 0.0f };
+        private VisualizerVM _outputVisualizer;
+        public VisualizerVM OutputVisualizer
+        {
+            get
+            {
+                return _outputVisualizer;
+            }
+            set
+            {
+                _outputVisualizer = value;
+                OnPropertyChanged(nameof(OutputVisualizer));
+            }
+        }
 
-        //public string CurrentTrainFile { get; set; }
-        //public string CurrentFolder { get; set; }
+        private QueryDataVM _selectedInputData;
+        public QueryDataVM SelectedInputData
+        {
+            get
+            {
+                return _selectedInputData;
+            }
+            set
+            {
+                _selectedInputData = value;
+                OnPropertyChanged(nameof(SelectedInputData));
+            }
+        }
 
+        private QueryDataVM _selectedOutputData;
+        public QueryDataVM SelectedOutputData
+        {
+            get
+            {
+                return _selectedOutputData;
+            }
+            set
+            {
+                SelectedOutputData = value;
+                OnPropertyChanged(nameof(SelectedOutputData));
+            }
+        }
 
-        //private RelayCommand _query;
-        //public RelayCommand Query
-        //{
-        //    get
-        //    {
-        //        return _query ?? (_query = new RelayCommand(obj =>
-        //        {
-        //            //var results = _workshopModel.Query(CurrentInputs.ToArray(), CurrentNetwork.Id);
-        //        }));
-        //    }
-        //}
+        private ObservableCollection<QueryDataVM> _outputDatas;
+        public ObservableCollection<QueryDataVM> OutputDatas
+        {
+            get
+            {
+                return _outputDatas;
+            }
+            set
+            {
+                _outputDatas = value;
+                OnPropertyChanged(nameof(OutputDatas));
+            }
+        }
 
+        private ObservableCollection<QueryDataVM> _intputDatas;
+        public ObservableCollection<QueryDataVM> InputDatas
+        {
+            get
+            {
+                return _intputDatas;
+            }
+            set
+            {
+                _intputDatas = value;
+                OnPropertyChanged(nameof(InputDatas));
+            }
+        }
 
+        private IEnumerable<TrainDataFormat> _dataFormats = Enum.GetValues(typeof(TrainDataFormat)).Cast<TrainDataFormat>();
+        public IEnumerable<TrainDataFormat> DataFormats
+        {
+            get
+            {
+                return _dataFormats;
+            }
+        }
 
+        private TrainDataFormat _selectedDataFormat;
+        public TrainDataFormat SelectedDataFormat
+        {
+            get
+            {
+                return _selectedDataFormat;
+            }
+            set
+            {
+                _selectedDataFormat = value;
+                OnPropertyChanged(nameof(SelectedDataFormat));
+            }
+        }
+        //private ienu
+
+        //private RelayCommand _loadTrainFile;
+        //public RelayCommand LoadTrainFile
     }
 }

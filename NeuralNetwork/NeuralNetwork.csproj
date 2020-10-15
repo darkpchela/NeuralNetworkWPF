@@ -118,6 +118,7 @@
     <Compile Include="Infrastructure\Converters\IntToStringConverter.cs" />
     <Compile Include="Infrastructure\Converters\ModelToViewModelsConverters.cs" />
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
+    <Compile Include="Infrastructure\Etc\TrainDataFormatEnum.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependency.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependencyContainer.cs" />
     <Compile Include="Infrastructure\Interfaces\IFileReadStrategy.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Models\NetworkWorkshopModel.cs" />
     <Compile Include="Models\NetworkModel.cs" />
     <Compile Include="Models\NetworkStorageConstraints.cs" />
+    <Compile Include="Models\QueryDataModel.cs" />
     <Compile Include="Models\VizualizerModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\NetworkTrainerVM.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="ViewModels\NetworkEditorVM.cs" />
     <Compile Include="ViewModels\NetworkWorkshopVM.cs" />
     <Compile Include="ViewModels\NetworkStorageVM.cs" />
+    <Compile Include="ViewModels\QueryDataVM.cs" />
     <Compile Include="ViewModels\VisualizerVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

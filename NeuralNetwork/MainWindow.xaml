@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:sys="clr-namespace:System;assembly=System"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="NeuralNetwork" Height="Auto" Width="Auto" d:DesignWidth="1171" d:DesignHeight="697">
+        Title="NeuralNetwork" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" d:DesignWidth="1400" d:DesignHeight="697">
     <Window.Resources>
         <Style TargetType="Border">
             <Setter Property="BorderThickness" Value="2"></Setter>
@@ -55,10 +56,11 @@
     </Window.Resources>
     <Grid DataContext="{Binding NetworkWorkshopVM}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.8*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <!--MainInfoModule-->
         <Border Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -132,8 +134,9 @@
                     </StackPanel>
                 </Border>
             </Grid>
-        </Border>
-        <Border Grid.Column="1" IsEnabled="{Binding EditorIsActive}">
+        </Border> 
+         <!--EditorModule-->
+        <Border Grid.Column="1" IsEnabled="{Binding EditorIsActive}"> 
             <DockPanel DataContext="{Binding EditorVM}">
                 <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
                     <Border>
@@ -192,85 +195,152 @@
                 </Border>
             </DockPanel>
         </Border>
+        <!--TrainerModule-->
         <Border Grid.Column="2" IsEnabled="{Binding TrainerIsActive, Mode=OneWay}">
-            <Grid DataContext="{Binding TrainerVM}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="0.5*"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0">
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Top" DataContext="{Binding VisualizerVM}">
-                        <TextBlock Style="{StaticResource HeaderTextBlock}" HorizontalAlignment="Center" >Visualization</TextBlock>
-                        <Border>
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock>Resolution</TextBlock>
-                                    <TextBlock Text="{Binding Width}"></TextBlock>
-                                    <TextBlock>x</TextBlock>
-                                    <TextBlock Text="{Binding Height}"></TextBlock>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                        <Border>
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <ItemsControl ItemsSource="{Binding PixelPaths}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Canvas.LayoutTransform>
-                                                <TransformGroup>
-                                                    <RotateTransform Angle="-90"></RotateTransform>
-                                                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterX="0" CenterY="0"></ScaleTransform>
-                                                </TransformGroup>
-                                            </Canvas.LayoutTransform>
-                                        </Canvas>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                            </ScrollViewer>
-                        </Border>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Row="1">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0">
-                            <StackPanel>
-                                <TextBlock>Current storage</TextBlock>
-                                <TextBlock>Current network</TextBlock>
-                                <TextBlock>Inputs count</TextBlock>
-                                <TextBlock>Outputs count</TextBlock>
-                                <TextBlock>Train iterations</TextBlock>
-                            </StackPanel>
-                        </Border>
-                        <Border Grid.Column="1">
-                            <StackPanel>
-                                <TextBlock Text="{Binding CurrentStorage.Name}"></TextBlock>
-                                <TextBlock Text="{Binding CurrentNetwork.Name}"></TextBlock>
-                                <TextBlock Text="{Binding CurrentNetwork.InputsCount}"></TextBlock>
-                                <TextBlock Text="{Binding CurrentNetwork.OutputsCount}"></TextBlock>
-                                <TextBlock>0</TextBlock>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Border>
-                <Border Grid.Row="2">
-                    <StackPanel>
-                        <DockPanel DockPanel.Dock="Bottom">
-                            <Border DockPanel.Dock="Right">
+            <Grid  DataContext="{Binding TrainerVM}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Border>
+                        <TextBlock Style="{StaticResource HeaderTextBlock}" HorizontalAlignment="Center">Trainer</TextBlock>
+                    </Border>
+                    <Border Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0">
                                 <StackPanel>
-                                    <Button>Query</Button>
-                                    <Button>Train</Button>
-                                    <Button>Query output</Button>
-                                    <Button>Vizualize file</Button>
+                                    <TextBlock>Current storage</TextBlock>
+                                    <TextBlock>Current network</TextBlock>
+                                    <TextBlock>Inputs count</TextBlock>
+                                    <TextBlock>Outputs count</TextBlock>
+                                    <TextBlock>Train iterations</TextBlock>
                                 </StackPanel>
                             </Border>
-                        </DockPanel>
-                    </StackPanel>
+                            <Border Grid.Column="2">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding CurrentStorage.Name}"></TextBlock>
+                                    <TextBlock Text="{Binding CurrentNetwork.Name}"></TextBlock>
+                                    <TextBlock Text="{Binding CurrentNetwork.InputsCount}"></TextBlock>
+                                    <TextBlock Text="{Binding CurrentNetwork.OutputsCount}"></TextBlock>
+                                    <TextBlock>0</TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
+                                <TextBlock DockPanel.Dock="Top">Data format</TextBlock>
+                                <ComboBox ItemsSource="{Binding DataFormats}" SelectedItem="{Binding SelectedDataFormat, Mode=TwoWay}"></ComboBox>
+                            </DockPanel>
+                            <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Top">Input datas</TextBlock>
+                                <ScrollViewer>
+                                    <ListBox ItemsSource="{Binding InputOutputs, Mode=TwoWay}" SelectedItem="{Binding SelectedInputData, Mode=TwoWay}">
+                                    </ListBox>
+                                </ScrollViewer>
+                            </DockPanel>
+                            <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Top">Outputs datas</TextBlock>
+                                <ScrollViewer>
+                                    <ListBox ItemsSource="{Binding OutputDatas, Mode=TwoWay}" SelectedItem="{Binding SelectedOutputData, Mode=TwoWay}">
+                                    </ListBox>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Row="3">
+                        <StackPanel>
+                            <DockPanel DockPanel.Dock="Bottom">
+                                <Border DockPanel.Dock="Right">
+                                    <StackPanel>
+                                        <Button>Query</Button>
+                                        <Button>Query output</Button>
+                                        <Button>Train</Button>
+                                        <Button>Select train file</Button>
+                                    </StackPanel>
+                                </Border>
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <!--Visualization-->
+                <Border Grid.Column="1"> 
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Top">
+                            <Border>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Style="{StaticResource HeaderTextBlock}" HorizontalAlignment="Center" >Visualization</TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>Resolution</TextBlock>
+                                        <TextBlock Text="{Binding Width}"></TextBlock>
+                                        <TextBlock>x</TextBlock>
+                                        <TextBlock Text="{Binding Height}"></TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <Border Grid.Row="1">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding PixelPaths}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Canvas.LayoutTransform>
+                                                    <TransformGroup>
+                                                        <RotateTransform Angle="-90"></RotateTransform>
+                                                        <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterX="0" CenterY="0"></ScaleTransform>
+                                                    </TransformGroup>
+                                                </Canvas.LayoutTransform>
+                                            </Canvas>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+                        <Border Grid.Row="2">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding PixelPaths}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Canvas.LayoutTransform>
+                                                    <TransformGroup>
+                                                        <RotateTransform Angle="-90"></RotateTransform>
+                                                        <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterX="0" CenterY="0"></ScaleTransform>
+                                                    </TransformGroup>
+                                                </Canvas.LayoutTransform>
+                                            </Canvas>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
                 </Border>
             </Grid>
         </Border>

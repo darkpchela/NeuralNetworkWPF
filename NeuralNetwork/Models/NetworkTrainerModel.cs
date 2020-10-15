@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NeuralNetwork.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,6 +19,8 @@ namespace NeuralNetwork.Models
         }
 
         public static NetworkTrainerModel Instance = new NetworkTrainerModel();
+
+
 
     }
 }

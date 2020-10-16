@@ -146,8 +146,8 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private IEnumerable<Infrastructure.Etc.QueryDataFormat> _dataFormats = Enum.GetValues(typeof(QueryDataFormat)).Cast<QueryDataFormat>();
-        public IEnumerable<Infrastructure.Etc.QueryDataFormat> DataFormats
+        private IEnumerable<QueryDataFormat> _dataFormats = Enum.GetValues(typeof(QueryDataFormat)).Cast<QueryDataFormat>();
+        public IEnumerable<QueryDataFormat> DataFormats
         {
             get
             {
@@ -155,8 +155,8 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private Infrastructure.Etc.QueryDataFormat _selectedDataFormat;
-        public Infrastructure.Etc.QueryDataFormat SelectedDataFormat
+        private QueryDataFormat _selectedDataFormat;
+        public QueryDataFormat SelectedDataFormat
         {
             get
             {

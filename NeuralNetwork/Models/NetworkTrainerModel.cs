@@ -47,7 +47,7 @@ namespace NeuralNetwork.Models
         public async Task LoadTrainFile(string fileName, QueryDataFormat dataFormat)
         {
             TrainDatas.Clear();
-
+            GC.Collect();
             switch (dataFormat)
             {
                 case QueryDataFormat.BlackMNIST28x28:

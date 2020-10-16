@@ -26,6 +26,7 @@ namespace NeuralNetwork.Core.Default
             this.Weigths = weights;
             this.LearningRate = learningRate;
             this.Layers = new int[Weigths.Length + 1];
+            this.AllOutputs = new Matrix2D[Layers.Length];
 
             for (int i = 0; i < Weigths.Length;)
             {
@@ -37,6 +38,7 @@ namespace NeuralNetwork.Core.Default
                 else
                     i += 2;
             }
+
         }
 
         public NeuralNetworkDefault(NeuralNetworkDefaultData nrlNetData)

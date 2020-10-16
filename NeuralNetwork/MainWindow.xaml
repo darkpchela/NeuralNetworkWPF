@@ -312,7 +312,7 @@
                         <Border Grid.Row="1">
                             <StackPanel DataContext="{Binding InputVisualizer}">
                                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <ItemsControl ItemsSource="{Binding PixelPaths}">
+                                <ItemsControl ItemsSource="{Binding Paths}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -331,7 +331,7 @@
                         <Border Grid.Row="2">
                             <StackPanel DataContext="{Binding OutputVisualizer}">
                                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <ItemsControl ItemsSource="{Binding PixelPaths}">
+                                <ItemsControl ItemsSource="{Binding Paths}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">

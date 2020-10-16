@@ -83,17 +83,17 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private ObservableCollection<Path> _pixelPaths;
-        public ObservableCollection<Path> PixelPaths
+        private ObservableCollection<Path> _paths;
+        public ObservableCollection<Path> Paths
         {
             get
             {
-                return _pixelPaths;
+                return _paths;
             }
             set
             {
-                _pixelPaths = value;
-                OnPropertyChanged(nameof(PixelPaths));
+                _paths = value;
+                OnPropertyChanged(nameof(Paths));
             }
         }
 
@@ -104,7 +104,7 @@ namespace NeuralNetwork.ViewModels
                 case QueryDataFormat.BlackMNIST28x28:
                     Width = VisualizerModel.DEFAULT_POINT_SIZE * 28;
                     Height = VisualizerModel.DEFAULT_POINT_SIZE * 28;
-                    PixelPaths = new ObservableCollection<Path>(visualizerModel.VisualizeMnistData(InputData.DataModel));
+                    Paths = new ObservableCollection<Path>(visualizerModel.VisualizeMnistData(InputData.DataModel));
                     break;
             }
         }

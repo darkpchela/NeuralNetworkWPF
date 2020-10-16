@@ -186,34 +186,6 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private float _taskProgress;
-        public float TaskProgress
-        {
-            get
-            {
-                return _taskProgress;
-            }
-            set
-            {
-                _taskProgress = value;
-                OnPropertyChanged(nameof(TaskProgress));
-            }
-        }
-
-        private string _taskname;
-        public string TaskName
-        {
-            get
-            {
-                return _taskname;
-            }
-            set
-            {
-                _taskname = value;
-                OnPropertyChanged(nameof(TaskName));
-            }
-        }
-
         private RelayCommand _loadTrainFile;
         public RelayCommand LoadTrainFile
         {

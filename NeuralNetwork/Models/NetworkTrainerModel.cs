@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeuralNetwork.Models
@@ -28,6 +29,8 @@ namespace NeuralNetwork.Models
         private NetworkTrainerModel()
         {
             _fileService = new FileService();
+            _trainDatas = new ObservableCollection<QueryDataModel>();
+            _outputDatas = new ObservableCollection<QueryDataModel>();
         }
 
         private ObservableCollection<QueryDataModel> _trainDatas;
@@ -44,20 +47,41 @@ namespace NeuralNetwork.Models
             }
         }
 
-        public async Task LoadTrainFile(string fileName, QueryDataFormat dataFormat)
+        private ObservableCollection<QueryDataModel> _outputDatas;
+        public ObservableCollection<QueryDataModel> OutputDatas
+        {
+            get
+            {
+                return _outputDatas;
+            }
+            set
+            {
+                _outputDatas = value;
+                OnPropertyChanged(nameof(OutputDatas));
+            }
+        }
+
+        public async void LoadTrainFile(string fileName, QueryDataFormat dataFormat, TaskProgressVM taskVM = null)
         {
             TrainDatas.Clear();
-            GC.Collect();
+
             switch (dataFormat)
             {
                 case QueryDataFormat.BlackMNIST28x28:
                     var mnistDatas = await _fileService.ReadFromFileAsync(fileName, new CsvMNISTFileReadStrategy());
+
+                    if (taskVM != null)
+                        taskVM.EndValue = mnistDatas.Count();
+
                     foreach (var data in mnistDatas)
                     {
                         var dataModel = new QueryDataModel();
                         dataModel.Marker = data.Marker.ToString();
                         dataModel.Values = from v in data.PixelsValues select (float)v;
                         TrainDatas.Add(dataModel);
+
+                        if (taskVM != null)
+                            taskVM.Value++;
                     }
                     break;
             }

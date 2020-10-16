@@ -119,8 +119,10 @@
     <Compile Include="Infrastructure\Converters\ModelToViewModelsConverters.cs" />
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
     <Compile Include="Infrastructure\Etc\DataFormatEnum.cs" />
+    <Compile Include="Infrastructure\Etc\ObservableTask.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependency.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependencyContainer.cs" />
+    <Compile Include="Infrastructure\Etc\ObservableTaskEventArgs.cs" />
     <Compile Include="Infrastructure\Interfaces\IFileReadStrategy.cs" />
     <Compile Include="Infrastructure\Interfaces\IFileService.cs" />
     <Compile Include="Infrastructure\Interfaces\IObjectSaveStrategy.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="ViewModels\NetworkWorkshopVM.cs" />
     <Compile Include="ViewModels\NetworkStorageVM.cs" />
     <Compile Include="ViewModels\QueryDataVM.cs" />
+    <Compile Include="ViewModels\TaskProgressVM.cs" />
     <Compile Include="ViewModels\VisualizerVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

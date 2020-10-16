@@ -5,6 +5,7 @@ using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
 using NeuralNetwork.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -12,6 +13,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -27,9 +29,10 @@ namespace NeuralNetwork.ViewModels
 
         private NetworkTrainerModel _trainerModel = NetworkTrainerModel.Instance;
         private IFileDialogService _dialogService;
-
+        private SynchronizationContext _syncContext;
         public NetworkTrainerVM()
         {
+            _syncContext = SynchronizationContext.Current;
             _dialogService = new DefaultFileDialogService();
         }
 
@@ -123,7 +126,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _outputDatas;
+                return _outputDatas ?? (_outputDatas = new ObservableCollection<QueryDataVM>());
             }
             set
             {
@@ -132,16 +135,16 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private ObservableCollection<QueryDataVM> _intputDatas;
+        private ObservableCollection<QueryDataVM> _inputDatas;
         public ObservableCollection<QueryDataVM> InputDatas
         {
             get
             {
-                return _intputDatas;
+                return _inputDatas ?? (_inputDatas = new ObservableCollection<QueryDataVM>());
             }
             set
             {
-                _intputDatas = value;
+                _inputDatas = value;
                 OnPropertyChanged(nameof(InputDatas));
             }
         }
@@ -169,24 +172,86 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
+        private ObservableCollection<TaskProgressVM> _tasks;
+        public ObservableCollection<TaskProgressVM> Tasks
+        {
+            get
+            {
+                return _tasks ?? (_tasks = new ObservableCollection<TaskProgressVM>());
+            }
+            set
+            {
+                _tasks = value;
+                OnPropertyChanged(nameof(Tasks));
+            }
+        }
+
+        private float _taskProgress;
+        public float TaskProgress
+        {
+            get
+            {
+                return _taskProgress;
+            }
+            set
+            {
+                _taskProgress = value;
+                OnPropertyChanged(nameof(TaskProgress));
+            }
+        }
+
+        private string _taskname;
+        public string TaskName
+        {
+            get
+            {
+                return _taskname;
+            }
+            set
+            {
+                _taskname = value;
+                OnPropertyChanged(nameof(TaskName));
+            }
+        }
+
         private RelayCommand _loadTrainFile;
         public RelayCommand LoadTrainFile
         {
             get
             {
-                return _loadTrainFile ?? (_loadTrainFile = new RelayCommand(async obj =>
+                return _loadTrainFile ?? (_loadTrainFile = new RelayCommand(obj =>
                 {
                     if (_dialogService.OpenFileDialog(out string fileName))
                     {
-                        await _trainerModel.LoadTrainFile(fileName, SelectedDataFormat);
-                        InputDatas = new ObservableCollection<QueryDataVM>(_trainerModel.TrainDatas.ToViewModels());
+                        var taskVM =  new TaskProgressVM();
+                        taskVM.TaskName = "Loading data";
+                        var loadTask = new Task(() => _trainerModel.LoadTrainFile(fileName, SelectedDataFormat, taskVM));
+                        var observableLoadTask = new ObservableTask(loadTask);
+                        observableLoadTask.TaskRedied += (sender, e) => _syncContext.Send((state) => Tasks.Add(taskVM), null);
+                        observableLoadTask.TaskCompleted += (sender, e) =>
+                        {
+                            Task.Run(() =>
+                            {
+                                _syncContext.Send((state) => Tasks.Remove(taskVM), null);
+                                InputDatas = new ObservableCollection<QueryDataVM>();
+                                for (int i = 0; i < _trainerModel.TrainDatas.Count(); i += 25)
+                                {
+                                    var restModels = _trainerModel.TrainDatas.Skip(i);
+                                    var cureModels = _trainerModel.TrainDatas.Take(25);
+                                    foreach (var m in cureModels)
+                                    {
+                                        _syncContext.Send((state) => InputDatas.Add(m.GetViewModel()), null);
+                                    }
+                                }
+                            });
+                        };
+                        observableLoadTask.Start();
                     }
                     else
                         MessageBox.Show("Error");
-
                 }));
             }
         }
-
     }
+
 }

@@ -66,7 +66,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _inputVisualizer;
+                return _inputVisualizer ?? (_inputVisualizer = new VisualizerVM());
             }
             set
             {
@@ -80,7 +80,7 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _outputVisualizer;
+                return _outputVisualizer ?? (_outputVisualizer = new VisualizerVM());
             }
             set
             {
@@ -99,6 +99,7 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedInputData = value;
+                InputVisualizer.InputData = value;
                 OnPropertyChanged(nameof(SelectedInputData));
             }
         }
@@ -145,8 +146,8 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private IEnumerable<TrainDataFormat> _dataFormats = Enum.GetValues(typeof(TrainDataFormat)).Cast<TrainDataFormat>();
-        public IEnumerable<TrainDataFormat> DataFormats
+        private IEnumerable<Infrastructure.Etc.QueryDataFormat> _dataFormats = Enum.GetValues(typeof(QueryDataFormat)).Cast<QueryDataFormat>();
+        public IEnumerable<Infrastructure.Etc.QueryDataFormat> DataFormats
         {
             get
             {
@@ -154,8 +155,8 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private TrainDataFormat _selectedDataFormat;
-        public TrainDataFormat SelectedDataFormat
+        private Infrastructure.Etc.QueryDataFormat _selectedDataFormat;
+        public Infrastructure.Etc.QueryDataFormat SelectedDataFormat
         {
             get
             {

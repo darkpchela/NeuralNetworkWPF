@@ -317,9 +317,8 @@
                                         <ItemsPanelTemplate>
                                             <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                 <Canvas.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <RotateTransform Angle="-90"></RotateTransform>
-                                                        <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterX="0" CenterY="0"></ScaleTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterX="0" CenterY="0"></ScaleTransform>
                                                     </TransformGroup>
                                                 </Canvas.LayoutTransform>
                                             </Canvas>

@@ -1,4 +1,6 @@
 ﻿using NeuralNetwork.Infrastructure.Commands;
+using NeuralNetwork.Infrastructure.Etc;
+using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +20,8 @@ namespace NeuralNetwork.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+        private VisualizerModel visualizerModel = VisualizerModel.Instance;
 
         private int _width;
         public int Width
@@ -47,17 +51,35 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private IEnumerable<int> _inputs;
-        public IEnumerable<int> Inputs
+        private QueryDataFormat _dataFormat;
+        public QueryDataFormat DataFormat
         {
             get
             {
-                return _inputs;
+                return _dataFormat;
             }
             set
             {
-                _inputs = value;
-                OnPropertyChanged(nameof(Inputs));
+                _dataFormat = value;
+                OnPropertyChanged(nameof(DataFormat));
+            }
+        }
+
+        private QueryDataVM _inputData;
+        public QueryDataVM InputData
+        {
+            get
+            {
+                return _inputData;
+            }
+            set
+            {
+                _inputData = value;
+                
+                if (value != null)
+                    VisualizeData();
+
+                OnPropertyChanged(nameof(InputData));
             }
         }
 
@@ -75,15 +97,15 @@ namespace NeuralNetwork.ViewModels
             }
         }
 
-        private RelayCommand _vizualizeFile;
-        public RelayCommand VizualizeFile
+        private void VisualizeData()
         {
-            get
+            switch (DataFormat)
             {
-                return _vizualizeFile ?? (_vizualizeFile = new RelayCommand(obj =>
-                {
-
-                }));
+                case QueryDataFormat.BlackMNIST28x28:
+                    Width = VisualizerModel.DEFAULT_POINT_SIZE * 28;
+                    Height = VisualizerModel.DEFAULT_POINT_SIZE * 28;
+                    PixelPaths = new ObservableCollection<Path>(visualizerModel.VisualizeMnistData(InputData.DataModel));
+                    break;
             }
         }
     }

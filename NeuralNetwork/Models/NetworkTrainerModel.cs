@@ -44,13 +44,13 @@ namespace NeuralNetwork.Models
             }
         }
 
-        public async Task LoadTrainFile(string fileName, TrainDataFormat dataFormat)
+        public async Task LoadTrainFile(string fileName, QueryDataFormat dataFormat)
         {
             TrainDatas.Clear();
 
             switch (dataFormat)
             {
-                case TrainDataFormat.BlackMNIST28x28:
+                case QueryDataFormat.BlackMNIST28x28:
                     var mnistDatas = await _fileService.ReadFromFileAsync(fileName, new CsvMNISTFileReadStrategy());
                     foreach (var data in mnistDatas)
                     {

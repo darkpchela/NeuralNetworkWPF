@@ -118,7 +118,7 @@
     <Compile Include="Infrastructure\Converters\IntToStringConverter.cs" />
     <Compile Include="Infrastructure\Converters\ModelToViewModelsConverters.cs" />
     <Compile Include="Infrastructure\Converters\StringToFloatConverter.cs" />
-    <Compile Include="Infrastructure\Etc\TrainDataFormatEnum.cs" />
+    <Compile Include="Infrastructure\Etc\DataFormatEnum.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependency.cs" />
     <Compile Include="Infrastructure\Etc\PropertyDependencyContainer.cs" />
     <Compile Include="Infrastructure\Interfaces\IFileReadStrategy.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Models\NetworkModel.cs" />
     <Compile Include="Models\NetworkStorageConstraints.cs" />
     <Compile Include="Models\QueryDataModel.cs" />
-    <Compile Include="Models\VizualizerModel.cs" />
+    <Compile Include="Models\VisualizerModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\NetworkTrainerVM.cs" />
     <Compile Include="ViewModels\NetworkVM.cs" />

@@ -223,28 +223,43 @@ namespace NeuralNetwork.ViewModels
                 {
                     if (_dialogService.OpenFileDialog(out string fileName))
                     {
-                        var taskVM =  new TaskProgressVM();
+                        var taskVM = new TaskProgressVM();
                         taskVM.TaskName = "Loading data";
                         var loadTask = new Task(() => _trainerModel.LoadTrainFile(fileName, SelectedDataFormat, taskVM));
                         var observableLoadTask = new ObservableTask(loadTask);
                         observableLoadTask.TaskRedied += (sender, e) => _syncContext.Send((state) => Tasks.Add(taskVM), null);
                         observableLoadTask.TaskCompleted += (sender, e) =>
                         {
-                            Task.Run(() =>
+                            _syncContext.Send((state) => Tasks.Remove(taskVM), null);
+                            
+                            var subTaskVM = new TaskProgressVM()
                             {
-                                _syncContext.Send((state) => Tasks.Remove(taskVM), null);
-                                InputDatas = new ObservableCollection<QueryDataVM>();
-                                for (int i = 0; i < _trainerModel.TrainDatas.Count(); i += 25)
-                                {
-                                    var restModels = _trainerModel.TrainDatas.Skip(i);
-                                    var cureModels = _trainerModel.TrainDatas.Take(25);
-                                    foreach (var m in cureModels)
-                                    {
-                                        _syncContext.Send((state) => InputDatas.Add(m.GetViewModel()), null);
-                                    }
-                                }
-                            });
+                                EndValue = _trainerModel.TrainDatas.Count,
+                                TaskName = "Pushing data",
+                                Value = 0
+                            };
+
+                            Task subTask = new Task(() =>
+                             {
+                                 InputDatas = new ObservableCollection<QueryDataVM>();
+                                 for (int i = 0; i < _trainerModel.TrainDatas.Count(); i += 25)
+                                 {
+                                     var restModels = _trainerModel.TrainDatas.Skip(i);
+                                     var cureModels = _trainerModel.TrainDatas.Take(25);
+                                     foreach (var m in cureModels)
+                                     {
+                                         _syncContext.Send((state) => InputDatas.Add(m.GetViewModel()), null);
+                                         _syncContext.Send((state) => subTaskVM.Value++, null);
+                                     }
+                                 }
+                             });
+
+                            var observableSubTask = new ObservableTask(subTask);
+                            observableSubTask.TaskRedied += (senderSub, eSub) => _syncContext.Send((state) => Tasks.Add(subTaskVM), null);
+                            observableSubTask.TaskCompleted += (senderSub, eSub) => _syncContext.Send((state) => Tasks.Remove(subTaskVM), null);
+                            observableSubTask.Start();
                         };
+
                         observableLoadTask.Start();
                     }
                     else
@@ -253,5 +268,4 @@ namespace NeuralNetwork.ViewModels
             }
         }
     }
-
 }

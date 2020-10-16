@@ -1,45 +1,14 @@
 ﻿using NeuralNetwork.ViewModels;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace NeuralNetwork.Models
 {
-    public class QueryDataModel : INotifyPropertyChanged
+    public class QueryDataModel
     {
-        private string _marker;
-        public string Marker
-        {
-            get
-            {
-                return _marker;
-            }
-            set
-            {
-                _marker = value;
-                OnPropertyChanged(nameof(Marker));
-            }
-        }
+        public virtual string Marker { get; set; }
 
-        private IEnumerable<float> _values;
-        public IEnumerable<float> Values
-        {
-            get
-            {
-                return _values;
-            }
-            set
-            {
-                _values = value;
-                OnPropertyChanged(nameof(Values));
-            }
-        }
+        public virtual float[] InputValues { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName]string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
+        public virtual float[] OutputValues { get; set; }
 
         public QueryDataVM GetViewModel()
         {

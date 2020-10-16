@@ -302,7 +302,7 @@
                                     <StackPanel>
                                         <Button>Query</Button>
                                         <Button>Query output</Button>
-                                        <Button>Train</Button>
+                                        <Button Command="{Binding TrainNetwork}">Train</Button>
                                         <Button Command="{Binding LoadTrainFile}">Load train file</Button>
                                     </StackPanel>
                                 </Border>

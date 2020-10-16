@@ -21,7 +21,7 @@ namespace NeuralNetwork.Models
         public IEnumerable<Path> VisualizeMnistData(QueryDataModel model)
         {
             var startPoint = new Point(0, 0);
-            var valueArray = (from val in model.Values select (byte)val).ToArray();
+            var valueArray = (from val in model.InputValues select (byte)val).ToArray();
             int Index = 0;
             for (int i = 0; i < 28; i++)
             {

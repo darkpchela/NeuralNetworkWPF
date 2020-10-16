@@ -15,7 +15,8 @@ namespace NeuralNetwork.Models
 
         public override NetworkModel CreateInstance(NetworkDataModel nNetData)
         {
-            return new NetworkModel(nNetData);
+            var model = new NetworkModel(nNetData);
+            return model;
         }
 
         public NetworkModel CreatePrototype()

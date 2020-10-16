@@ -15,6 +15,11 @@ namespace NeuralNetwork.Models
             Name = networkDataModel.Name;
         }
 
+        public void Train(QueryDataModel queryDataModel)
+        {
+            base.Train(queryDataModel.InputValues, queryDataModel.OutputValues);
+        }
+
         public NetworkVM GetViewModel()
         {
             NetworkVM networkVM = new NetworkVM(this)

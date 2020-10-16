@@ -24,6 +24,7 @@ namespace NeuralNetwork.Models
         }
 
         private IFileService _fileService;
+        private NetworkWorkshopModel workshopModel = NetworkWorkshopModel.Instanse;
 
         public static NetworkTrainerModel Instance = new NetworkTrainerModel();
         private NetworkTrainerModel()
@@ -77,7 +78,7 @@ namespace NeuralNetwork.Models
                     {
                         var dataModel = new QueryDataModel();
                         dataModel.Marker = data.Marker.ToString();
-                        dataModel.Values = from v in data.PixelsValues select (float)v;
+                        dataModel.InputValues = (from v in data.PixelsValues select (float)v).ToArray();
                         TrainDatas.Add(dataModel);
 
                         if (taskVM != null)
@@ -87,5 +88,29 @@ namespace NeuralNetwork.Models
             }
         }
 
+        public void TrainNetwork(NetworkModel network, NetworksStorageModel storage ,QueryDataFormat dataFormat, TaskProgressVM taskProgressVM = null)
+        {
+            if (taskProgressVM != null)
+            {
+                taskProgressVM.EndValue = TrainDatas.Count;
+                taskProgressVM.TaskName = "Training network";
+            }
+
+
+            Parallel.ForEach(TrainDatas, (model) =>
+            {
+                var trainData = new MNIST28x28ReadyTrainData(model);
+                network.Train(trainData);
+
+                lock (taskProgressVM)
+                {
+                    if (taskProgressVM != null)
+                        taskProgressVM.Value++;
+                }
+            }
+            );
+
+            workshopModel.SaveNetworkAsync(network.Id.ToString(), storage.Id.ToString());
+        }
     }
 }

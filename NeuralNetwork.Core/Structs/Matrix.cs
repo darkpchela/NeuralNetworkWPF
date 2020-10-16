@@ -6,9 +6,9 @@ namespace NeuralNetwork.Core.Structs
 {
     public struct Matrix2D
     {
-        public float[,] Matrix { get; private set; }
-        public int Rows { get; private set; }
-        public int Columns { get; private set; }
+        public float[,] Matrix { get; set; }
+        public int Rows { get; set; }
+        public int Columns { get; set; }
 
         public float this[int row, int column]
         {
@@ -57,7 +57,7 @@ namespace NeuralNetwork.Core.Structs
 
         public static Matrix2D operator -(Matrix2D matrix1, Matrix2D matrix2)
         {
-            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
+            if (matrix1.Rows != matrix2.Rows && matrix1.Columns != matrix2.Columns)
                 throw new ArgumentException();
 
             Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
@@ -153,7 +153,7 @@ namespace NeuralNetwork.Core.Structs
 
         public static Matrix2D ScalerProduct(Matrix2D matrix1, Matrix2D matrix2)
         {
-            if (matrix1.Rows != matrix2.Columns && matrix1.Columns != matrix2.Rows)
+            if (matrix1.Columns != matrix2.Rows)
                 throw new ArithmeticException("Matrixes can not be multiplied - different amount of rows and columns");
 
             Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix2.Columns);

@@ -131,6 +131,7 @@
     <Compile Include="Infrastructure\Services\Strategies\CsvMNISTFileReadStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\Etc\MNISTTrainData28x28.cs" />
     <Compile Include="Infrastructure\Services\Strategies\Etc\StorageMetaData.cs" />
+    <Compile Include="Infrastructure\Services\Strategies\MNIST28x28QueryDataConverter.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelReadStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelSaveStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\StorageModelReadStrategy.cs" />

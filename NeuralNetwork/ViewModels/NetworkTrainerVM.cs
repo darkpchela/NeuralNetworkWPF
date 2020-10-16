@@ -239,5 +239,23 @@ namespace NeuralNetwork.ViewModels
                 }));
             }
         }
+
+        private RelayCommand _trainNetwork;
+        public RelayCommand TrainNetwork
+        {
+            get
+            {
+                return _trainNetwork ?? (_trainNetwork = new RelayCommand(obj =>
+                {
+                    var taskVM = new TaskProgressVM();
+                    taskVM.TaskName = "Training network";
+                    var task = new Task(() => _trainerModel.TrainNetwork(CurrentNetwork.NetworkModel, CurrentStorage.StorageModel, SelectedDataFormat, taskVM));
+                    var observableTask = new ObservableTask(task);
+                    observableTask.TaskRedied += (sender, e) => _syncContext.Send((state) => Tasks.Add(taskVM), null);
+                    observableTask.TaskCompleted += (sender, e) => _syncContext.Send((state) => Tasks.Remove(taskVM), null);
+                    observableTask.Start();
+                }));
+            }
+        }
     }
 }

@@ -138,14 +138,14 @@ namespace NeuralNetwork.Models
         }
 
 
-        private async Task<bool> SaveNetworkAsync(string networkId, string storageId)
+        public async Task<bool> SaveNetworkAsync(string networkId, string storageId)
         {
             var networkModel = GetStorageModel(storageId).GetInstance(Guid.Parse(networkId));
             var data = networkModel.GetNetworkData();
             var saved = await _fileService.SaveToFileAsync(data, WorkingFolder, new NetworkDataModelSaveStrategy());
             return saved;
         }
-        private async Task<bool> SaveStorageAsync(string storageId)
+        public async Task<bool> SaveStorageAsync(string storageId)
         {
             var storageModel = Storages.FirstOrDefault(s => s.Id == Guid.Parse(storageId));
 

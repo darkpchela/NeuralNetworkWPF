@@ -11,6 +11,14 @@ namespace NeuralNetwork.ViewModels
     public class NetworkStorageVM : INotifyPropertyChanged
     {
         private NetworksStorageModel _storageModel;
+        public NetworksStorageModel StorageModel
+        {
+            get
+            {
+                return _storageModel;
+            }
+        }
+
         public NetworkStorageVM(NetworksStorageModel model = null)
         {
             _storageModel = model;

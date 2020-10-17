@@ -17,10 +17,10 @@ namespace NeuralNetwork.ViewModels
         {
             _networkModel = model;
 
-            if (model != null)
-            {
-                PropertyDependencyContainer.Regist(nameof(_networkModel.Generation), model, nameof(Generation), this);
-            }
+            //if (model != null)
+            //{
+            //    PropertyDependencyContainer.Regist(nameof(_networkModel.Generation), model, nameof(Generation), this);
+            //}
         }
         
         private NetworkModel _networkModel;

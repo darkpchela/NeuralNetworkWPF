@@ -111,12 +111,24 @@ namespace NeuralNetwork.Models
                     if (taskProgressVM != null)
                         taskProgressVM.Value++;
                 }
-            }
-            );
+            });
 
             network.Generation++;
             SaveHistory(network);
             _workshopModel.SaveStorageAsync(storage.Id.ToString());
+        }
+
+        public string QueryNetwork(NetworkModel network, QueryDataModel queryData, QueryDataFormat dataFormat)
+        {
+            switch (dataFormat)
+            {
+                case QueryDataFormat.BlackMNIST28x28:
+                    var outputs = network.Query(queryData.InputValues);
+                    return queryData.Marker = Array.IndexOf(outputs, outputs.Max()).ToString();
+
+                default:
+                    return "Bad request";
+            }
         }
 
         private void SaveHistory(NetworkModel networkModel)

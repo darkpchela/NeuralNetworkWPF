@@ -290,6 +290,11 @@
                                 <TextBlock DockPanel.Dock="Top">Outputs datas</TextBlock>
                                 <ScrollViewer>
                                     <ListBox ItemsSource="{Binding OutputDatas, Mode=TwoWay}" SelectedItem="{Binding SelectedOutputData, Mode=TwoWay}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Marker}"></TextBlock>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
                                     </ListBox>
                                 </ScrollViewer>
                             </DockPanel>
@@ -300,7 +305,7 @@
                             <DockPanel DockPanel.Dock="Bottom">
                                 <Border DockPanel.Dock="Right">
                                     <StackPanel>
-                                        <Button>Query</Button>
+                                        <Button Command="{Binding Query}">Query</Button>
                                         <Button>Query output</Button>
                                         <Button Command="{Binding TrainNetwork}">Train</Button>
                                         <Button Command="{Binding LoadTrainFile}">Load train file</Button>
@@ -359,7 +364,7 @@
                                                 <Canvas Grid.Row="0" Width="{Binding Width}" Height="{Binding Height}" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <Canvas.LayoutTransform>
                                                         <TransformGroup>
-                                                            <RotateTransform Angle="-90"></RotateTransform>
+                                                            <RotateTransform></RotateTransform>
                                                             <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterX="0" CenterY="0"></ScaleTransform>
                                                         </TransformGroup>
                                                     </Canvas.LayoutTransform>

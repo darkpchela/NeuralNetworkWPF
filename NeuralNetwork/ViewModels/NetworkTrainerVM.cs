@@ -117,6 +117,7 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedOutputData = value;
+                OutputVisualizer.InputData = value;
                 OnPropertyChanged(nameof(SelectedOutputData));
             }
         }
@@ -203,7 +204,7 @@ namespace NeuralNetwork.ViewModels
                         observableLoadTask.TaskCompleted += (sender, e) =>
                         {
                             _syncContext.Send((state) => Tasks.Remove(taskVM), null);
-                            
+
                             var subTaskVM = new TaskProgressVM()
                             {
                                 EndValue = _trainerModel.TrainDatas.Count,
@@ -254,6 +255,19 @@ namespace NeuralNetwork.ViewModels
                     observableTask.TaskRedied += (sender, e) => _syncContext.Send((state) => Tasks.Add(taskVM), null);
                     observableTask.TaskCompleted += (sender, e) => _syncContext.Send((state) => Tasks.Remove(taskVM), null);
                     observableTask.Start();
+                }));
+            }
+        }
+
+        private RelayCommand _query;
+        public RelayCommand Query
+        {
+            get
+            {
+                return _query ?? (_query = new RelayCommand(obj =>
+                {
+                    var result = _trainerModel.QueryNetwork(CurrentNetwork.NetworkModel, SelectedInputData.DataModel, SelectedDataFormat);
+                    MessageBox.Show(result);
                 }));
             }
         }

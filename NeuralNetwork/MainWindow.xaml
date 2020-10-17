@@ -238,7 +238,7 @@
                                         <TextBlock Text="{Binding CurrentNetwork.Name}"></TextBlock>
                                         <TextBlock Text="{Binding CurrentNetwork.InputsCount}"></TextBlock>
                                         <TextBlock Text="{Binding CurrentNetwork.OutputsCount}"></TextBlock>
-                                        <TextBlock>0</TextBlock>
+                                        <TextBlock Text="{Binding CurrentNetwork.Generation}"></TextBlock>
                                     </StackPanel>
                                 </Border>
                             </Grid>

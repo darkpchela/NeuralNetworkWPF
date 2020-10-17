@@ -10,10 +10,10 @@ namespace NeuralNetwork.Core.Default
 
         public NeuralNetworkDefaultData(NeuralNetworkDefault nrlNet)
         {
-            this.Id = nrlNet.Id;
-            this.ActivationFuncName = FuncDictionary.GetFuncName(nrlNet.ActivationFunc) ?? "Unknown function";
-            this.Layers = nrlNet.Layers;
-            this.Weights = nrlNet.Weigths;
+            Id = nrlNet.Id;
+            ActivationFuncName = FuncDictionary.GetFuncName(nrlNet.ActivationFunc) ?? "Unknown function";
+            Layers = nrlNet.Layers;
+            Weights = nrlNet.Weigths;
         }
     }
 }

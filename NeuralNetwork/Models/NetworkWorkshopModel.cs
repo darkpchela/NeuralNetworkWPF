@@ -76,7 +76,12 @@ namespace NeuralNetwork.Models
 
             var defData = NetworkViewModelToNetworkDataModel(networkPrototype);
             var network = _factory.CreateInstance(defData);
-            var storage = string.IsNullOrEmpty(storageId) ? DefaultStorage : Storages.First(s => s.Id == Guid.Parse(storageId));
+
+            if (string.IsNullOrEmpty(storageId))
+                storageId = DefaultStorage.Id.ToString();
+
+            network.StorageId = Guid.Parse(storageId);
+            var storage = GetStorageModel(storageId);
 
             storage.AddInstance(network);
 
@@ -137,7 +142,6 @@ namespace NeuralNetwork.Models
 
         }
 
-
         public async Task<bool> SaveNetworkAsync(string networkId, string storageId)
         {
             var networkModel = GetStorageModel(storageId).GetInstance(Guid.Parse(networkId));
@@ -145,6 +149,7 @@ namespace NeuralNetwork.Models
             var saved = await _fileService.SaveToFileAsync(data, WorkingFolder, new NetworkDataModelSaveStrategy());
             return saved;
         }
+
         public async Task<bool> SaveStorageAsync(string storageId)
         {
             var storageModel = Storages.FirstOrDefault(s => s.Id == Guid.Parse(storageId));
@@ -154,6 +159,7 @@ namespace NeuralNetwork.Models
 
             return await _fileService.SaveToFileAsync<NetworksStorageModel>(storageModel, WorkingFolder, new StorageModelSaveStrategy());
         }
+
         private async void InitializeDefaultStorage()
         {
             try

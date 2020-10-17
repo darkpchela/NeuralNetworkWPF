@@ -2,11 +2,13 @@
 using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
 using NeuralNetwork.Infrastructure.Services.Strategies;
+using NeuralNetwork.Infrastructure.Services.Strategies.Etc;
 using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -24,7 +26,7 @@ namespace NeuralNetwork.Models
         }
 
         private IFileService _fileService;
-        private NetworkWorkshopModel workshopModel = NetworkWorkshopModel.Instanse;
+        private NetworkWorkshopModel _workshopModel = NetworkWorkshopModel.Instanse;
 
         public static NetworkTrainerModel Instance = new NetworkTrainerModel();
         private NetworkTrainerModel()
@@ -96,6 +98,8 @@ namespace NeuralNetwork.Models
                 taskProgressVM.TaskName = "Training network";
             }
 
+            if (network.Generation == 0)
+                SaveHistory(network);
 
             Parallel.ForEach(TrainDatas, (model) =>
             {
@@ -110,7 +114,21 @@ namespace NeuralNetwork.Models
             }
             );
 
-            workshopModel.SaveNetworkAsync(network.Id.ToString(), storage.Id.ToString());
+            network.Generation++;
+            SaveHistory(network);
+            _workshopModel.SaveStorageAsync(storage.Id.ToString());
+        }
+
+        private void SaveHistory(NetworkModel networkModel)
+        {
+            var historyData = new TrainHisoryData()
+            {
+                Generation = networkModel.Generation,
+                NetworkData = networkModel.GetNetworkData()
+            };
+
+            string networkFolderPath = Path.Combine(_workshopModel.WorkingFolder, _workshopModel.GetStorageModel(networkModel.StorageId.ToString()).Name, "Networks");
+            _fileService.SaveToFileAsync<TrainHisoryData>(historyData, networkFolderPath, new TrainHistoryDataSaveStrategy());
         }
     }
 }

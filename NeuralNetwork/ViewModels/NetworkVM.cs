@@ -1,4 +1,5 @@
 ﻿using NeuralNetwork.Core.Etc;
+using NeuralNetwork.Infrastructure.Etc;
 using NeuralNetwork.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,11 @@ namespace NeuralNetwork.ViewModels
         public NetworkVM(NetworkModel model = null)
         {
             _networkModel = model;
+
+            if (model != null)
+            {
+                PropertyDependencyContainer.Regist(nameof(_networkModel.Generation), model, nameof(Generation), this);
+            }
         }
         
         private NetworkModel _networkModel;
@@ -70,6 +76,34 @@ namespace NeuralNetwork.ViewModels
                     _name = value;
 
                 OnPropertyChanged("Name");
+            }
+        }
+
+        private string _storageId;
+        public string Storageid
+        {
+            get
+            {
+                return _storageId;
+            }
+            set
+            {
+                _storageId = value;
+                OnPropertyChanged(nameof(Storageid));
+            }
+        }
+
+        private int _generation;
+        public int Generation
+        {
+            get
+            {
+                return _generation;
+            }
+            set
+            {
+                _generation = value;
+                OnPropertyChanged(nameof(Generation));
             }
         }
 

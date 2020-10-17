@@ -306,7 +306,7 @@
                                 <Border DockPanel.Dock="Right">
                                     <StackPanel>
                                         <Button Command="{Binding Query}">Query</Button>
-                                        <Button>Query output</Button>
+                                        <Button Command="{Binding BackQuery}">Query output</Button>
                                         <Button Command="{Binding TrainNetwork}">Train</Button>
                                         <Button Command="{Binding LoadTrainFile}">Load train file</Button>
                                     </StackPanel>

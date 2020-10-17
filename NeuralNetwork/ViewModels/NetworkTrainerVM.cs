@@ -117,7 +117,7 @@ namespace NeuralNetwork.ViewModels
             set
             {
                 _selectedOutputData = value;
-                OutputVisualizer.InputData = value;
+                //OutputVisualizer.InputData = value;
                 OnPropertyChanged(nameof(SelectedOutputData));
             }
         }
@@ -127,7 +127,24 @@ namespace NeuralNetwork.ViewModels
         {
             get
             {
-                return _outputDatas ?? (_outputDatas = new ObservableCollection<QueryDataVM>());
+                return _outputDatas ?? (_outputDatas = new ObservableCollection<QueryDataVM>()
+                {
+                    new QueryDataVM(new QueryDataModel()
+                    {
+                        OutputValues = new float[] {0.99f, 0.01f , 0.01f , 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f},
+                        Marker = "0"
+                    }),
+                                        new QueryDataVM(new QueryDataModel()
+                    {
+                        OutputValues = new float[] { 0.01f, 0.99f, 0.01f , 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f},
+                        Marker = "1"
+                    }),
+                                                            new QueryDataVM(new QueryDataModel()
+                    {
+                        OutputValues = new float[] { 0.01f, 0.01f , 0.99f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f},
+                        Marker = "2"
+                    })
+                });
             }
             set
             {
@@ -268,6 +285,19 @@ namespace NeuralNetwork.ViewModels
                 {
                     var result = _trainerModel.QueryNetwork(CurrentNetwork.NetworkModel, SelectedInputData.DataModel, SelectedDataFormat);
                     MessageBox.Show(result);
+                }));
+            }
+        }
+
+        private RelayCommand _backQuery;
+        public RelayCommand BackQuery
+        {
+            get
+            {
+                return _backQuery = (_backQuery = new RelayCommand(obj =>
+                {
+                    var data = _trainerModel.BackQuery(CurrentNetwork.NetworkModel, SelectedOutputData.DataModel, SelectedDataFormat);
+                    OutputVisualizer.InputData = data.GetViewModel();
                 }));
             }
         }

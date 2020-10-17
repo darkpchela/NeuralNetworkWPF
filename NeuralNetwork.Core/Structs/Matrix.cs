@@ -55,6 +55,22 @@ namespace NeuralNetwork.Core.Structs
             return resultMatrix;
         }
 
+        public static Matrix2D operator +(float number, Matrix2D matrix)
+        {
+            Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
+
+            for (int i = 0; i < resultMatrix.Rows; i++)
+            {
+                for (int j = 0; j < resultMatrix.Columns; j++)
+                {
+                    resultMatrix[i, j] = matrix[i, j] + number;
+                }
+            }
+
+            return resultMatrix;
+        }
+
+
         public static Matrix2D operator -(Matrix2D matrix1, Matrix2D matrix2)
         {
             if (matrix1.Rows != matrix2.Rows && matrix1.Columns != matrix2.Columns)
@@ -103,18 +119,16 @@ namespace NeuralNetwork.Core.Structs
             return resultMatrix;
         }
 
-        public static Matrix2D operator *(Matrix2D matrix1, Matrix2D matrix2)
-        {
-            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
-                throw new ArgumentException();
 
-            Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
+        public static Matrix2D operator *(Matrix2D matrix, float number)
+        {
+            Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
 
             for (int i = 0; i < resultMatrix.Rows; i++)
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[i, j] = matrix1[i, j] * matrix2[i, j];
+                    resultMatrix[i, j] = matrix[i, j] * number;
                 }
             }
 
@@ -136,7 +150,26 @@ namespace NeuralNetwork.Core.Structs
             return resultMatrix;
         }
 
-        public static Matrix2D operator *(Matrix2D matrix, float number)
+        public static Matrix2D operator *(Matrix2D matrix1, Matrix2D matrix2)
+        {
+            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
+                throw new ArgumentException();
+
+            Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
+
+            for (int i = 0; i < resultMatrix.Rows; i++)
+            {
+                for (int j = 0; j < resultMatrix.Columns; j++)
+                {
+                    resultMatrix[i, j] = matrix1[i, j] * matrix2[i, j];
+                }
+            }
+
+            return resultMatrix;
+        }
+
+
+        public static Matrix2D operator /(Matrix2D matrix, float number)
         {
             Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
 
@@ -144,12 +177,46 @@ namespace NeuralNetwork.Core.Structs
             {
                 for (int j = 0; j < resultMatrix.Columns; j++)
                 {
-                    resultMatrix[i, j] = matrix[i, j] * number;
+                    resultMatrix[i, j] = matrix[i, j] / number;
                 }
             }
 
             return resultMatrix;
         }
+
+        public static Matrix2D operator /(float number, Matrix2D matrix)
+        {
+            Matrix2D resultMatrix = new Matrix2D(matrix.Rows, matrix.Columns);
+
+            for (int i = 0; i < resultMatrix.Rows; i++)
+            {
+                for (int j = 0; j < resultMatrix.Columns; j++)
+                {
+                    resultMatrix[i, j] =  number / matrix[i, j];
+                }
+            }
+
+            return resultMatrix;
+        }
+        
+        public static Matrix2D operator /(Matrix2D matrix1, Matrix2D matrix2)
+        {
+            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
+                throw new ArgumentException();
+
+            Matrix2D resultMatrix = new Matrix2D(matrix1.Rows, matrix1.Columns);
+
+            for (int i = 0; i < resultMatrix.Rows; i++)
+            {
+                for (int j = 0; j < resultMatrix.Columns; j++)
+                {
+                    resultMatrix[i, j] = matrix1[i, j] / matrix2[i, j];
+                }
+            }
+
+            return resultMatrix;
+        }
+
 
         public static Matrix2D ScalerProduct(Matrix2D matrix1, Matrix2D matrix2)
         {
@@ -229,6 +296,38 @@ namespace NeuralNetwork.Core.Structs
             }
 
             return resultMatrix;
+        }
+
+        public float GetMin()
+        {
+            float minValue = Matrix[0, 0];
+
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    if (minValue > Matrix[i, j])
+                        minValue = Matrix[i, j];
+                }
+            }
+
+            return minValue;
+        }
+
+        public float GetMax()
+        {
+            float maxValue = Matrix[0, 0];
+
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    if (maxValue < Matrix[i, j])
+                        maxValue = Matrix[i, j];
+                }
+            }
+
+            return maxValue;
         }
 
         public float[] ToSingleArray()

@@ -131,6 +131,26 @@ namespace NeuralNetwork.Models
             }
         }
 
+        public QueryDataModel BackQuery(NetworkModel network, QueryDataModel targetData, QueryDataFormat dataFormat)
+        {
+            switch (dataFormat)
+            {
+                case QueryDataFormat.BlackMNIST28x28:
+                    var inputs = network.BackQuery(targetData.OutputValues);
+                    var data = new QueryDataModel()
+                    {
+                        InputValues = inputs,
+                        Marker = targetData.Marker,
+                        OutputValues = targetData.OutputValues
+                    };
+                    var readyData = new MNIST28x28OutputData(data);
+                    return readyData;
+
+                default:
+                    return null;
+            }
+        }
+
         private void SaveHistory(NetworkModel networkModel)
         {
             var historyData = new TrainHisoryData()

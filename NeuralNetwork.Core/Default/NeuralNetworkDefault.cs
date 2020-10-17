@@ -92,6 +92,57 @@ namespace NeuralNetwork.Core.Default
             return outputs;
         }
 
+        public override float[] BackQuery(float[] tragetValues)
+        {
+            var outputs = tragetValues.ToMatrix2D().Transpose();
+            var inputs = outputs.ForEach(MathFuncs.SigmoidReverse);
+
+            for (int i = AllOutputs.Length - 1; i > 0; i--)
+            {
+                outputs = Matrix2D.ScalerProduct(Weigths[i -1].Transpose(), inputs);
+                outputs -= outputs.GetMin();
+                outputs /= outputs.GetMax();
+                outputs *= 0.98f;
+                outputs += 0.01f;
+                inputs = outputs.ForEach(MathFuncs.SigmoidReverse);
+                inputs -= inputs.GetMin();
+                inputs /= inputs.GetMax();
+                inputs *= 0.98f;
+                inputs += 0.01f;
+            }
+
+            return inputs.ToSingleArray();
+
+        //    def backquery(self, targets_list):
+        //# transpose the targets list to a vertical array
+        //final_outputs = numpy.array(targets_list, ndmin = 2).T
+
+        //# calculate the signal into the final output layer
+        //    final_inputs = self.inverse_activation_function(final_outputs)
+
+        //# calculate the signal out of the hidden layer
+        //    hidden_outputs = numpy.dot(self.who.T, final_inputs)
+        //# scale them back to 0.01 to .99
+        //hidden_outputs -= numpy.min(hidden_outputs)
+        //hidden_outputs /= numpy.max(hidden_outputs)
+        //hidden_outputs *= 0.98
+        //hidden_outputs += 0.01
+
+        //# calculate the signal into the hidden layer
+        //    hidden_inputs = self.inverse_activation_function(hidden_outputs)
+
+        //# calculate the signal out of the input layer
+        //    inputs = numpy.dot(self.wih.T, hidden_inputs)
+        //# scale them back to 0.01 to .99
+        //inputs -= numpy.min(inputs)
+        //inputs /= numpy.max(inputs)
+        //inputs *= 0.98
+        //inputs += 0.01
+
+
+        //return inputs
+        }
+
         protected override Matrix2D[] GetDefaultWeigths()
         {
             Matrix2D[] weigths = new Matrix2D[Layers.Length - 1];

@@ -3,6 +3,7 @@ using NeuralNetwork.Infrastructure.Interfaces;
 using NeuralNetwork.Infrastructure.Services;
 using NeuralNetwork.Infrastructure.Services.Strategies;
 using NeuralNetwork.Infrastructure.Services.Strategies.Etc;
+using NeuralNetwork.Models.QueryDataDecorators;
 using NeuralNetwork.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -103,7 +104,7 @@ namespace NeuralNetwork.Models
 
             Parallel.ForEach(TrainDatas, (model) =>
             {
-                var trainData = new MNIST28x28ReadyTrainData(model);
+                var trainData = new MNIST28x28TrainData(model);
                 network.Train(trainData);
 
                 lock (taskProgressVM)
@@ -143,7 +144,7 @@ namespace NeuralNetwork.Models
                         Marker = targetData.Marker,
                         OutputValues = targetData.OutputValues
                     };
-                    var readyData = new MNIST28x28OutputData(data);
+                    var readyData = new MNIST28x28BackQueryData(data);
                     return readyData;
 
                 default:

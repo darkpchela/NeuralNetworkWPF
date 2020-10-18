@@ -132,7 +132,7 @@
     <Compile Include="Infrastructure\Services\Strategies\Etc\MNISTTrainData28x28.cs" />
     <Compile Include="Infrastructure\Services\Strategies\Etc\StorageMetaData.cs" />
     <Compile Include="Infrastructure\Services\Strategies\Etc\TrainHisoryData.cs" />
-    <Compile Include="Infrastructure\Services\Strategies\MNIST28x28QueryDataConverter.cs" />
+    <Compile Include="Models\QueryDataDecorators\MNIST28x28TrainData.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelReadStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\NetworkDataModelSaveStrategy.cs" />
     <Compile Include="Infrastructure\Services\Strategies\StorageModelReadStrategy.cs" />
@@ -145,6 +145,7 @@
     <Compile Include="Models\NetworkWorkshopModel.cs" />
     <Compile Include="Models\NetworkModel.cs" />
     <Compile Include="Models\NetworkStorageConstraints.cs" />
+    <Compile Include="Models\QueryDataDecorators\MNSIT28x28OutputData.cs" />
     <Compile Include="Models\QueryDataModel.cs" />
     <Compile Include="Models\VisualizerModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />

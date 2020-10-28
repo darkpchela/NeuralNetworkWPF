@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetwork\NeuralNetwork.csproj", "{2FAEF777-FB53-4610-83B8-60CE568B5762}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuralNetwork.Core", "NeuralNetwork.Core\NeuralNetwork.Core.csproj", "{552B0AC6-CC52-474F-BC09-79B1FF9D1D26}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA} = {0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GPUMath", "GPUMath\GPUMath.vcxproj", "{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +46,14 @@ Global
 		{552B0AC6-CC52-474F-BC09-79B1FF9D1D26}.Release|x64.Build.0 = Release|Any CPU
 		{552B0AC6-CC52-474F-BC09-79B1FF9D1D26}.Release|x86.ActiveCfg = Release|Any CPU
 		{552B0AC6-CC52-474F-BC09-79B1FF9D1D26}.Release|x86.Build.0 = Release|Any CPU
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Debug|x64.ActiveCfg = Debug|x64
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Debug|x64.Build.0 = Debug|x64
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Debug|x86.ActiveCfg = Debug|x64
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Release|Any CPU.ActiveCfg = Release|x64
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Release|x64.ActiveCfg = Release|x64
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Release|x64.Build.0 = Release|x64
+		{0D7E4B42-BAAF-4DE2-BBC4-F48C16DF76AA}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

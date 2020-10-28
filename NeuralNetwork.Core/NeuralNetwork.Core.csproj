@@ -12,4 +12,17 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="GPUMath.exp" />
+    <None Remove="GPUMath.ilk" />
+    <None Remove="GPUMath.lib" />
+    <None Remove="GPUMath.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="GPUMath.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

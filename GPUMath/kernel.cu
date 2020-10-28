@@ -1,121 +1,197 @@
-
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 
+#include <malloc.h>
 #include <stdio.h>
 
-//cudaError_t addWithCuda(int *c, const int *a, const int *b, unsigned int size);
-
-__global__ void addKernel(int *c, const int *a, const int *b)
-{
-    int i = threadIdx.x;
-    c[i] = a[i] + b[i];
+__global__ void kernelMatrixAddMatrix(float* matrixA, float* matrixB, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrixA[i] + matrixB[i];
 }
 
-//int main()
-//{
-//    const int arraySize = 5;
-//    const int a[arraySize] = { 1, 2, 3, 4, 5 };
-//    const int b[arraySize] = { 10, 20, 30, 40, 50 };
-//    int c[arraySize] = { 0 };
-//
-//    // Add vectors in parallel.
-//    cudaError_t cudaStatus = addWithCuda(c, a, b, arraySize);
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "addWithCuda failed!");
-//        return 1;
-//    }
-//
-//    printf("{1,2,3,4,5} + {10,20,30,40,50} = {%d,%d,%d,%d,%d}\n",
-//        c[0], c[1], c[2], c[3], c[4]);
-//
-//    // cudaDeviceReset must be called before exiting in order for profiling and
-//    // tracing tools such as Nsight and Visual Profiler to show complete traces.
-//    cudaStatus = cudaDeviceReset();
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaDeviceReset failed!");
-//        return 1;
-//    }
-//
-//    return 0;
-//}
+__global__ void kernelMatrixAddNum(float* matrix, float number, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrix[i] + number;
+}
 
-//// Helper function for using CUDA to add vectors in parallel.
-//cudaError_t addWithCuda(int *c, const int *a, const int *b, unsigned int size)
-//{
-//    int *dev_a = 0;
-//    int *dev_b = 0;
-//    int *dev_c = 0;
-//    cudaError_t cudaStatus;
-//
-//    // Choose which GPU to run on, change this on a multi-GPU system.
-//    cudaStatus = cudaSetDevice(0);
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaSetDevice failed!  Do you have a CUDA-capable GPU installed?");
-//        goto Error;
-//    }
-//
-//    // Allocate GPU buffers for three vectors (two input, one output)    .
-//    cudaStatus = cudaMalloc((void**)&dev_c, size * sizeof(int));
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaMalloc failed!");
-//        goto Error;
-//    }
-//
-//    cudaStatus = cudaMalloc((void**)&dev_a, size * sizeof(int));
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaMalloc failed!");
-//        goto Error;
-//    }
-//
-//    cudaStatus = cudaMalloc((void**)&dev_b, size * sizeof(int));
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaMalloc failed!");
-//        goto Error;
-//    }
-//
-//    // Copy input vectors from host memory to GPU buffers.
-//    cudaStatus = cudaMemcpy(dev_a, a, size * sizeof(int), cudaMemcpyHostToDevice);
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaMemcpy failed!");
-//        goto Error;
-//    }
-//
-//    cudaStatus = cudaMemcpy(dev_b, b, size * sizeof(int), cudaMemcpyHostToDevice);
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaMemcpy failed!");
-//        goto Error;
-//    }
-//
-//    // Launch a kernel on the GPU with one thread for each element.
-//    addKernel<<<1, size>>>(dev_c, dev_a, dev_b);
-//
-//    // Check for any errors launching the kernel
-//    cudaStatus = cudaGetLastError();
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "addKernel launch failed: %s\n", cudaGetErrorString(cudaStatus));
-//        goto Error;
-//    }
-//    
-//    // cudaDeviceSynchronize waits for the kernel to finish, and returns
-//    // any errors encountered during the launch.
-//    cudaStatus = cudaDeviceSynchronize();
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaDeviceSynchronize returned error code %d after launching addKernel!\n", cudaStatus);
-//        goto Error;
-//    }
-//
-//    // Copy output vector from GPU buffer to host memory.
-//    cudaStatus = cudaMemcpy(c, dev_c, size * sizeof(int), cudaMemcpyDeviceToHost);
-//    if (cudaStatus != cudaSuccess) {
-//        fprintf(stderr, "cudaMemcpy failed!");
-//        goto Error;
-//    }
-//
-//Error:
-//    cudaFree(dev_c);
-//    cudaFree(dev_a);
-//    cudaFree(dev_b);
-//    
-//    return cudaStatus;
-//}
+__global__ void kernelMatrixSubMatrix(float* matrixA, float* matrixB, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrixA[i] - matrixB[i];
+}
+
+__global__ void kernelMatrixSubNum(float* matrix, float number, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrix[i] - number;
+}
+
+__global__ void kernelMatrixMultMatrix(float* matrixA, float* matrixB, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrixA[i] * matrixB[i];
+}
+
+__global__ void kernelMatrixMultNum(float* matrix, float number, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrix[i] * number;
+}
+
+__global__ void kernelMatrixDivMatrix(float* matrixA, float* matrixB, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrixA[i] / matrixB[i];
+}
+
+__global__ void kernelMatrixDivNum(float* matrix, float number, float* resultMatrix) {
+	int i = blockIdx.x;
+	resultMatrix[i] = matrix[i] / number;
+}
+
+__global__ void kernelMatrixScalerProduct(float* matrixA, float* matrixB, float* resultMatrix, int bColumnsCount, int dimension) {
+	int i = blockIdx.x;
+
+	int j = i / bColumnsCount;
+	int l = i % bColumnsCount;
+
+	for (int k = 0; k < dimension; k++)
+	{
+		resultMatrix[i] += matrixA[j * dimension + k] * matrixB[l + bColumnsCount * k];
+	}
+}
+
+extern "C" {
+	__declspec(dllexport) void matrixAddMatrix(float* matrixA, float* matrixB, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrixA;
+		float* dev_matrixB;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrixA, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_matrixB, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixAddMatrix << <elemsCount, 1 >> > (dev_matrixA, dev_matrixB, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrixA);
+		cudaFree(dev_matrixB);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixAddNum(float* matrix, const float number, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrix;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrix, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrix, matrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixAddNum << <elemsCount, 1 >> > (dev_matrix, number, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrix);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixSubMatrix(float* matrixA, float* matrixB, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrixA;
+		float* dev_matrixB;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrixA, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_matrixB, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixSubMatrix << <elemsCount, 1 >> > (dev_matrixA, dev_matrixB, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrixA);
+		cudaFree(dev_matrixB);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixSubNum(float* matrix, const float number, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrix;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrix, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrix, matrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixSubNum << <elemsCount, 1 >> > (dev_matrix, number, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrix);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixMultMatrix(float* matrixA, float* matrixB, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrixA;
+		float* dev_matrixB;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrixA, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_matrixB, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixMultMatrix << <elemsCount, 1 >> > (dev_matrixA, dev_matrixB, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrixA);
+		cudaFree(dev_matrixB);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixMultNum(float* matrix, const float number, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrix;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrix, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrix, matrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixMultNum << <elemsCount, 1 >> > (dev_matrix, number, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrix);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixDivMatrix(float* matrixA, float* matrixB, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrixA;
+		float* dev_matrixB;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrixA, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_matrixB, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixDivMatrix << <elemsCount, 1 >> > (dev_matrixA, dev_matrixB, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrixA);
+		cudaFree(dev_matrixB);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixDivNum(float* matrix, const float number, float* resultMatrix, const int rowsCount, const int columnsCount) {
+		int elemsCount = rowsCount * columnsCount;
+		float* dev_matrix;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrix, sizeof(float) * elemsCount);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrix, matrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixDivNum << <elemsCount, 1 >> > (dev_matrix, number, dev_resultMatrix);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrix);
+		cudaFree(dev_resultMatrix);
+	}
+
+	__declspec(dllexport) void matrixScalerProduct(float* matrixA, float* matrixB, float* resultMatrix, const int aRowsCount, const int bColumnsCount, const int dimension) {
+		int elemsCount = aRowsCount * bColumnsCount;
+		float* dev_matrixA;
+		float* dev_matrixB;
+		float* dev_resultMatrix;
+		cudaMalloc((void**)&dev_matrixA, sizeof(float) * aRowsCount * dimension);
+		cudaMalloc((void**)&dev_matrixB, sizeof(float) * bColumnsCount * dimension);
+		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
+		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * aRowsCount * dimension, cudaMemcpyHostToDevice);
+		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * bColumnsCount * dimension, cudaMemcpyHostToDevice);
+		cudaMemcpy(dev_resultMatrix, resultMatrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixScalerProduct << <elemsCount, 1 >> > (dev_matrixA, dev_matrixB, dev_resultMatrix, bColumnsCount, dimension);
+		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
+		cudaFree(dev_matrixA);
+		cudaFree(dev_matrixB);
+		cudaFree(dev_resultMatrix);
+	}
+}

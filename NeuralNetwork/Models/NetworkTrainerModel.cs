@@ -107,11 +107,10 @@ namespace NeuralNetwork.Models
                 var trainData = new MNIST28x28TrainData(model);
                 network.Train(trainData);
 
-                lock (taskProgressVM)
-                {
+
                     if (taskProgressVM != null)
                         taskProgressVM.Value++;
-                }
+
             });
 
             network.Generation++;

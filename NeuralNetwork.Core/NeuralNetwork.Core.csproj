@@ -10,14 +10,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="GPUMath.exp" />
-    <None Remove="GPUMath.ilk" />
-    <None Remove="GPUMath.lib" />
-    <None Remove="GPUMath.pdb" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Update="GPUMath.dll">

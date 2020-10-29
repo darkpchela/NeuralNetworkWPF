@@ -67,7 +67,7 @@ extern "C" {
 		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
 		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
 		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
-		kernelMatrixAddMatrix << <elemsCount, 1 >> > (dev_matrixA, dev_matrixB, dev_resultMatrix);
+		kernelMatrixAddMatrix <<<elemsCount, 1 >>> (dev_matrixA, dev_matrixB, dev_resultMatrix);
 		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
 		cudaFree(dev_matrixA);
 		cudaFree(dev_matrixB);
@@ -111,7 +111,7 @@ extern "C" {
 		cudaMalloc((void**)&dev_matrix, sizeof(float) * elemsCount);
 		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
 		cudaMemcpy(dev_matrix, matrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
-		kernelMatrixSubNum << <elemsCount, 1 >> > (dev_matrix, number, dev_resultMatrix);
+		kernelMatrixSubNum <<<elemsCount, 1 >> > (dev_matrix, number, dev_resultMatrix);
 		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
 		cudaFree(dev_matrix);
 		cudaFree(dev_resultMatrix);

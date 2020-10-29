@@ -1,6 +1,8 @@
-﻿using System;
+﻿#define GPU_ON
+using System;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace NeuralNetwork.Core.Structs
 {
@@ -22,6 +24,7 @@ namespace NeuralNetwork.Core.Structs
             }
         }
 
+#if !GPU_ON
         public static Matrix2D operator +(Matrix2D matrix1, Matrix2D matrix2)
         {
             if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
@@ -217,7 +220,6 @@ namespace NeuralNetwork.Core.Structs
             return resultMatrix;
         }
 
-
         public static Matrix2D ScalerProduct(Matrix2D matrix1, Matrix2D matrix2)
         {
             if (matrix1.Columns != matrix2.Rows)
@@ -239,6 +241,131 @@ namespace NeuralNetwork.Core.Structs
             return resultMatrix;
         }
 
+#else
+         public static Matrix2D operator +(Matrix2D matrix1, Matrix2D matrix2)
+        {
+            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
+                throw new ArgumentException();
+
+            float[,] resultMatrix = new float[matrix1.Rows, matrix1.Columns];
+            GPU.matrixAddMatrix(matrix1.Matrix, matrix2.Matrix, resultMatrix, matrix1.Rows, matrix1.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+        public static Matrix2D operator +(Matrix2D matrix, float number)
+        {
+            float[,] resultMatrix = new float[matrix.Rows, matrix.Columns];
+            GPU.matrixAddNum(matrix.Matrix, number, resultMatrix, matrix.Rows, matrix.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+        public static Matrix2D operator +(float number, Matrix2D matrix)
+        {
+
+            return matrix + number;
+        }
+
+
+        public static Matrix2D operator -(Matrix2D matrix1, Matrix2D matrix2)
+        {
+            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
+                throw new ArgumentException();
+
+            float[,] resultMatrix = new float[matrix1.Rows, matrix1.Columns];
+            GPU.matrixSubMatrix(matrix1.Matrix, matrix2.Matrix, resultMatrix, matrix1.Rows, matrix1.Columns);
+
+
+            return new Matrix2D(resultMatrix);
+        }
+
+        public static Matrix2D operator -(Matrix2D matrix, float number)
+        {
+            float[,] resultMatrix = new float[matrix.Rows, matrix.Columns];
+
+            GPU.matrixAddNum(matrix.Matrix, -number, resultMatrix, matrix.Rows, matrix.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+        public static Matrix2D operator -(float number, Matrix2D matrix1)
+        {
+            float[,] resultMatrix = new float[matrix1.Rows, matrix1.Columns];
+            matrix1 = matrix1.ForEach(x => x = -x);
+            GPU.matrixAddNum(matrix1.Matrix, number, resultMatrix, matrix1.Rows, matrix1.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+        public static Matrix2D operator *(Matrix2D matrix1, Matrix2D matrix2)
+        {
+            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
+                throw new ArgumentException();
+
+            float[,] resultMatrix = new float[matrix1.Rows, matrix1.Columns];
+            GPU.matrixMultMatrix(matrix1.Matrix, matrix2.Matrix, resultMatrix, matrix1.Rows, matrix1.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+
+        public static Matrix2D operator *(Matrix2D matrix, float number)
+        {
+            float[,] resultMatrix = new float[matrix.Rows, matrix.Columns];
+
+            GPU.matrixMultNum(matrix.Matrix, number, resultMatrix, matrix.Rows, matrix.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+        public static Matrix2D operator *(float number, Matrix2D matrix)
+        {
+            return matrix * number;
+        }
+
+
+        public static Matrix2D operator /(Matrix2D matrix, float number)
+        {
+            float[,] resultMatrix = new float[matrix.Rows, matrix.Columns];
+
+            GPU.matrixDivNum(matrix.Matrix, number, resultMatrix, matrix.Rows, matrix.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+        public static Matrix2D operator /(float number, Matrix2D matrix)
+        {
+            float[,] resultMatrix = new float[matrix.Rows, matrix.Columns];
+            matrix = matrix.ForEach(x => x = (float)Math.Pow(x, -1));
+            GPU.matrixMultNum(matrix.Matrix, number, resultMatrix, matrix.Rows, matrix.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+        
+        public static Matrix2D operator /(Matrix2D matrix1, Matrix2D matrix2)
+        {
+            if (matrix1.Rows != matrix2.Rows || matrix1.Columns != matrix2.Columns)
+                throw new ArgumentException();
+
+            float[,] resultMatrix = new float[matrix1.Rows, matrix1.Columns];
+            GPU.matrixDivMatrix(matrix1.Matrix, matrix2.Matrix, resultMatrix, matrix1.Rows, matrix1.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+
+
+        public static Matrix2D ScalerProduct(Matrix2D matrix1, Matrix2D matrix2)
+        {
+            if (matrix1.Columns != matrix2.Rows)
+                throw new ArithmeticException("Matrixes can not be multiplied - different amount of rows and columns");
+
+            float[,] resultMatrix = new float[matrix1.Rows, matrix2.Columns];
+            GPU.matrixScalerProduct(matrix1.Matrix, matrix2.Matrix, resultMatrix, matrix1.Rows, matrix2.Columns, matrix1.Columns);
+
+            return new Matrix2D(resultMatrix);
+        }
+#endif
         public Matrix2D(int rows, int columns)
         {
             Matrix = new float[rows, columns];

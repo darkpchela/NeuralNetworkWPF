@@ -3,6 +3,8 @@
 
 #include <malloc.h>
 #include <stdio.h>
+#include <math.h>
+constexpr auto NThreads = 1024;
 
 __global__ void kernelMatrixAddMatrix(float* matrixA, float* matrixB, float* resultMatrix) {
 	int i = blockIdx.x;
@@ -45,15 +47,34 @@ __global__ void kernelMatrixDivNum(float* matrix, float number, float* resultMat
 }
 
 __global__ void kernelMatrixScalerProduct(float* matrixA, float* matrixB, float* resultMatrix, int bColumnsCount, int dimension) {
+	
+	__shared__ float cache[NThreads];
+
 	int i = blockIdx.x;
+	int k = threadIdx.x;
 
-	int j = i / bColumnsCount;
-	int l = i % bColumnsCount;
+	int x = i / bColumnsCount;
+	int y = i % bColumnsCount;
 
-	for (int k = 0; k < dimension; k++)
-	{
-		resultMatrix[i] += matrixA[j * dimension + k] * matrixB[l + bColumnsCount * k];
+	if (k < dimension) {
+		cache[k] = matrixA[x * dimension + k] * matrixB[y + bColumnsCount * k];
 	}
+	__syncthreads();
+
+	int n = 0;
+	int iterations = log2((double)NThreads);
+	int offset = NThreads / 2;
+
+	while (n < iterations) {
+		if (k < offset) {
+			cache[k] += cache[offset + k];
+			offset /= 2;
+		}
+		__syncthreads();
+		n++;
+	}
+
+	resultMatrix[i] = cache[0];
 }
 
 extern "C" {
@@ -67,7 +88,7 @@ extern "C" {
 		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
 		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
 		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
-		kernelMatrixAddMatrix <<<elemsCount, 1 >>> (dev_matrixA, dev_matrixB, dev_resultMatrix);
+		kernelMatrixAddMatrix <<<elemsCount, NThreads >>> (dev_matrixA, dev_matrixB, dev_resultMatrix);
 		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
 		cudaFree(dev_matrixA);
 		cudaFree(dev_matrixB);
@@ -187,8 +208,8 @@ extern "C" {
 		cudaMalloc((void**)&dev_resultMatrix, sizeof(float) * elemsCount);
 		cudaMemcpy(dev_matrixA, matrixA, sizeof(float) * aRowsCount * dimension, cudaMemcpyHostToDevice);
 		cudaMemcpy(dev_matrixB, matrixB, sizeof(float) * bColumnsCount * dimension, cudaMemcpyHostToDevice);
-		cudaMemcpy(dev_resultMatrix, resultMatrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
-		kernelMatrixScalerProduct << <elemsCount, 1 >> > (dev_matrixA, dev_matrixB, dev_resultMatrix, bColumnsCount, dimension);
+		//cudaMemcpy(dev_resultMatrix, resultMatrix, sizeof(float) * elemsCount, cudaMemcpyHostToDevice);
+		kernelMatrixScalerProduct << <elemsCount, dimension >> > (dev_matrixA, dev_matrixB, dev_resultMatrix, bColumnsCount, dimension);
 		cudaMemcpy(resultMatrix, dev_resultMatrix, sizeof(float) * elemsCount, cudaMemcpyDeviceToHost);
 		cudaFree(dev_matrixA);
 		cudaFree(dev_matrixB);
